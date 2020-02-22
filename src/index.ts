@@ -70,7 +70,7 @@ async function exec (): Promise<void> {
 
   // As taken from CRP: k = 1.03·n/U.
   const nodes = Number(fs.readFileSync(resolvePath(['data', folder, `${map}.graph.vertices`])))
-  const topLevelK = Math.round(1.03 * nodes / 2 ** 8)
+  const topLevelK = Math.round(1.03 * nodes / 2 ** 14)
   const partitionFile = resolvePath(['data', folder, 'partition_2__14'])
 
   let shouldSkipPartitioning = false
@@ -121,7 +121,7 @@ async function exec (): Promise<void> {
 
   let shouldSkipCustomization = false
   const metricsFolder = resolvePath(['data', folder, 'metrics'])
-  const { metrics } = await inquirer.prompt([{ type: 'list', name: 'metrics', choices: ['dist', 'all'] }])
+  const { metrics } = await inquirer.prompt([{ type: 'list', name: 'metrics', choices: ['dist', 'time', 'hop', 'all'] }])
 
   if (fs.existsSync(metricsFolder)) {
     const { skipCustomization } = await inquirer.prompt([{ type: 'confirm', name: 'skipCustomization', message: 'Do you want to skip customization?', default: 'Y' }])

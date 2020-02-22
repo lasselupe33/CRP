@@ -58,14 +58,12 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-
 	std::string numQueryString = argv[1];
 	CRP::count numQueries = std::stoi(numQueryString);
 	std::string graphFile = argv[2];
 	std::string overlayGraphFile = argv[3];
 	std::string metricPath = argv[4];
 	std::string metricType = argv[5];
-
 
 	cout << "Reading graph" << endl;
 	CRP::Graph graph;
