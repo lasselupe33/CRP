@@ -1,0 +1,35 @@
+{
+  "name": "bachelor",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "rm -rf lib && npx tsc --build",
+    "start": "cd lib && node ./index.js",
+    "watch": "RECOMPILE=true npx nodemon --watch 'src/**/*' --watch 'CRP/**/*' --watch 'KaHIP_Buffoon/**/*' --ext ts,html,css,cpp --exec 'yarn build && yarn start'",
+    "lint": "npx eslint 'src/**/*.{js,jsx,ts,tsx}' --cache --cache-location='./node_modules/.cache'"
+  },
+  "author": "Lasse Agersten <lage@itu.dk>, Jesper Falkenberg <jefh@itu.dk>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "@types/inquirer": "^6.5.0",
+    "@types/node": "^13.7.4",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard-with-typescript": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "execa": "^4.0.0",
+    "fs-extra": "^8.1.0",
+    "inquirer": "^7.0.4"
+  }
+}

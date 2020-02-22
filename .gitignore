@@ -1,0 +1,10 @@
+KaHIP/
+KaHIP_Buffoon/
+metis-5.1.0/
+openmpi-4.0.2/
+data/
+node_modules/
+lib/
+
+yarn-error.log
+.DS_Store

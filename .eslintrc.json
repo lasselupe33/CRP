@@ -1,0 +1,33 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "lib/**/*",
+    "**/node_modules/**/*"
+  ],
+  "extends": [
+    "standard-with-typescript",
+    "plugin:security/recommended"
+  ],
+  "parserOptions": {
+    "createDefaultProgram": true,
+    "project": [
+      "./tsconfig.json"
+    ],
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/prefer-optional-chain": "off",
+    "security/detect-non-literal-fs-filename": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
