@@ -33,7 +33,7 @@ def getSourceFiles(target, optimize):
 			for name in fnmatch.filter(filenames, "*.cpp"):
 				source.append(os.path.join(dirpath, name))
 
-	xpatterns = ["*Customization.cpp", "*Precalculation.cpp", "*OSMParser.cpp", "*Test.cpp"]
+	xpatterns = ["*Customization.cpp", "*Precalculation.cpp", "*OSMParser.cpp", "*Test.cpp", "*Client.cpp"]
 	excluded = []	
 
 	for pattern in xpatterns:
@@ -113,6 +113,8 @@ if GetOption("clean"):
 		os.remove("test/OverlayGraphTest.o")
 	if os.path.exists("test/QueryTest.o"):		
 		os.remove("test/QueryTest.o")
+	if os.path.exists("client/Client.o"):
+		os.remove("client/Client.o")
 	if os.path.exists("test/UnpackPathTest.o"):		
 		os.remove("test/UnpackPathTest.o")
 	exit()
@@ -173,6 +175,11 @@ if target == "CRP":
 	targetSource = list(source)
 	targetSource.append(os.path.join(srcDir, "io/OSMParser.cpp"))
 	env.Program("deploy/osmparser", targetSource)
+
+elif target == "Client":
+	env.Append(CPPFLAGS = ["-DCLIENT"])
+	source.append(os.path.join(srcDir, "client/Client.cpp"))
+	env.Program("deploy/client", source)
 
 elif target == "QueryTest":
 	env.Append(CPPFLAGS = ["-DQUERYTEST"])

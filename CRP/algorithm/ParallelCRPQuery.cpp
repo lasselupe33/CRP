@@ -454,10 +454,6 @@ QueryResult ParallelCRPQuery::edgeQuery(index sourceEdgeId, index targetEdgeId, 
 		return QueryResult({}, inf_weight);
 	}
 
-#ifdef QUERYTEST
-	return QueryResult({}, shortestPath);
-#endif
-
 	// extract forward path
 	std::vector<index> overlayPath;
 	std::vector<VertexIdPair> idPath;
@@ -506,16 +502,7 @@ QueryResult ParallelCRPQuery::edgeQuery(index sourceEdgeId, index targetEdgeId, 
 	idPath.push_back({t, tGlobalId});
 	overlayPath.push_back(t);
 
-#ifdef UNPACKPATHTEST
-	pv start = get_micro_time();
-#endif
-
 	std::vector<index> unpackedPath = pathUnpacker.unpackPath(idPath, sCellNumber, tCellNumber, metricId);
-
-#ifdef UNPACKPATHTEST
-	index pathUnpackTime = get_micro_time() - start;
-	shortestPath = pathUnpackTime;
-#endif
 
 	return QueryResult(unpackedPath, shortestPath);
 }

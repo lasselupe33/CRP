@@ -240,6 +240,10 @@ public:
 		return turnTables;
 	}
 
+	inline Vertex getVertex(index v) const {
+		return vertices[v];
+	}
+
 	inline pv getCellNumber(index u) const {
 		assert(u < vertices.size());
 		assert(0 <= vertices[u].pvPtr && vertices[u].pvPtr < cellNumbers.size());

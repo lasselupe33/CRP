@@ -166,10 +166,6 @@ QueryResult CRPQueryUni::edgeQuery(index sourceEdgeId, index targetEdgeId, index
 		return QueryResult({}, inf_weight);
 	}
 
-#ifdef QUERYTEST
-	return QueryResult({}, shortestPath);
-#endif
-
 	std::vector<index> path;
 	std::vector<VertexIdPair> idPath;
 	index uId = tId;
@@ -184,17 +180,7 @@ QueryResult CRPQueryUni::edgeQuery(index sourceEdgeId, index targetEdgeId, index
 	std::reverse(path.begin(), path.end());
 	std::reverse(idPath.begin(), idPath.end());
 
-
-#ifdef UNPACKPATHTEST
-	pv start = get_micro_time();
-#endif
-
 	std::vector<index> unpackedPath = pathUnpacker.unpackPath(idPath, sCellNumber, tCellNumber, metricId);
-
-#ifdef UNPACKPATHTEST
-	index pathUnpackTime = get_micro_time() - start;
-	shortestPath = pathUnpackTime;
-#endif
 
 	return QueryResult(unpackedPath, shortestPath);
 }
