@@ -345,9 +345,11 @@ bool GraphIO::readDimacsGraph(Graph &graph, const std::string &dimacsFolder, boo
 }
 
 bool GraphIO::writeOverlayGraph(const OverlayGraph &graph, const std::string &outputFilePath) {
-	std::ofstream file;
-	file.open(outputFilePath);
+	std::fstream file(outputFilePath, std::ios::binary | std::ios::out);
 	if (!file.is_open()) return false;
+	boost::iostreams::filtering_stream<boost::iostreams::output> ostream;
+	ostream.push(boost::iostreams::bzip2_compressor());
+	ostream.push(file);
 
 	file << std::setprecision(16);
 
@@ -355,74 +357,80 @@ bool GraphIO::writeOverlayGraph(const OverlayGraph &graph, const std::string &ou
 	const std::vector<uint8_t>& offsets = graph.getLevelInfo().getOffsets();
 	for (size_t i = 0; i < offsets.size(); ++i) {
 		if (i > 0) {
-			file << " ";
+			ostream << " ";
 		}
-		file << (index) offsets[i];
+		ostream << (index) offsets[i];
 	}
-	file << std::endl;
+	ostream << std::endl;
 
 	// vertexCountInLevel
 	for (level l = 1; l <= graph.getLevelInfo().getLevelCount(); ++l) {
 		if (l > 1) {
-			file << " ";
+			ostream << " ";
 		}
-		file << graph.numberOfVerticesInLevel(l);
+		ostream << graph.numberOfVerticesInLevel(l);
 	}
-	file << std::endl;
+	ostream << std::endl;
 
 	// overlayVertices
 	graph.forVertices([&](const OverlayVertex& v) {
-		file << v.cellNumber << " " << v.neighborOverlayVertex << " " << v.originalVertex << " " << v.originalEdge;
+		ostream << v.cellNumber << " " << v.neighborOverlayVertex << " " << v.originalVertex << " " << v.originalEdge;
 		for (index e : v.entryExitPoint) {
-			file << " " << e;
+			ostream << " " << e;
 		}
-		file << std::endl;
+		ostream << std::endl;
 	});
 
 	// weightVectorSize
-	file << graph.getWeightVectorSize() << std::endl;
+	ostream << graph.getWeightVectorSize() << std::endl;
 
 	// overlayIdMapping
 	const std::vector<index>& overlayIdMapping = graph.getOverlayIdMapping();
-	std::copy(overlayIdMapping.begin(), overlayIdMapping.end(), std::ostream_iterator<index>(file, " "));
-	file << std::endl;
+	std::copy(overlayIdMapping.begin(), overlayIdMapping.end(), std::ostream_iterator<index>(ostream, " "));
+	ostream << std::endl;
 
 	// cellMapping
 	for (level l = 1; l <= graph.getLevelInfo().getLevelCount(); ++l) {
-		file << graph.numberOfCellsInLevel(l) << std::endl;
+		ostream << graph.numberOfCellsInLevel(l) << std::endl;
 		graph.forCells(l, [&](const Cell& c, const pv truncatedCellNumber) {
-			file << truncatedCellNumber << " " << c.numEntryPoints << " " << c.numExitPoints << " " << c.cellOffset << " "
+			ostream << truncatedCellNumber << " " << c.numEntryPoints << " " << c.numExitPoints << " " << c.cellOffset << " "
 					<< c.overlayIdOffset << std::endl;
 		});
 	}
 
-	file.close();
+	ostream.flush();
 
 	return true;
 }
 
 bool GraphIO::readOverlayGraph(OverlayGraph& graph, const std::string &inputFilePath) {
-	std::ifstream file;
-		file.open(inputFilePath);
-		if (!file.is_open()) return false;
+	std::ifstream file(inputFilePath, std::ios_base::in | std::ios_base::binary);
+	if (!file.is_open())
+		return false;
+	boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf;
+	inbuf.push(boost::iostreams::bzip2_decompressor());
+	inbuf.push(file);
 
-		std::string line;
-		std::vector<std::string> tokens;
+	std::istream instream(&inbuf);
+	std::string line;
+	std::vector<std::string> tokens;
 
-		if (file.eof()) return false;
-		std::getline(file, line);
-		tokens = splitString(line, ' ');
-		std::vector<uint8_t> offsets;
-		std::cout << "offsets ";
-		for (const std::string& t : tokens) {
-			offsets.push_back(stoui(t));
-			std::cout << t << ", ";
+	if (file.eof())
+		return false;
+	std::getline(instream, line);
+	tokens = splitString(line, ' ');
+	std::vector<uint8_t> offsets;
+	std::cout << "offsets ";
+	for (const std::string &t : tokens)
+	{
+		offsets.push_back(stoui(t));
+		std::cout << t << ", ";
 		}
 		std::cout << std::endl;
 		const LevelInfo levelInfo(offsets);
 
 		if (file.eof()) return false;
-		std::getline(file, line);
+		std::getline(instream, line);
 		tokens = splitString(line, ' ');
 		assert(tokens.size() == levelInfo.getLevelCount());
 		std::vector<count> vertexCountInLevel;
@@ -436,7 +444,7 @@ bool GraphIO::readOverlayGraph(OverlayGraph& graph, const std::string &inputFile
 		vertices.reserve(vertexCount);
 		for (index i = 0; i < vertexCount; ++i) {
 			if (file.eof()) return false;
-			std::getline(file, line);
+			std::getline(instream, line);
 			tokens = splitString(line, ' ');
 			assert(tokens.size() >= 5);
 			OverlayVertex v;
@@ -452,11 +460,11 @@ bool GraphIO::readOverlayGraph(OverlayGraph& graph, const std::string &inputFile
 		}
 
 		if (file.eof()) return false;
-		std::getline(file, line);
+		std::getline(instream, line);
 		const count weightVectorSize = stoui(line);
 
 		if (file.eof()) return false;
-		std::getline(file, line);
+		std::getline(instream, line);
 		tokens = splitString(line, ' ');
 		std::vector<index> overlayIdMapping;
 		overlayIdMapping.reserve(tokens.size());
@@ -470,11 +478,11 @@ bool GraphIO::readOverlayGraph(OverlayGraph& graph, const std::string &inputFile
 		std::vector<std::unordered_map<pv, Cell>> cellMapping(levelInfo.getLevelCount());
 		for (index i = 0; i < levelInfo.getLevelCount(); ++i) {
 			if (file.eof()) return false;
-			std::getline(file, line);
+			std::getline(instream, line);
 			const count cellsInLevel = stoui(line);
 			for (index j = 0; j < cellsInLevel; ++j) {
 				if (file.eof()) return false;
-				std::getline(file, line);
+				std::getline(instream, line);
 				tokens = splitString(line, ' ');
 				assert(tokens.size() == 5);
 				cellMapping[i][std::stoull(tokens[0])] = {stoui(tokens[1]), stoui(tokens[2]), stoui(tokens[3]), stoui(tokens[4])};
@@ -483,7 +491,6 @@ bool GraphIO::readOverlayGraph(OverlayGraph& graph, const std::string &inputFile
 
 		graph = OverlayGraph(vertices, vertexCountInLevel, cellMapping, overlayIdMapping, levelInfo, weightVectorSize);
 
-		file.close();
 		return true;
 }
 

@@ -5,13 +5,15 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf lib && npx tsc --build",
-    "start": "cd lib && node ./index.js",
-    "watch": "RECOMPILE=true npx nodemon --watch 'src/**/*' --watch 'CRP/**/*' --watch 'KaHIP_Buffoon/**/*' --ext ts,html,css,cpp --exec 'yarn build && yarn start'",
+    "start": "cd lib && node ./server.js",
+    "cli": "cd lib && node ./index.js",
+    "watch": "npx nodemon --watch 'src/**/*' --watch 'CRP/**/*' --watch 'KaHIP_Buffoon/**/*' --ext ts,html,css,cpp --exec 'yarn build && yarn start'",
     "lint": "npx eslint 'src/**/*.{js,jsx,ts,tsx}' --cache --cache-location='./node_modules/.cache'"
   },
   "author": "Lasse Agersten <lage@itu.dk>, Jesper Falkenberg <jefh@itu.dk>",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.1.0",
     "@types/inquirer": "^6.5.0",
     "@types/node": "^13.7.4",
@@ -29,7 +31,9 @@
   },
   "dependencies": {
     "execa": "^4.0.0",
+    "express": "^4.17.1",
     "fs-extra": "^8.1.0",
+    "http-graceful-shutdown": "^2.3.2",
     "inquirer": "^7.0.4"
   }
 }

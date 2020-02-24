@@ -1,4 +1,6 @@
-import { resolvePath, prependFile } from './utils'
+import { resolvePath, getFolders, getMaps } from './utils'
+import { parseOSM, compile, partition, customize } from './crp'
+import { preparse } from './crp/preparse'
 
 import inquirer = require('inquirer')
 import fs = require('fs-extra')
@@ -6,9 +8,7 @@ import execa = require('execa')
 
 async function exec (): Promise<void> {
   // EXTRACT POSSIBLE FOLDERS FOR MAPS
-  const folders = fs.readdirSync(resolvePath('data'), { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name)
+  const folders = getFolders()
 
   const folderQuestion = {
     type: 'list',
@@ -20,8 +20,7 @@ async function exec (): Promise<void> {
   const { folder } = await inquirer.prompt([folderQuestion])
 
   // EXTRACT DESIRED MAP
-  const possibleMaps = fs.readdirSync(resolvePath(['data', folder]))
-    .filter(map => map.endsWith('.osm') || map.endsWith('.bz2'))
+  const possibleMaps = getMaps(folder)
 
   let map = possibleMaps[0]
 
@@ -40,12 +39,7 @@ async function exec (): Promise<void> {
   const { skipCompile } = await inquirer.prompt([{ type: 'confirm', name: 'skipCompile', message: 'Do you want to skip compiling of CRP?', default: false }])
 
   if (!skipCompile) {
-    console.log('Compiling CRP')
-    const compiling = await execa.command('sh run.sh compile CRP', { cwd: resolvePath('CRP') })
-
-    if (compiling.exitCode !== 0) {
-      throw new Error('Failed to compile CRP')
-    }
+    await compile('CRP')
   }
 
   let shouldSkipParse = false
@@ -57,21 +51,11 @@ async function exec (): Promise<void> {
   }
 
   if (!shouldSkipParse) {
-    const parse = execa.command(`sh run.sh parse ${resolvePath(['data', folder])} ${map}`, { cwd: resolvePath('CRP') })
-
-    if (parse.stdout && parse.stderr) {
-      parse.stdout.pipe(process.stdout)
-      parse.stderr.pipe(process.stderr)
-    }
-
-    await parse
-      .catch(() => { console.log('parsing errored') })
+    await parseOSM(folder, map)
   }
 
   // As taken from CRP: k = 1.03·n/U.
-  const nodes = Number(fs.readFileSync(resolvePath(['data', folder, `${map}.graph.vertices`])))
-  const topLevelK = Math.round(1.03 * nodes / 2 ** 14)
-  const partitionFile = resolvePath(['data', folder, 'partition_2__14'])
+  const partitionFile = resolvePath(['data', folder, 'partition'])
 
   let shouldSkipPartitioning = false
 
@@ -81,21 +65,7 @@ async function exec (): Promise<void> {
   }
 
   if (!shouldSkipPartitioning) {
-    const buffonPath = resolvePath(['KaHIP_Buffoon', 'src', 'optimized', 'buffoon'])
-    const metisGraph = resolvePath(['data', folder, `${map}.metis.graph`])
-
-    const partitioner = execa.command(`mpirun -n 4 ${buffonPath} ${metisGraph} --k ${topLevelK} --preconfiguration=strong --max_num_threads=4`)
-
-    if (partitioner.stdout && partitioner.stderr) {
-      partitioner.stdout.pipe(process.stdout)
-      partitioner.stderr.pipe(process.stderr)
-    }
-
-    await partitioner
-      .catch(() => { console.log('partitioner errored') })
-
-    await execa.command(`cp ${resolvePath(['lib', `tmppartition${topLevelK}`])} ${partitionFile}`)
-    prependFile(partitionFile, `1\n${topLevelK}\n${nodes}\n`)
+    await partition(folder, map)
   }
 
   let shouldskipPreparse = false
@@ -108,15 +78,7 @@ async function exec (): Promise<void> {
   }
 
   if (!shouldskipPreparse) {
-    const preparse = execa.command(`sh run.sh precalc ${resolvePath(['data', folder])} ${map} ${partitionFile}`, { cwd: resolvePath('CRP') })
-
-    if (preparse.stdout && preparse.stderr) {
-      preparse.stdout.pipe(process.stdout)
-      preparse.stderr.pipe(process.stderr)
-    }
-
-    await preparse
-      .catch(() => { console.log('preparsing errored') })
+    await preparse(folder, map)
   }
 
   let shouldSkipCustomization = false
@@ -129,16 +91,7 @@ async function exec (): Promise<void> {
   }
 
   if (!shouldSkipCustomization) {
-    fs.mkdirsSync(metricsFolder)
-    const customization = execa.command(`sh run.sh customization ${resolvePath(['data', folder])} ${map} ${metrics}`, { cwd: resolvePath('CRP') })
-
-    if (customization.stdout && customization.stderr) {
-      customization.stdout.pipe(process.stdout)
-      customization.stderr.pipe(process.stderr)
-    }
-
-    await customization
-      .catch(() => { console.log('customization errored') })
+    await customize(folder, map, metrics)
   }
 
   // RUN TESTS
