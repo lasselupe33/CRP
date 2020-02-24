@@ -6,5 +6,6 @@ data/
 node_modules/
 lib/
 
+SConstruct
 yarn-error.log
 .DS_Store
