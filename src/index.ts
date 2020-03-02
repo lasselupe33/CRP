@@ -1,10 +1,10 @@
 import { resolvePath, getFolders, getMaps } from './utils'
 import { parseOSM, compile, partition, customize } from './crp'
 import { preparse } from './crp/preparse'
+import { queryTest } from './crp/queryTest'
 
 import inquirer = require('inquirer')
 import fs = require('fs-extra')
-import execa = require('execa')
 
 async function exec (): Promise<void> {
   // EXTRACT POSSIBLE FOLDERS FOR MAPS
@@ -98,24 +98,10 @@ async function exec (): Promise<void> {
   const { skipRecompile } = await inquirer.prompt([{ type: 'confirm', name: 'skipRecompile', message: 'Do you want to skip compiling of tests?', default: 'Y' }])
 
   if (!skipRecompile) {
-    console.log('Compiling QueryTest')
-    const compiling = await execa.command('sh run.sh compile QueryTest', { cwd: resolvePath('CRP') })
-
-    if (compiling.exitCode !== 0) {
-      throw new Error('Failed to compile CRP')
-    }
+    await compile('QueryTest')
   }
 
-  const { amount } = await inquirer.prompt([{ type: 'number', name: 'amount', message: 'Please select amount of times to run test', default: 1000 }])
-  const test = execa.command(`sh run.sh querytest ${amount} ${resolvePath(['data', folder])} ${map} ${metrics}`, { cwd: resolvePath('CRP') })
-
-  if (test.stdout && test.stderr) {
-    test.stdout.pipe(process.stdout)
-    test.stderr.pipe(process.stderr)
-  }
-
-  await test
-    .catch(() => { console.log('test errored') })
+  await queryTest(folder, map, metrics)
 }
 
 exec()

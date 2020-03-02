@@ -9,5 +9,7 @@ lib/
 SConstruct
 run.sh
 
+visualiser/data.js
+
 yarn-error.log
 .DS_Store
