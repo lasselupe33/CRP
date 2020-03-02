@@ -2,8 +2,8 @@
 
 if [ "$1" = "compile" ]
 then
-  scons --target="$2" --optimize=Opt -j4 --compiler=g++-9;
-  scons --target="$2" --optimize=Opt --compiler=g++-9;
+  scons --target="$2" --optimize=Opt -j4;
+  scons --target="$2" --optimize=Opt;
 elif [ "$1" = "precalc" ]
 then
   ./deploy/precalculation $2/$3.graph $4 $2;
