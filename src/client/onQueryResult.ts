@@ -1,107 +1,62 @@
-import { resolvePath } from '../utils'
-import fs = require('fs-extra')
-
 let isRelevantData = false
+let queryResult: string = ''
 
 const START_STRING = '[TO_CLIENT_BEGIN]'
-const END_STRING = '[TO_CLIENT_END]'
-const END_CLIENT = '[END_CLIENT]'
+const PAUSE_STRING = '[TO_CLIENT_END]'
+const END_STRING = '[END_CLIENT]'
 
-let currPathIndex = -1
-let paths: Array<Array<{lat: number, lon: number}>> = []
-let meta = setMeta()
-let queryResult: string = ''
-let lat: number | undefined
-let lon: number | undefined
-
-function setMeta (): { lat: { min: number, max: number }, lon: { min: number, max: number } } {
-  return {
-    lat: {
-      min: Infinity,
-      max: -Infinity
-    },
-    lon: {
-      min: Infinity,
-      max: -Infinity
-    }
-  }
+interface Context {
+  onStart?: (print: boolean) => void | Promise<void>
+  onEnd?: () => void | Promise<void>
+  handleToken?: (token: string, delimiter?: string) => void
+  onStreamedToken?: (token: string, delimiter?: string) => void
 }
 
-async function end (): Promise<void> {
-  const toWrite = {
-    meta,
-    paths
-  }
+let ctx: Context = {}
 
-  const fileData = `window.data = ${JSON.stringify(toWrite, null, 2)}`
-  await fs.writeFile(resolvePath(['visualiser', 'data.js']), fileData)
-
-  currPathIndex = -1
-  paths = []
-  meta = setMeta()
-  lat = undefined
-  lon = undefined
-  queryResult = ''
-  isRelevantData = false
-}
-
-function handleToken (print: boolean, token: string, delimiter?: string): void {
+function onToken (print: boolean, token: string, delimiter: string): void {
   switch (token) {
     case START_STRING:
-      if (!print) currPathIndex++
       isRelevantData = true
+
+      if (ctx.onStart) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        ctx.onStart(print)
+      }
       return
 
-    case END_STRING:
+    case PAUSE_STRING:
       isRelevantData = false
       return
 
-    case END_CLIENT:
-      end()
-        .catch((err) => { console.error(err) })
+    case END_STRING:
+      if (print) {
+        return
+      }
+
+      if (ctx.onEnd) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        ctx.onEnd()
+      }
+
+      isRelevantData = false
+      queryResult = ''
       return
   }
 
   if (isRelevantData) {
-    if (print || token === '') {
-      return
+    if (ctx.handleToken && !print && token !== '') {
+      ctx.handleToken(token, delimiter)
     }
-
-    if (!lat) {
-      lat = Number(token)
-
-      if (lat === 0) {
-        console.log(token)
-      }
-
-      meta.lat.min = Math.min(meta.lat.min, lat)
-      meta.lat.max = Math.max(meta.lat.max, lat)
-      return
-    } else {
-      lon = Number(token)
-
-      meta.lon.min = Math.min(meta.lon.min, lon)
-      meta.lon.max = Math.max(meta.lon.max, lon)
-    }
-
-    const vertex = {
-      lat,
-      lon
-    }
-
-    if (!paths[currPathIndex]) {
-      paths[currPathIndex] = [vertex]
-    } else {
-      paths[currPathIndex].push(vertex)
-    }
-
-    lat = undefined
-    lon = undefined
   } else if (print) {
     process.stdout.write(`${token}${delimiter}`)
   }
 }
 
+/**
+ * Goes through all tokens received from the C++ client from start 'till the
+ * END_STRING signal
+ */
 function parseQueryResult (): void {
   let token: string = ''
   let char: string = ''
@@ -110,7 +65,7 @@ function parseQueryResult (): void {
     char = queryResult.charAt(i)
 
     if (char === ' ' || char === '\n') {
-      handleToken(false, token, char)
+      onToken(false, token, char)
       token = ''
     } else {
       token += char
@@ -118,6 +73,14 @@ function parseQueryResult (): void {
   }
 }
 
+export function setCtx (newCtx: Partial<Context>): void {
+  ctx = { ...newCtx, ...ctx }
+}
+
+/**
+ * Will be executed every time a chunk of data has been received from the C++
+ * client in order to properly handle the input
+ */
 export function onQueryResult (chunk: Buffer): void {
   const line = chunk.toString()
   queryResult += line
@@ -128,17 +91,27 @@ export function onQueryResult (chunk: Buffer): void {
   for (let i = 0; i < line.length - 1; i++) {
     char = line.charAt(i)
 
+    // In case we've constructed a whole token, then handle it now!
     if (char === ' ' || char === '\n') {
-      handleToken(true, token, char)
+      onToken(true, token, char)
+
+      if (ctx.onStreamedToken) {
+        ctx.onStreamedToken(token, char)
+      }
+
       token = ''
     } else {
       token += char
     }
   }
 
-  handleToken(true, token, '\n')
+  // In case our stream has ended, then we must assume the rest of our input is
+  // a token in itself, and hence we handle it here
+  onToken(true, token, '\n')
 
-  if (chunk.includes(END_CLIENT)) {
+  // In case we've recieved the signal from C++ that we've gotten all relevant
+  // data for an activity, then handle it now!
+  if (chunk.includes(END_STRING)) {
     parseQueryResult()
   }
 }

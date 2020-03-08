@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf lib && npx tsc --build",
-    "start": "cd lib && node ./server.js",
+    "server": "cd lib && node ./server.js",
     "cli": "cd lib && node ./index.js",
     "client": "cd lib && node ./client.js",
     "watch": "npx nodemon --watch 'src/**/*' --watch 'CRP/**/*' --watch 'KaHIP_Buffoon/**/*' --ext ts,html,css,cpp --exec 'yarn build && yarn'",
@@ -31,10 +31,12 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "execa": "^4.0.0",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
     "http-graceful-shutdown": "^2.3.2",
-    "inquirer": "^7.0.4"
+    "inquirer": "^7.0.4",
+    "open": "^7.0.2"
   }
 }

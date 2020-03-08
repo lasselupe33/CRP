@@ -1,13 +1,11 @@
 import { compile, cClient } from './crp'
-import { getFolders, getMaps } from './utils'
-import { onQueryResult } from './client/onQueryResult'
+import { getFolders, getMaps, environment } from './utils'
+import { visualiserTest, updateMetricTest } from './client/experiments'
 
 import inquirer = require('inquirer')
 
 async function client (): Promise<void> {
-  const { recompile } = await inquirer.prompt([{ type: 'confirm', name: 'recompile', message: 'Do you want to compile C++ Client?' }])
-
-  if (recompile) {
+  if (environment['--recompile']) {
     await compile('Client')
   }
 
@@ -20,10 +18,21 @@ async function client (): Promise<void> {
     choices: folders
   }
 
-  const { folder } = await inquirer.prompt([folderQuestion])
+  const folder = environment['--folder'] || (await inquirer.prompt([folderQuestion])).folder as string
   const map = getMaps(folder)[0]
 
-  await cClient(folder, map, 'dist', onQueryResult)
+  switch (environment['--experiment']) {
+    case 'visualise':
+      await visualiserTest(folder, map)
+      break
+
+    case 'updateMetric':
+      await updateMetricTest(folder, map)
+      break
+
+    default:
+      await cClient(folder, map)
+  }
 }
 
 client()

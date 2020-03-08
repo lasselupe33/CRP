@@ -43,6 +43,8 @@
 #include "../timer.h"
 #include "../constants.h"
 
+#include "./Experiments.h"
+
 #include <iostream>
 #include <memory>
 #include <iomanip>
@@ -51,88 +53,6 @@
 #include <functional>
 
 using namespace std;
-
-void execTest(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, string debug){
-	std::mt19937 rand;
-	auto vertex_rand = std::bind(std::uniform_int_distribution<CRP::index>(0, graph.numberOfVertices() - 1),
-															 mt19937(get_micro_time()));
-
-	CRP::PathUnpacker pathUnpacker(graph, overlayGraph, metrics);
-	CRP::CRPQueryUni query(graph, overlayGraph, metrics, pathUnpacker);
-	CRP::CRPQuery biQuery(graph, overlayGraph, metrics, pathUnpacker);
-	CRP::ParallelCRPQuery parQuery(graph, overlayGraph, metrics, pathUnpacker);
-	long long start;
-	long long end;
-	CRP::index sum = 0;
-	CRP::index biSum = 0;
-	CRP::index parSum = 0;
-
-	std::vector<std::pair<CRP::index, CRP::index>> queries(numQueries);
-	for (CRP::index i = 0; i < numQueries; ++i)
-	{
-		queries[i] = std::make_pair(vertex_rand(), vertex_rand());
-	}
-
-	std::cout << "Running uni queries" << std::endl;
-	for (std::pair<CRP::index, CRP::index> &q : queries)
-	{
-		CRP::index source = q.first;
-		CRP::index target = q.second;
-
-		start = get_micro_time();
-		CRP::QueryResult res = query.vertexQuery(source, target, 0);
-		end = get_micro_time();
-		sum += end - start;
-
-		if (res.path.size() > 0 && debug == "debug")
-		{
-			std::cout << "[TO_CLIENT_BEGIN]" << std::endl;
-			for (CRP::index i = 0; i < res.path.size() - 1; ++i)
-			{
-				CRP::Vertex v = graph.getVertex(res.path[i]);
-				std::cout << v.coord.lat << " " << v.coord.lon << " ";
-			}
-			std::cout << std::endl << "[TO_CLIENT_END]" << std::endl;
-		}
-	}
-
-	std::cout << "Running bi queries" << std::endl;
-	for (std::pair<CRP::index, CRP::index> &q : queries)
-	{
-		CRP::index source = q.first;
-		CRP::index target = q.second;
-
-		start = get_micro_time();
-		biQuery.vertexQuery(source, target, 0);
-		end = get_micro_time();
-		biSum += end - start;
-	}
-
-	std::cout << "Running parallel queries" << std::endl;
-	for (std::pair<CRP::index, CRP::index> &q : queries)
-	{
-		CRP::index source = q.first;
-		CRP::index target = q.second;
-
-		start = get_micro_time();
-		parQuery.vertexQuery(source, target, 0);
-
-		end = get_micro_time();
-		parSum += end - start;
-	}
-
-	if (debug == "debug")
-	{
-		std::cout << "[END_CLIENT]" << std::endl;
-	}
-	sum /= 1000;
-	biSum /= 1000;
-	parSum /= 1000;
-	std::cout << std::setprecision(3);
-	std::cout << "Uni Took " << sum << " ms. Avg = " << (double)sum / (double)numQueries << " ms." << std::endl;
-	std::cout << "Bi Took " << biSum << " ms. Avg = " << (double)biSum / (double)numQueries << " ms." << std::endl;
-	std::cout << "Par Took " << parSum << " ms. Avg = " << (double)parSum / (double)numQueries << " ms." << std::endl;
-}
 
 int main(int argc, char *argv[]) {
 	if (argc < 5) {
@@ -153,46 +73,33 @@ int main(int argc, char *argv[]) {
 	CRP::OverlayGraph overlayGraph;
 	CRP::GraphIO::readOverlayGraph(overlayGraph, overlayGraphFile);
 
-	cout << "Reading metric" << endl;
 	vector<CRP::Metric> metrics(1);
-	if (metricType == "dist") {
-		std::ifstream stream(metricPath);
-		CRP::Metric::read(stream, metrics[0], std::unique_ptr<CRP::CostFunction>(new CRP::DistanceFunction()));
-		stream.close();
-	} else if (metricType == "hop") {
-		std::ifstream stream(metricPath);
-		CRP::Metric::read(stream, metrics[0], std::unique_ptr<CRP::CostFunction>(new CRP::HopFunction()));
-		stream.close();
-	} else if (metricType == "time") {
-		std::ifstream stream(metricPath);
-		CRP::Metric::read(stream, metrics[0], std::unique_ptr<CRP::CostFunction>(new CRP::TimeFunction()));
-		stream.close();
-	} else {
-		std::cout << "ERROR: Unknown metic type " << metricType << std::endl;
-		return 1;
-	}
+	parseMetric(metricPath, metricType, metrics[0]);
 
-	std::cout << std::endl << "Client prepared" << std::endl << std::endl;
+	std::cout << "[PREPARED] Client ready" << std::endl;
 
 	for (std::string line; std::getline(std::cin, line);)
 	{
 		std::cout << std::endl;
 		if (line == "exit") {
+			std::cout << "Will exit on next input.";
 			return 0;
-		} else if (line.find("test") != std::string::npos) {
-			string debug = line.substr(line.find(" ") + 1, line.length());
+		} else if (line == "test") {
+			std::cout << "Should visualization data be outputted during test?" << std::endl;
+			string debug;
+			std::getline(std::cin, debug);
 
-			std::cout << "Please specify amount of times to run each algorithm.." << std::endl;
+			std::cout << "Please specify amount of times to run each algorithm." << std::endl;
 			std::string numQueryString;
 			std::getline(std::cin, numQueryString);
 			CRP::count numQueries = std::stoi(numQueryString);
-	
-			execTest(graph, overlayGraph, metrics, numQueries, debug);
+
+			RandExperiment(graph, overlayGraph, metrics, numQueries, debug);
 		} else if (line == "update") {
-			std::cout << "Updating metrics" << std::endl;
+			parseMetric(metricPath, metricType, metrics[0]);
 		}
 
-		std::cout << std::endl << "Finished." << std::endl << "Awaiting new input..." << std::endl << std::endl;
+		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;
 	}
 
 	return 0;

@@ -1,13 +1,17 @@
 import { crpRouter } from './routes'
-import { handleUncaughtException } from './utils'
+import { handleUncaughtException, environment } from './utils'
+import { initializeCRP } from './crp'
 
 import express = require('express')
 import gracefulShutdown = require('http-graceful-shutdown')
 
+environment['--skipParsingIfPossible'] = true
+
 const PORT = Number(process.env.PORT || 3000)
 
-function start (): void {
-  console.log(`Starting application on port ${PORT}`)
+async function start (): Promise<void> {
+  // Will initialize map creation process if necessary
+  await initializeCRP()
 
   const app = express()
 
@@ -31,3 +35,4 @@ function start (): void {
 }
 
 start()
+  .catch((err) => { console.error(err) })
