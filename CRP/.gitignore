@@ -29,6 +29,8 @@
 
 # deploy folder
 deploy/*
+SConstruct
+run.sh
 
 # OS X .ds_store
 *.DS_Store
