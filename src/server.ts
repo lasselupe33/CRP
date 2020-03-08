@@ -1,6 +1,7 @@
-import { crpRouter } from './routes'
-import { handleUncaughtException, environment } from './utils'
+import { crpRouter } from './server/routes'
+import { environment } from './utils'
 import { initializeCRP } from './crp'
+import { handleUncaughtException } from './server/utils'
 
 import express = require('express')
 import gracefulShutdown = require('http-graceful-shutdown')

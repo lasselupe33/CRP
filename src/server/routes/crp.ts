@@ -1,4 +1,4 @@
-import { customize } from '../crp'
+import { customize } from '../../crp'
 import express = require('express')
 const router = express.Router()
 
