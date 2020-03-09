@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf lib && npx tsc --build",
     "server": "cd lib && node ./server.js",
-    "cli": "cd lib && node ./index.js",
+    "cli": "cd lib && node ./cli.js",
     "client": "cd lib && node ./client.js",
     "watch": "npx nodemon --watch 'src/**/*' --watch 'CRP/**/*' --watch 'KaHIP_Buffoon/**/*' --ext ts,html,css,cpp --exec 'yarn build && yarn'",
     "lint": "npx eslint 'src/**/*.{js,jsx,ts,tsx}' --cache --cache-location='./node_modules/.cache'"

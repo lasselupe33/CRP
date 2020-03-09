@@ -83,9 +83,19 @@ bool SaxParser::parseBZ2(const std::string &inputFileName, SaxHandler &handler) 
 
 	std::string line;
 	std::istream instream(&inbuf);
+	long long nextPrint = 10000000;
+	long long curr = 0;
 	bool ok = false;
 	while (std::getline(instream, line)) {
 		ok = parseLine(line, handler);
+
+		curr += line.length();
+
+		if (curr > nextPrint) {
+			std::cout << "Millions of characters read: " << curr / 1000000 << std::endl;
+			nextPrint += 10000000;
+		}
+
 		if (!ok) {
 			std::cout << "error in line " << line << std::endl;
 			break;
