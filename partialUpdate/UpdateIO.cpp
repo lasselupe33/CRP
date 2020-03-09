@@ -48,14 +48,15 @@ bool readUpdateFile(Update &update, const std::string &inputFilePath) {
         singleUpdate.second = std::stoul(tokens[1]);
         updates.push_back(singleUpdate);
     }
-
+    
     update = Update(updates);
 
     return true;
 }
 
 bool writeUpdatedWeights(const Update &update, const OverlayWeights &curWeights, const std::string &outputFilePath) {
-    //TODO: this
+    //TODO: this - unless?
+    return true;
 }
 
 } /* namespace CRP */
