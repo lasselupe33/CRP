@@ -45,8 +45,8 @@ async function onEnd (): Promise<void> {
     paths
   }
 
-  const fileData = `window.data = ${JSON.stringify(toWrite)}`
-  await fs.writeFile(resolvePath(['visualiser', 'data.js']), fileData)
+  const fileData = `window.data = ${JSON.stringify(toWrite, null, 2)}`
+  await fs.writeFile(resolvePath(['experiments', 'visualiser', 'data.js']), fileData)
 
   currPathIndex = -1
   paths = []
@@ -54,7 +54,7 @@ async function onEnd (): Promise<void> {
   lat = undefined
   lon = undefined
 
-  await open(resolvePath(['visualiser', 'index.html']), { app: 'google chrome' })
+  await open(resolvePath(['experiments', 'visualiser', 'index.html']), { app: 'google chrome' })
 }
 
 /**
@@ -124,4 +124,10 @@ function setStream (newStream: Writable | null): void {
 export async function visualiserTest (folder: string, map: string): Promise<void> {
   setCtx({ onStart, handleToken, onStreamedToken, onEnd })
   await cClient(folder, map, setStream)
+}
+
+export default {
+  onStart,
+  onEnd,
+  handleToken
 }

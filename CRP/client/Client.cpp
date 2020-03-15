@@ -94,9 +94,27 @@ int main(int argc, char *argv[]) {
 			std::getline(std::cin, numQueryString);
 			CRP::count numQueries = std::stoi(numQueryString);
 
-			RandExperiment(graph, overlayGraph, metrics, numQueries, debug);
+			QueryExperiment(graph, overlayGraph, metrics, numQueries, debug, false);
 		} else if (line == "update") {
 			parseMetric(metricPath, metricType, metrics[0]);
+		} else if (line == "extractEdges") {
+			std::cout << "Please specify amount of vertex to extract for each edge." << std::endl;
+			std::string numVerticesString;
+			std::getline(std::cin, numVerticesString);
+			CRP::count numVertices = std::stoi(numVerticesString);
+
+			ExtractEdgeVertices(graph, numVertices);
+		} else if ("fixed-test") {
+			std::cout << "Should visualization data be outputted during test?" << std::endl;
+			string debug;
+			std::getline(std::cin, debug);
+
+			std::cout << "Please specify amount of vertex indices that'll be provided." << std::endl;
+			std::string numQueriesString;
+			std::getline(std::cin, numQueriesString);
+			CRP::count numQueries = std::stoi(numQueriesString);
+
+			QueryExperiment(graph, overlayGraph, metrics, numQueries, debug, true);
 		}
 
 		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;

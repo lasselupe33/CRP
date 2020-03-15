@@ -5,7 +5,8 @@ export const environment = {
   '--recompile': false,
   '--folder': 'cph',
   '--skipParsingIfPossible': false,
-  '--exitOnEnd': true
+  '--exitOnEnd': true,
+  '--maxThreads': 4
 }
 
 export type Environment = typeof environment

@@ -17,11 +17,36 @@
 #include <random>
 #include <functional>
 
-void RandExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, std::string debug)
+void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, std::string debug, bool getVerticesFromIndex)
 {
-  std::mt19937 rand;
-  auto vertex_rand = std::bind(std::uniform_int_distribution<CRP::index>(0, graph.numberOfVertices() - 1),
-                               std::mt19937(get_micro_time()));
+  std::vector<std::pair<CRP::index, CRP::index>> queries(numQueries);
+
+  if (getVerticesFromIndex) {
+    std::vector<CRP::index> indices;
+
+    for (int i = 0; i < numQueries; i++)
+    {
+      std::string srcIndexString;
+      std::getline(std::cin, srcIndexString);
+      CRP::index srcIndex = std::stoi(srcIndexString);
+
+      std::string destIndexString;
+      std::getline(std::cin, destIndexString);
+      CRP::index destIndex = std::stoi(destIndexString);
+
+      queries.push_back(std::make_pair(srcIndex, destIndex));
+    }
+  } else {
+    std::mt19937 rand;
+    auto vertex_rand = std::bind(std::uniform_int_distribution<CRP::index>(0, graph.numberOfVertices() - 1),
+                                 std::mt19937(get_micro_time()));
+
+    for (CRP::index i = 0; i < numQueries; ++i)
+    {
+      queries[i] = std::make_pair(vertex_rand(), vertex_rand());
+    }
+  }
+
 
   CRP::PathUnpacker pathUnpacker(graph, overlayGraph, metrics);
   CRP::CRPQueryUni query(graph, overlayGraph, metrics, pathUnpacker);
@@ -32,12 +57,6 @@ void RandExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGra
   CRP::index sum = 0;
   CRP::index biSum = 0;
   CRP::index parSum = 0;
-
-  std::vector<std::pair<CRP::index, CRP::index>> queries(numQueries);
-  for (CRP::index i = 0; i < numQueries; ++i)
-  {
-    queries[i] = std::make_pair(vertex_rand(), vertex_rand());
-  }
 
   std::cout << "Running uni queries" << std::endl;
   for (std::pair<CRP::index, CRP::index> &q : queries)

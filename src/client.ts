@@ -1,6 +1,6 @@
 import { compile, cClient } from './crp'
 import { getFolders, getMaps, environment } from './utils'
-import { visualiserTest, updateMetricTest } from './client/experiments'
+import { visualiserTest, updateMetricTest, trafficTest } from './client/experiments'
 
 import inquirer = require('inquirer')
 
@@ -22,6 +22,10 @@ async function client (): Promise<void> {
   const map = getMaps(folder)[0]
 
   switch (environment['--experiment']) {
+    case 'traffic':
+      await trafficTest(folder, map)
+      break
+
     case 'visualise':
       await visualiserTest(folder, map)
       break

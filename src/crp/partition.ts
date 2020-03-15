@@ -1,9 +1,9 @@
-import { resolvePath, prependFile } from '../utils'
+import { resolvePath, prependFile, environment } from '../utils'
 
 import execa = require('execa')
 import fs = require('fs-extra')
 
-const levelSizes = [2 ** 20, 2 ** 17, 2 ** 14, 2 ** 1, 2 ** 8]
+const levelSizes = [2 ** 20, 2 ** 17, 2 ** 14, 2 ** 11, 2 ** 8]
 const delta = 1.03
 
 function getLevels (nodes: number): number[] {
@@ -21,7 +21,7 @@ export async function partition (folder: string, map: string): Promise<void> {
   const buffonPath = resolvePath(['KaHIP_Buffoon', 'src', 'optimized', 'buffoon'])
   const metisGraph = resolvePath(['data', folder, `${map}.metis.graph`])
 
-  const partitioner = execa.command(`mpirun -n 4 ${buffonPath} ${metisGraph} --k ${levels[levels.length - 1]} --preconfiguration=fast --max_num_threads=4`)
+  const partitioner = execa.command(`mpirun -n ${environment['--maxThreads']} ${buffonPath} ${metisGraph} --k ${levels[levels.length - 1]} --preconfiguration=fast --max_num_threads=${environment['--maxThreads']}`)
 
   if (partitioner.stdout && partitioner.stderr) {
     partitioner.stdout.pipe(process.stdout)

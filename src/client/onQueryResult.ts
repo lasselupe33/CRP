@@ -74,7 +74,7 @@ function parseQueryResult (): void {
 }
 
 export function setCtx (newCtx: Partial<Context>): void {
-  ctx = { ...newCtx, ...ctx }
+  ctx = { ...ctx, ...newCtx }
 }
 
 /**

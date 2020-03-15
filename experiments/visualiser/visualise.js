@@ -3,7 +3,7 @@ const { meta, paths } = window.data
 const canvas = document.createElement('canvas')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
-canvas.style.background = 'rgba(0, 0, 0, 0.25)'
+canvas.style.background = 'rgba(0, 0, 0, 0.01)'
 document.body.appendChild(canvas)
 
 const ctx = canvas.getContext('2d')
@@ -27,8 +27,12 @@ function drawEdge (from, to) {
 }
 
 function drawPath (path) {
+  if (path === null) {
+    return
+  }
+
   let prevCoord
-  const color = `rgba(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, 1)`
+  const color = `rgba(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, 0.5)`
   ctx.strokeStyle = color
 
   for (const coord of path) {
