@@ -11,8 +11,6 @@ import fs = require('fs-extra')
 let stream: Writable
 let map: string
 let folder: string
-let onWrittenEdges: () => void
-const onEndPromise = new Promise((resolve) => { onWrittenEdges = resolve })
 
 let currentRun = 0
 const data: {
@@ -27,40 +25,52 @@ const data: {
   bottomRight: []
 }
 
+function runQueryTest (): void {
+  setTimeout(() => {
+    if (!environment['--skipVisualise']) {
+      setCtx({
+        onStreamedToken,
+        handleToken: VisualiserCallbacks.handleToken,
+        onEnd: VisualiserCallbacks.onEnd,
+        onStart: VisualiserCallbacks.onStart
+      })
+    }
+
+    writeToCRP(stream, 'fixed-test')
+    writeToCRP(stream, environment['--skipVisualise'] ? 'no' : 'yes')
+    writeToCRP(stream, String(environment['--testAmount']))
+
+    generatePairs(folder, environment['--testAmount']).then((pairs) => {
+      for (let i = 0; i < pairs.length; i++) {
+        writeToCRP(stream, pairs[i].src)
+        writeToCRP(stream, pairs[i].dest)
+      }
+    })
+  }, 100)
+}
+
 /**
  * Will continously receive tokens from the C++ input as soon as they're available
  */
 function onStreamedToken (token: string): void {
   switch (token) {
     case '[PREPARED]':
-      writeToCRP(stream, 'extractEdges')
-      writeToCRP(stream, String(environment['--testAmount']))
-
+      if (environment['--skipExtractingCorners']) {
+        runQueryTest()
+      } else {
+        writeToCRP(stream, 'extractEdges')
+        writeToCRP(stream, String(environment['--verticesToExtract'] || environment['--testAmount']))
+      }
       break
 
     case '[FINISHED]':
-      if (currentRun === 0) {
-        // We finished extracting edges, save them now..
-        onEndPromise.then(() => {
-          setCtx({
-            onStreamedToken,
-            handleToken: VisualiserCallbacks.handleToken,
-            onEnd: VisualiserCallbacks.onEnd,
-            onStart: VisualiserCallbacks.onStart
-          })
+      if (environment['--skipExtractingCorners']) {
+        currentRun--
+      }
 
-          writeToCRP(stream, 'fixed-test')
-          writeToCRP(stream, 'yes')
-          writeToCRP(stream, String(environment['--testAmount']))
-
-          generatePairs(environment['--testAmount']).then((pairs) => {
-            for (let i = 0; i < pairs.length; i++) {
-              writeToCRP(stream, pairs[i].src)
-              writeToCRP(stream, pairs[i].dest)
-            }
-          })
-        })
-      } else {
+      if (currentRun === 1) {
+        console.log('update metric!')
+      } else if (currentRun === 2) {
         if (environment['--exitOnEnd']) {
           writeToCRP(stream, 'exit')
           writeToCRP(stream, '')
@@ -73,8 +83,10 @@ function onStreamedToken (token: string): void {
 }
 
 async function onEnd (): Promise<void> {
-  await fs.writeFile(resolvePath(['experiments', 'traffic', 'edges.json']), JSON.stringify(data, null, 2))
-  onWrittenEdges()
+  await fs.writeFile(resolvePath(['experiments', 'traffic', `vertices.${folder}.json`]), JSON.stringify(data, null, 2))
+
+  // Now that we've extracted our entry points, begin running actual experiment!
+  runQueryTest()
 }
 
 enum Corners {

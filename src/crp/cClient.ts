@@ -3,8 +3,10 @@ import { onQueryResult } from '../client/onQueryResult'
 import { Writable } from 'stream'
 import execa = require('execa')
 
+const GB = 1024 * 1024 * 1024
+
 export async function cClient (folder: string, map: string, setStream?: (stream: Writable | null) => void): Promise<void> {
-  const test = execa.command(`sh run.sh client ${resolvePath(['data', folder])} ${map} ${environment['--metric']}`, { cwd: resolvePath('CRP') })
+  const test = execa.command(`sh run.sh client ${resolvePath(['data', folder])} ${map} ${environment['--metric']}`, { cwd: resolvePath('CRP'), maxBuffer: GB })
 
   if (test.stdout && test.stderr && test.stdin) {
     if (setStream) {
@@ -17,5 +19,5 @@ export async function cClient (folder: string, map: string, setStream?: (stream:
   }
 
   await test
-    .catch(() => { console.log('test errored') })
+    .catch((err) => { console.error('test errored', err) })
 }

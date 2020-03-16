@@ -10,6 +10,7 @@ SConstruct
 run.sh
 
 experiments/visualiser/data.js
+experiments/traffic
 
 yarn-error.log
 .DS_Store

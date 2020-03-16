@@ -47,7 +47,6 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
     }
   }
 
-
   CRP::PathUnpacker pathUnpacker(graph, overlayGraph, metrics);
   CRP::CRPQueryUni query(graph, overlayGraph, metrics, pathUnpacker);
   CRP::CRPQuery biQuery(graph, overlayGraph, metrics, pathUnpacker);
@@ -69,10 +68,10 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
     end = get_micro_time();
     sum += end - start;
 
-    if (res.path.size() > 0 && debug == "yes")
+    if (res.path.size() > 0 && debug == "yes" && source != target)
     {
       std::cout << "[TO_CLIENT_BEGIN]" << std::endl;
-      for (CRP::index i = 0; i < res.path.size() - 1; ++i)
+      for (CRP::index i = 0; i < res.path.size(); ++i)
       {
         CRP::Vertex v = graph.getVertex(res.path[i]);
         std::cout << v.coord.lat << " " << v.coord.lon << " ";

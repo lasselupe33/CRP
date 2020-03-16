@@ -6,7 +6,12 @@ export const environment = {
   '--folder': 'cph',
   '--skipParsingIfPossible': false,
   '--exitOnEnd': true,
-  '--maxThreads': 4
+  '--maxThreads': 4,
+
+  // traffic specific environment variables
+  '--skipVisualise': false,
+  '--skipExtractingCorners': false,
+  '--verticesToExtract': 0
 }
 
 export type Environment = typeof environment
