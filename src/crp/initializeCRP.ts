@@ -56,6 +56,7 @@ export async function initializeCRP (): Promise<void> {
   }
 
   if (!shouldSkipParse) {
+    console.log('hi')
     await parseOSM(folder, map)
   }
 

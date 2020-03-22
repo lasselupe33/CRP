@@ -11,7 +11,10 @@ export const environment = {
   // traffic specific environment variables
   '--skipVisualise': false,
   '--skipExtractingCorners': false,
-  '--verticesToExtract': 0
+  '--verticesToExtract': 0,
+
+  // Scale specific tests
+  '--scales': [2 ** 12, 2 ** 15, 2 ** 18, 2 ** 21, 2 ** 25]
 }
 
 export type Environment = typeof environment
@@ -46,8 +49,13 @@ function parseEnvironment (): void {
           break
 
         default:
-          // @ts-ignore
-          environment[variable] = val
+          if (val.includes(',')) {
+            // @ts-ignore
+            environment[variable] = val.split(',').map(Number)
+          } else {
+            // @ts-ignore
+            environment[variable] = val
+          }
       }
     }
   }

@@ -86,15 +86,26 @@ int main(int argc, char *argv[]) {
 			return 0;
 		} else if (line == "test") {
 			std::cout << "Should visualization data be outputted during test?" << std::endl;
-			string debug;
-			std::getline(std::cin, debug);
+			string visualize;
+			std::getline(std::cin, visualize);
+			bool shouldVisualize = visualize == "yes" ? true : false;
 
 			std::cout << "Please specify amount of times to run each algorithm." << std::endl;
 			std::string numQueryString;
 			std::getline(std::cin, numQueryString);
 			CRP::count numQueries = std::stoi(numQueryString);
 
-			QueryExperiment(graph, overlayGraph, metrics, numQueries, debug, false);
+			std::cout << "Will fixed vertices be provided by JavaScript client?" << std::endl;
+			std::string withFixedString;
+			std::getline(std::cin, withFixedString);
+			bool withFixed = withFixedString == "yes" ? true : false;
+
+			std::cout << "Should Dijkstra queiries by run for comparison?" << std::endl;
+			std::string withDijkstraString;
+			std::getline(std::cin, withDijkstraString);
+			bool withDijkstra = withDijkstraString == "yes" ? true : false;
+
+			QueryExperiment(graph, overlayGraph, metrics, numQueries, shouldVisualize, withFixed, withDijkstra);
 		} else if (line == "update") {
 			parseMetric(metricPath, metricType, metrics[0]);
 		} else if (line == "extractEdges") {
@@ -104,17 +115,17 @@ int main(int argc, char *argv[]) {
 			CRP::count numVertices = std::stoi(numVerticesString);
 
 			ExtractEdgeVertices(graph, numVertices);
-		} else if ("fixed-test") {
-			std::cout << "Should visualization data be outputted during test?" << std::endl;
-			string debug;
-			std::getline(std::cin, debug);
+		} else if (line == "updateMap") {
+			std::cout << "Please provide new map path." << std::endl;
+			std::string mapPath;
+			std::getline(std::cin, mapPath);
 
-			std::cout << "Please specify amount of vertex indices that'll be provided." << std::endl;
-			std::string numQueriesString;
-			std::getline(std::cin, numQueriesString);
-			CRP::count numQueries = std::stoi(numQueriesString);
+			std::cout << "Please provide new overlay map path." << std::endl;
+			std::string overlayMapPath;
+			std::getline(std::cin, overlayMapPath);
 
-			QueryExperiment(graph, overlayGraph, metrics, numQueries, debug, true);
+			CRP::GraphIO::readGraph(graph, mapPath);
+			CRP::GraphIO::readOverlayGraph(overlayGraph, overlayMapPath);
 		}
 
 		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;

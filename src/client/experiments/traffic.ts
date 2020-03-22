@@ -36,9 +36,11 @@ function runQueryTest (): void {
       })
     }
 
-    writeToCRP(stream, 'fixed-test')
+    writeToCRP(stream, 'test')
     writeToCRP(stream, environment['--skipVisualise'] ? 'no' : 'yes')
     writeToCRP(stream, String(environment['--testAmount']))
+    writeToCRP(stream, 'yes')
+    writeToCRP(stream, 'no')
 
     generatePairs(folder, environment['--testAmount']).then((pairs) => {
       for (let i = 0; i < pairs.length; i++) {

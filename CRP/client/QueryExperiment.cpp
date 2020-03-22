@@ -1,6 +1,7 @@
 #include "../algorithm/CRPQuery.h"
 #include "../algorithm/CRPQueryUni.h"
 #include "../algorithm/ParallelCRPQuery.h"
+#include "../algorithm/Dijkstra.h"
 
 #include "../datastructures/Graph.h"
 #include "../datastructures/OverlayGraph.h"
@@ -17,7 +18,7 @@
 #include <random>
 #include <functional>
 
-void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, std::string debug, bool getVerticesFromIndex)
+void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, bool shouldVisualize, bool getVerticesFromIndex, bool withDijkstra)
 {
   std::vector<std::pair<CRP::index, CRP::index>> queries(numQueries);
 
@@ -51,11 +52,13 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
   CRP::CRPQueryUni query(graph, overlayGraph, metrics, pathUnpacker);
   CRP::CRPQuery biQuery(graph, overlayGraph, metrics, pathUnpacker);
   CRP::ParallelCRPQuery parQuery(graph, overlayGraph, metrics, pathUnpacker);
+  CRP::Dijkstra dijkstra(graph, overlayGraph, metrics);
   long long start;
   long long end;
   CRP::index sum = 0;
   CRP::index biSum = 0;
   CRP::index parSum = 0;
+  CRP::index dijkstraSum = 0;
 
   std::cout << "Running uni queries" << std::endl;
   for (std::pair<CRP::index, CRP::index> &q : queries)
@@ -68,7 +71,7 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
     end = get_micro_time();
     sum += end - start;
 
-    if (res.path.size() > 0 && debug == "yes" && source != target)
+    if (res.path.size() > 0 && shouldVisualize && source != target)
     {
       std::cout << "[TO_CLIENT_BEGIN]" << std::endl;
       for (CRP::index i = 0; i < res.path.size(); ++i)
@@ -105,16 +108,37 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
     parSum += end - start;
   }
 
-  if (debug == "yes")
+  if (withDijkstra) {
+    std::cout << "Running dijkstra queries" << std::endl;
+    for (std::pair<CRP::index, CRP::index> &q : queries)
+    {
+      CRP::index source = q.first;
+      CRP::index target = q.second;
+
+      start = get_micro_time();
+      dijkstra.vertexQuery(source, target, 0);
+
+      end = get_micro_time();
+      dijkstraSum += end - start;
+    }
+  }
+
+  if (shouldVisualize)
   {
     std::cout << "[END_CLIENT]" << std::endl;
   }
   sum /= 1000;
   biSum /= 1000;
   parSum /= 1000;
+  dijkstraSum /= 1000;
   std::cout << std::setprecision(3);
   std::cout << "Uni Took " << sum << " ms. Avg = " << (double)sum / (double)numQueries << " ms." << std::endl;
   std::cout << "Bi Took " << biSum << " ms. Avg = " << (double)biSum / (double)numQueries << " ms." << std::endl;
   std::cout << "Par Took " << parSum << " ms. Avg = " << (double)parSum / (double)numQueries << " ms." << std::endl;
+
+  if (withDijkstra) {
+    std::cout << "Dijkstra Took " << parSum << " ms. Avg = " << (double)dijkstraSum / (double)numQueries << " ms." << std::endl;
+  }
+
   std::cout << std::setprecision(16);
 }

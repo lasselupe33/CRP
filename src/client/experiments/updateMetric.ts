@@ -19,6 +19,8 @@ function onStreamedToken (token: string): void {
       writeToCRP(stream, 'test')
       writeToCRP(stream, 'no')
       writeToCRP(stream, String(environment['--testAmount']))
+      writeToCRP(stream, 'no')
+      writeToCRP(stream, 'no')
 
       break
 
@@ -35,6 +37,8 @@ function onStreamedToken (token: string): void {
         writeToCRP(stream, 'test')
         writeToCRP(stream, 'no')
         writeToCRP(stream, String(environment['--testAmount']))
+        writeToCRP(stream, 'no')
+        writeToCRP(stream, 'no')
       } else {
         if (environment['--exitOnEnd']) {
           writeToCRP(stream, 'exit')

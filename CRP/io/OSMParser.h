@@ -58,7 +58,7 @@ public:
 	OSMParser();
 	~OSMParser() = default;
 
-	bool parseGraph(const std::string &graphFile, Graph &graph);
+	bool parseGraph(const std::string &graphFile, Graph &graph, int limit);
 
 	void startElement(const std::string &uri, const std::string &localName, const std::string &qName, const std::vector<Attribute> &attributes);
 
@@ -70,6 +70,8 @@ public:
 private:
 	enum TURN_RESTRICTION {NO_LEFT_TURN, NO_RIGHT_TURN, NO_STRAIGHT_ON, NO_U_TURN, ONLY_RIGHT_TURN, ONLY_LEFT_TURN, ONLY_STRAIGHT_ON, NO_ENTRY, INVALID, NONE};
 
+	long long nodesStored = 0;
+	int nodeLimit = INFINITY;
 	const Id maxId = std::numeric_limits<Id>::max();
 
 	struct Node {
@@ -130,8 +132,9 @@ private:
 
 	inline void extractNode(const std::vector<Attribute> &attributes) {
 		Id id = 0;
-		Node node = {0,0};
+		Node node = {0, 0};
 		uint8_t numParsed = 0;
+
 		for (Attribute a : attributes) {
 			if (a.qName == "id") {
 				id = std::stoll(a.value);
@@ -162,6 +165,10 @@ private:
 	inline void parseWayTag(const std::vector<Attribute> &attributes) {
 		std::string tagKey = attributes[0].value;
 		std::string tagVal = attributes[1].value;
+
+		if (ways[currentWay].nodes.size() == 0) {
+			return;
+		}
 
 		if (tagKey == "maxspeed") {
 			//std::cout << tagVal << std::endl;

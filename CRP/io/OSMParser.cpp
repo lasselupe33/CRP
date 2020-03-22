@@ -40,12 +40,14 @@ namespace CRP {
 OSMParser::OSMParser() : currentWay(maxId), currentNode(maxId), validNode(true), inRelation(false) {
 }
 
-bool OSMParser::parseGraph(const std::string &graphFile, Graph &graph) {
+bool OSMParser::parseGraph(const std::string &graphFile, Graph &graph, int limit) {
 	currentWay = std::numeric_limits<Id>::max();
 
 	SaxParser xmlParser;
 	std::cout << "Parsing file " << graphFile << std::endl;
 	bool ok;
+
+	nodeLimit = limit;
 
 	if (graphFile.find(".bz") != std::string::npos) {
 		ok = xmlParser.parseBZ2(graphFile, *this);
@@ -95,8 +97,9 @@ void OSMParser::startElement(const std::string &uri, const std::string &localNam
 			}
 		}
 
-		if (nodeId != maxId) {
+		if (nodeId != maxId && nodesStored < nodeLimit) {
 			ways[currentWay].nodes.push_back(nodeId);
+			nodesStored++;
 		}
 	} else if (qName == "tag" && inRelation) {
 		parseRelationTag(attributes);
@@ -118,6 +121,7 @@ void OSMParser::endElement(const std::string &uri, const std::string &localName,
 		currentNode = maxId;
 	} else if (qName == "way" && currentWay != maxId) {
 		if (ways[currentWay].type == STREET_TYPE::INVALID) {
+			nodesStored -= ways[currentWay].nodes.size();
 			ways.erase(currentWay);
 		}
 		currentWay = maxId;
@@ -588,18 +592,27 @@ void OSMParser::buildGraph(Graph &graph) {
 } /* namespace CRP */
 
 int main(int argc, char* argv[]) {
-	if (argc != 3) {
+	if (argc != 3 && argc != 6) {
 		std::cout << "Usage: " << argv[0] << " path_to_osm.bz2 path_to_output.graph.bz2" << std::endl;
+		std::cout << "Or: " << argv[0] << " path_to_osm.bz2 path_to_output.graph.bz2 limit outputPath baseVertices" << std::endl;
 		return 1;
 	}
 
 	std::string input(argv[1]);
-	std::string graphOutput(argv[2]);
+	std::string graphOutput(argc == 6 ? argv[4] : argv[2]);
+	int limit = argc == 6 ? std::stoi(argv[3]) : INFINITY;
+	int baseVertices = argc == 6 ? std::stoi(argv[5]) : -1;
+
 	std::string metisGraphFile = graphOutput.substr(0, graphOutput.find_last_of(".")) + ".metis.graph";
+
+	if (limit != inf_weight && baseVertices != -1) {
+		double factor = 0.075 + (double)limit / baseVertices * 0.2325;
+		limit = limit * (1 + factor);
+	}
 
 	CRP::OSMParser osmParser;
 	CRP::Graph graph;
-	bool ok = osmParser.parseGraph(input, graph);
+	bool ok = osmParser.parseGraph(input, graph, limit);
 	if (ok) {
 		ok = CRP::GraphIO::writeGraph(graph, graphOutput);
 		CRP::GraphIO::writeMetisGraph(graph, metisGraphFile);

@@ -103,6 +103,8 @@ function onStreamedToken (token: string): void {
       writeToCRP(stream, 'test') // Specify we desire to test
       writeToCRP(stream, 'yes') // Enforce output of visuablisation data
       writeToCRP(stream, String(environment['--testAmount']))
+      writeToCRP(stream, 'no')
+      writeToCRP(stream, 'no')
       break
 
     case '[FINISHED]':

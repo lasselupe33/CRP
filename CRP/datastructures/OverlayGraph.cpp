@@ -223,7 +223,7 @@ void OverlayGraph::buildCells(Graph& graph, level numberOfLevels, std::vector<bo
 		}
 	}
 
-	std::cout << cellOffset << "rip" << std::endl;
+	std::cout << cellOffset << std::endl;
 	weightVectorSize = cellOffset;
 }
 
