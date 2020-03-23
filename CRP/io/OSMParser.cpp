@@ -141,6 +141,148 @@ void OSMParser::endElement(const std::string &uri, const std::string &localName,
 	}
 }
 
+std::vector<Id> generateRandomEdge(int columns, int rows, int maxColMovement, int maxRowMovement) {
+	int entryCol = rand() % columns;
+	int entryRow = rand() % rows;
+
+	int colMove = (rand() % (maxColMovement * 2)) - maxColMovement;
+	int rowMove = (rand() % (maxRowMovement * 2)) - maxRowMovement;
+
+	int maxMoveRight = columns - entryCol;
+	int maxMoveLeft = entryCol;
+
+	if (colMove > maxMoveRight || (colMove * -1) > maxMoveLeft)
+	{
+		colMove *= -1;
+	}
+
+	if (rowMove == 0 && colMove == 0)
+	{
+		rowMove += 1;
+	}
+
+	if (rowMove >= rows)
+	{
+		rowMove -= 2;
+	}
+	else if (rowMove < 0)
+	{
+		rowMove += 2;
+	}
+
+	Id entry = entryCol + entryRow * columns;
+	Id exit = (entryCol + colMove) + (entryRow + rowMove) * columns;
+
+	if (entry == exit)
+	{
+		bool atRightEdge = exit % (columns + 1) == columns;
+
+		if (atRightEdge)
+		{
+			exit -= 1;
+		}
+		else
+		{
+			exit += 1;
+		}
+	}
+
+	std::vector<Id> wayNodes;
+	wayNodes.push_back(entry);
+	wayNodes.push_back(exit);
+
+	return wayNodes;
+}
+
+bool OSMParser::generateGraph(Graph &graph, int vertices, float avgDegree)
+{
+	float minLat = 50.0;
+	float maxLat = 60.0;
+	float minLon = 10.0;
+	float maxLon = 20.0;
+
+	int rows = ceil(sqrtf(vertices));
+	int columns = ceil(sqrtf(vertices));
+	int maxRowMovement = rows / cbrt(vertices);
+	int maxColMovement = columns / cbrt(vertices);
+
+	// Create the given amount of nodes, distributed with equal distance in a grid.
+	int i = 0;
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < columns; c++) {
+			if (i >= vertices) {
+				break;
+			}
+			float lat = minLat + (maxLat - minLat) * ((float)c / (float)columns);
+			float lon = minLon + (maxLon - minLon) * ((float)r / (float)rows);
+			Node node = {lat, lon};
+			nodes[i] = node;
+			i++;
+		}
+
+		if (i >= vertices) {
+			break;
+		}
+	}
+
+	// Ensure that we at least have a fully connected graph, by creating roads
+	// between all vertices, following this layout:
+	//
+	// x --- x --- x
+	// 						 |
+	// x --- x --- x
+	// |
+	// x --- x --- x
+	for (int i = 0; i < vertices; i++) {
+		bool evenRow = (i / rows) % 2 == 0;
+		bool atRightEdge = i % (columns + 1) == columns;
+		bool atLeftEdge = i % columns == 0;
+		std::vector<Id> wayNodes;
+		wayNodes.push_back(i);
+
+		if (evenRow) {
+			if (atRightEdge) {
+				// Make a connection to node directly below in next row
+				wayNodes.push_back(std::min(i + columns, vertices - 1));
+			} else {
+				wayNodes.push_back(i + 1 == vertices ? i - 1 : i + 1);
+			}
+		} else {
+			if (atLeftEdge) {
+				wayNodes.push_back(std::min(i + columns, vertices - 1));
+			} else {
+				wayNodes.push_back(i - 1);
+			}
+		}
+
+		Way way = {wayNodes, 130, STREET_TYPE::MOTORWAY, 0, false};
+		ways[i] = way;
+	}
+
+	// By now we've created a graph that has an average in/out-degree of 2 (with
+	// the first and last vertex with an out-degree of 1).
+	// Create additional edges, connecting nodes near to each other, until we've
+	// reached the desired average in/out-degree
+	for (int i = vertices; i < vertices + ((avgDegree - 2.0) * vertices / 2); i++) {
+		std::vector<Id> wayNodes;
+		
+		while (true) {
+			wayNodes = generateRandomEdge(columns, rows, maxColMovement, maxRowMovement);
+
+			if (wayNodes[0] < vertices - 1 && wayNodes[1] < vertices - 1) {
+				break;
+			}
+		}
+
+		Way way = {wayNodes, 130, STREET_TYPE::MOTORWAY, 0, false};
+		ways[i] = way;
+	}
+
+	buildGraph(graph);
+
+	return true;
+}
+
 void OSMParser::buildGraph(Graph &graph) {
 	std::unordered_map<Id, index> vertexMapping;
 	index vIdx = 0;
@@ -470,7 +612,6 @@ void OSMParser::buildGraph(Graph &graph) {
 			}
 		});
 
-
 		std::vector<Graph::TURN_TYPE> sortedMatrix(inDegree[v] * outDegree[v], Graph::NONE);
 		std::vector<BackwardEdge> sortedBackwardEdges(backwardEdges[v].size());
 		for (index i = 0; i < inDegree[v]; ++i) {
@@ -592,33 +733,50 @@ void OSMParser::buildGraph(Graph &graph) {
 } /* namespace CRP */
 
 int main(int argc, char* argv[]) {
-	if (argc != 3 && argc != 6) {
+	if (argc != 3 && argc != 4 && argc != 6) {
 		std::cout << "Usage: " << argv[0] << " path_to_osm.bz2 path_to_output.graph.bz2" << std::endl;
 		std::cout << "Or: " << argv[0] << " path_to_osm.bz2 path_to_output.graph.bz2 limit outputPath baseVertices" << std::endl;
+		std::cout << "Or: " << argv[0] << " path_to_output.graph.bz2 vertices avgOutDegree" << std::endl;
 		return 1;
 	}
 
 	std::string input(argv[1]);
-	std::string graphOutput(argc == 6 ? argv[4] : argv[2]);
+	std::string graphOutput(argc == 6 ? argv[4] : argc == 4 ? argv[1] : argv[2]);
 	int limit = argc == 6 ? std::stoi(argv[3]) : INFINITY;
 	int baseVertices = argc == 6 ? std::stoi(argv[5]) : -1;
+	int desiredVertices = argc == 4 ? std::stoi(argv[2]) : -1;
+	float avgOutDegree = argc == 4 ? std::stof(argv[3]) : -1;
 
 	std::string metisGraphFile = graphOutput.substr(0, graphOutput.find_last_of(".")) + ".metis.graph";
+	bool ok;
+	CRP::Graph graph;
+	CRP::OSMParser osmParser;
 
-	if (limit != inf_weight && baseVertices != -1) {
-		double factor = 0.075 + (double)limit / baseVertices * 0.2325;
-		limit = limit * (1 + factor);
+	// In case 3 or 6 arguments we're passed, that means we should work on an
+	// actual OSM graph and either generate a full graph or a subgrah
+	if (argc == 3 || argc == 6) {
+		if (limit != inf_weight && baseVertices != -1)
+		{
+			double factor = 0.075 + (double)limit / baseVertices * 0.2325;
+			limit = limit * (1 + factor);
+		}
+
+		ok = osmParser.parseGraph(input, graph, limit);
+	} else {
+		// In the case of 4 arguments, then we should create our own graph.
+		ok = osmParser.generateGraph(graph, desiredVertices, avgOutDegree);
 	}
 
-	CRP::OSMParser osmParser;
-	CRP::Graph graph;
-	bool ok = osmParser.parseGraph(input, graph, limit);
-	if (ok) {
+	if (ok)
+	{
 		ok = CRP::GraphIO::writeGraph(graph, graphOutput);
 		CRP::GraphIO::writeMetisGraph(graph, metisGraphFile);
 	}
 
-	if (!ok) {
+	if (!ok)
+	{
+		CRP::GraphIO::writeGraph(graph, "/Users/lasse.felskov/Code/SWU/Bachelor/data/test/map.osm.graph");
+		CRP::GraphIO::writeMetisGraph(graph, "/Users/lasse.felskov/Code/SWU/Bachelor/data/test/map.osm.metis.graph");
 		std::cout << "An error occured during parsing" << std::endl;
 	}
 

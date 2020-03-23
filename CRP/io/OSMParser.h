@@ -59,6 +59,7 @@ public:
 	~OSMParser() = default;
 
 	bool parseGraph(const std::string &graphFile, Graph &graph, int limit);
+	bool generateGraph(Graph &graph, int vertices, float avgDegree);
 
 	void startElement(const std::string &uri, const std::string &localName, const std::string &qName, const std::vector<Attribute> &attributes);
 
@@ -103,7 +104,6 @@ private:
 	bool validNode;
 	Restriction currentRestriction;
 	bool inRelation;
-
 
 	void buildGraph(Graph &graph);
 

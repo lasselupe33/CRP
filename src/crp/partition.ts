@@ -16,6 +16,10 @@ export async function partition (folder: string, map: string): Promise<void> {
   const nodes = Number(fs.readFileSync(resolvePath(['data', folder, `${map}.graph.vertices`])))
   const levels = getLevels(nodes)
 
+  if (levels.length === 0) {
+    levels.push(1)
+  }
+
   const partitionFile = resolvePath(['data', folder, 'partition'])
 
   const buffonPath = resolvePath(['KaHIP_Buffoon', 'src', 'optimized', 'buffoon'])

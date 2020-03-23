@@ -14,7 +14,8 @@ export const environment = {
   '--verticesToExtract': 0,
 
   // Scale specific tests
-  '--scales': [2 ** 12, 2 ** 15, 2 ** 18, 2 ** 21, 2 ** 25]
+  '--scales': [2 ** 12, 2 ** 15, 2 ** 18, 2 ** 21, 2 ** 25],
+  '--avgDegree': 2.1
 }
 
 export type Environment = typeof environment
