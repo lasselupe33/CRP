@@ -92,7 +92,7 @@ public:
 		assert(speed > 0);
 		weight length = attributes.getLength();
 		assert(length >= 0);
-		weight w = static_cast<weight>(3.6f * length / speed);
+		weight w = static_cast<weight>(3.6f * length / speed) * attributes.multiplier;
 
 		return (w > inf_weight) ? inf_weight : w;
 	}

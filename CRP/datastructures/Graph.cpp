@@ -26,6 +26,7 @@
  */
 
 #include "Graph.h"
+#include "boost/optional.hpp"
 
 namespace CRP {
 
@@ -53,6 +54,24 @@ bool Graph::hasEdge(index u, index v) const {
         }
 
         return false;
+}
+
+boost::optional<ForwardEdge> Graph::getEdge(index u, index v) const {
+	assert(u < vertices.size() && v < vertices.size());
+	for (index e = vertices[u].firstOut; e < vertices[u+1].firstOut; ++e) {
+		if (forwardEdges[e].head == v) return forwardEdges[e];
+	}
+
+	return boost::none;
+}
+
+index Graph::getEdgeIndex(index u, index v) const {
+	assert(u < vertices.size() && v < vertices.size());
+	for (index e = vertices[u].firstOut; e < vertices[u+1].firstOut; ++e) {
+		if (forwardEdges[e].head == v) return e;
+	}
+
+	return static_cast<index>(-1);
 }
 
 void Graph::sortVerticesByCellNumber() {

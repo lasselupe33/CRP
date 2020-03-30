@@ -126,6 +126,23 @@ int main(int argc, char *argv[]) {
 
 			CRP::GraphIO::readGraph(graph, mapPath);
 			CRP::GraphIO::readOverlayGraph(overlayGraph, overlayMapPath);
+		} else if (line == "generateTraffic") {
+			std::cout << "Please specify amount of cars to generate traffic with." << std::endl;
+			std::string numCarsString;
+			std::getline(std::cin, numCarsString);
+			CRP::count cars = std::stoi(numCarsString);
+
+			std::cout << "Please specify current time" << std::endl;
+			std::string timeString;
+			std::getline(std::cin, timeString);
+			int time = std::stoi(timeString);
+
+			std::cout << "Will fixed vertices be provided by JavaScript client?" << std::endl;
+			std::string withFixedString;
+			std::getline(std::cin, withFixedString);
+			bool withFixed = withFixedString == "yes" ? true : false;
+
+			GetTrafficAtTime(graph, overlayGraph, metrics, cars, time, withFixed);
 		}
 
 		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;

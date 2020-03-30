@@ -23,8 +23,6 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
   std::vector<std::pair<CRP::index, CRP::index>> queries(numQueries);
 
   if (getVerticesFromIndex) {
-    std::vector<CRP::index> indices;
-
     for (int i = 0; i < numQueries; i++)
     {
       std::string srcIndexString;

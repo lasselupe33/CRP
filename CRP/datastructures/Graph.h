@@ -35,6 +35,7 @@
 
 #include "../constants.h"
 #include "LevelInfo.h"
+#include "boost/optional.hpp"
 
 namespace CRP {
 
@@ -57,6 +58,7 @@ struct Vertex {
 struct EdgeAttributes {
 	edgeAttr stdAttributes;
 	float maxHeight;
+	float multiplier;
 
 	weight getLength() const {
 		return stdAttributes >> 12;
@@ -272,6 +274,10 @@ public:
 	index findBackwardEdge(index u, index v) const;
 
 	bool hasEdge(index u, index v) const;
+
+	boost::optional<ForwardEdge> getEdge(index u, index v) const;
+
+	index getEdgeIndex(index u, index v) const;
 
 	inline count getNumberOfCellNumbers() const {
 		return cellNumbers.size();

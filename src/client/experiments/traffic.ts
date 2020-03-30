@@ -6,6 +6,7 @@ import { Writable } from 'stream'
 import { generatePairs } from '../../utils/generatePairs'
 import VisualiserCallbacks from './visualiser'
 
+import path = require('path')
 import fs = require('fs-extra')
 
 let stream: Writable
@@ -38,16 +39,9 @@ function runQueryTest (): void {
 
     writeToCRP(stream, 'test')
     writeToCRP(stream, environment['--skipVisualise'] ? 'no' : 'yes')
-    writeToCRP(stream, String(environment['--testAmount']))
-    writeToCRP(stream, 'yes')
+    writeToCRP(stream, '1') // Only run query once
     writeToCRP(stream, 'no')
-
-    generatePairs(folder, environment['--testAmount']).then((pairs) => {
-      for (let i = 0; i < pairs.length; i++) {
-        writeToCRP(stream, pairs[i].src)
-        writeToCRP(stream, pairs[i].dest)
-      }
-    })
+    writeToCRP(stream, 'no')
   }, 100)
 }
 
@@ -66,13 +60,31 @@ function onStreamedToken (token: string): void {
       break
 
     case '[FINISHED]':
-      if (environment['--skipExtractingCorners']) {
-        currentRun--
+      if (environment['--skipExtractingCorners'] && currentRun === 0) {
+        currentRun++
       }
 
       if (currentRun === 1) {
-        console.log('update metric!')
+        // update metric
+        writeToCRP(stream, 'generateTraffic')
+        writeToCRP(stream, String(environment['--testAmount']))
+        writeToCRP(stream, '1')
+        writeToCRP(stream, environment['--skipExtractingCorners'] ? 'no' : 'yes')
+
+        if (!environment['--skipExtractingCorners']) {
+          generatePairs(folder, environment['--testAmount']).then((pairs) => {
+            for (let i = 0; i < pairs.length; i++) {
+              writeToCRP(stream, pairs[i].src)
+              writeToCRP(stream, pairs[i].dest)
+            }
+          })
+        }
       } else if (currentRun === 2) {
+        writeToCRP(stream, 'generateTraffic')
+        writeToCRP(stream, String(environment['--testAmount']))
+        writeToCRP(stream, '6')
+        writeToCRP(stream, 'no')
+      } else if (currentRun === 3) {
         if (environment['--exitOnEnd']) {
           writeToCRP(stream, 'exit')
           writeToCRP(stream, '')
@@ -85,7 +97,9 @@ function onStreamedToken (token: string): void {
 }
 
 async function onEnd (): Promise<void> {
-  await fs.writeFile(resolvePath(['experiments', 'traffic', `vertices.${folder}.json`]), JSON.stringify(data, null, 2))
+  const pth = resolvePath(['experiments', 'traffic', `vertices.${folder}.json`])
+  await fs.ensureDir(path.dirname(pth))
+  await fs.writeFile(pth, JSON.stringify(data, null, 2))
 
   // Now that we've extracted our entry points, begin running actual experiment!
   runQueryTest()

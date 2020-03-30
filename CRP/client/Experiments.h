@@ -6,4 +6,6 @@ void parseMetric(std::string metricPath, std::string metricType, CRP::Metric& ta
 
 void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, bool shouldVisualize, bool getVerticesFromIndex, bool withDijkstra);
 
+void GetTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, int cars, int currentTime, bool withFixed);
+
 void ExtractEdgeVertices(const CRP::Graph &graph, int amount = 1000);

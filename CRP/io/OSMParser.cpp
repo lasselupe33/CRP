@@ -331,7 +331,7 @@ void OSMParser::buildGraph(Graph &graph) {
 			packedAttributes |= ((edgeAttr) way.maxSpeed) << 4;
 			packedAttributes |= ((edgeAttr) way.type);
 
-			EdgeAttributes attributes = {packedAttributes, way.maxHeight};
+			EdgeAttributes attributes = {packedAttributes, way.maxHeight,1};
 
 			if (forwardNeighbors[u].find(v) == forwardNeighbors[u].end()) {
 				forwardEdges[u].push_back({v, (turnorder) backwardEdges[v].size(), attributes});
