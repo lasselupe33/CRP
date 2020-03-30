@@ -12,7 +12,7 @@ namespace CRP {
 class UpdateIO {
 public:
     static bool readUpdateFile(Update &update, const std::string &inputFilePath);
-    static bool writeUpdatedWeights(const Update &update, const OverlayWeights &curWeights, const std::string &outputFilePath);
+    static bool writeUpdatedWeights(const Update &update, const Graph &graph, const OverlayGraph &overlayGraph, const OverlayWeights &curWeights, const std::string &outputFilePath, CostFunction &costFunction);
 };
 
 } /* namespace CRP */
