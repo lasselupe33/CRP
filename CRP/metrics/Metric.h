@@ -143,8 +143,8 @@ public:
 	 * Returns the weight of the edge with given @a attributes.
 	 * @param attributes
 	 */
-	inline weight getWeight(const EdgeAttributes& attributes) const {
-		return costFunction->getWeight(attributes);
+	inline weight getWeight(const EdgeAttributes& attributes, float multiplier = 1) const {
+		return costFunction->getWeight(attributes, multiplier);
 	}
 
 	/**

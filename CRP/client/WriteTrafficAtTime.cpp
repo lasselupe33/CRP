@@ -18,6 +18,8 @@
 #include <functional>
 #include <queue>
 #include <vector>
+#include <boost/iostreams/device/file.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
 
 using namespace std;
 
@@ -164,11 +166,11 @@ void populateEdgeVolumes(const CRP::Graph &graph, unordered_map<CRP::index, int>
   }
 }
 
-void GetTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, int cars, int currentTime, bool withFixed)
+void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, std::string outputFilePath, int cars, int currentTime, bool withFixed)
 {
   unordered_map<CRP::index, int> edgeVolume;
-  unordered_map<CRP::index, int> edgeMultiplier;
 
+  const CRP::Metric& costFunction = metrics[0];
   CRP::PathUnpacker pathUnpacker(graph, overlayGraph, metrics);
   CRP::CRPQuery query(graph, overlayGraph, metrics, pathUnpacker);
 
@@ -257,8 +259,18 @@ void GetTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayG
     carsToUpdate *= 0.9;
   }
 
-  std::cout << std::endl << "Populating edges with cars..." << std::endl;
+  std::cout << std::endl << "Populating edges with cars... ";
   populateEdgeVolumes(graph, edgeVolume, currentTime);
+  std::cout << "altered " << edgeVolume.size() << " edges" << std::endl;
+
+
+  // Write updated edge weights
+  std::ofstream file;
+  file.open(outputFilePath);
+  if (!file.is_open()) {
+    return;
+  }
+  file << std::setprecision(16);
 
   int max = 0;
   CRP::index maxId = 0;
@@ -266,7 +278,9 @@ void GetTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayG
   for (auto it = edgeVolume.begin(); it != edgeVolume.end(); ++it)
   {
     CRP::ForwardEdge edge = graph.getForwardEdge(it->first);
-    edgeMultiplier[it->first] = getMultiplierForEdge(edge, it->second);
+    float multiplier = getMultiplierForEdge(edge, it->second);
+    float newWeight = costFunction.getWeight(edge.attributes, multiplier);
+    file << it->first << " " << newWeight << std::endl;
 
     if (it->second > max) {
       max = it->second;
@@ -275,5 +289,6 @@ void GetTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayG
     }
   }
 
+  file.close();
   std::cout << "Max Volume at edge " << maxId << "=" << max << ". Congestion=" << maxCongestion << std::endl;
 }

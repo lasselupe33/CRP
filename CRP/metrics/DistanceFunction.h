@@ -37,8 +37,8 @@ namespace CRP {
 /** Metric that computes the total distance of the path from s to t. */
 class DistanceFunction : public CostFunction {
 public:
-	virtual weight getWeight(const EdgeAttributes& attributes) const {
-		return attributes.getLength();
+	virtual weight getWeight(const EdgeAttributes& attributes, float multiplier = 1) const {
+		return attributes.getLength() * multiplier;
 	}
 
 	virtual weight getTurnCosts(const Graph::TURN_TYPE turnType) const {

@@ -12,6 +12,7 @@ import fs = require('fs-extra')
 let stream: Writable
 let map: string
 let folder: string
+let updateFilePath: string
 
 let currentRun = 0
 const data: {
@@ -65,10 +66,12 @@ function onStreamedToken (token: string): void {
       }
 
       if (currentRun === 1) {
+        fs.unlinkSync(updateFilePath)
         // update metric
         writeToCRP(stream, 'generateTraffic')
         writeToCRP(stream, String(environment['--testAmount']))
         writeToCRP(stream, '1')
+        writeToCRP(stream, updateFilePath)
         writeToCRP(stream, environment['--skipExtractingCorners'] ? 'no' : 'yes')
 
         if (!environment['--skipExtractingCorners']) {
@@ -80,9 +83,12 @@ function onStreamedToken (token: string): void {
           })
         }
       } else if (currentRun === 2) {
+        fs.unlinkSync(updateFilePath)
+        // Tmp :-)
         writeToCRP(stream, 'generateTraffic')
         writeToCRP(stream, String(environment['--testAmount']))
         writeToCRP(stream, '6')
+        writeToCRP(stream, updateFilePath)
         writeToCRP(stream, 'no')
       } else if (currentRun === 3) {
         if (environment['--exitOnEnd']) {
@@ -155,5 +161,6 @@ export async function trafficTest (_folder: string, _map: string): Promise<void>
   setCtx({ onStreamedToken, handleToken, onEnd, onStart: VisualiserCallbacks.onStart })
   folder = _folder
   map = _map
+  updateFilePath = resolvePath(['data', folder, `trafficUpdate.${environment['--metric']}`])
   await cClient(folder, map, setStream)
 }

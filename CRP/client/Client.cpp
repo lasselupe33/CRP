@@ -137,12 +137,16 @@ int main(int argc, char *argv[]) {
 			std::getline(std::cin, timeString);
 			int time = std::stoi(timeString);
 
+			std::cout << "Please specify output file path to store traffic update at" << std::endl;
+			std::string outputFilePath;
+			std::getline(std::cin, outputFilePath);
+
 			std::cout << "Will fixed vertices be provided by JavaScript client?" << std::endl;
 			std::string withFixedString;
 			std::getline(std::cin, withFixedString);
 			bool withFixed = withFixedString == "yes" ? true : false;
 
-			GetTrafficAtTime(graph, overlayGraph, metrics, cars, time, withFixed);
+			WriteTrafficAtTime(graph, overlayGraph, metrics, outputFilePath, cars, time, withFixed);
 		}
 
 		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;
