@@ -38,7 +38,7 @@ namespace CRP {
 class DistanceFunction : public CostFunction {
 public:
 	virtual weight getWeight(const EdgeAttributes& attributes) const {
-		return attributes.getLength() * attributes.multiplier;
+		return attributes.getLength();
 	}
 
 	virtual weight getTurnCosts(const Graph::TURN_TYPE turnType) const {

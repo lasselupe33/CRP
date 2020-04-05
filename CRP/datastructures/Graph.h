@@ -58,7 +58,6 @@ struct Vertex {
 struct EdgeAttributes {
 	edgeAttr stdAttributes;
 	float maxHeight;
-	float multiplier;
 
 	weight getLength() const {
 		return stdAttributes >> 12;
