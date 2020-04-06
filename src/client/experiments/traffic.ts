@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { setCtx } from '../onQueryResult'
-import { writeToCRP, environment, resolvePath } from '../../utils'
+import { writeToCRP, environment, resolvePath, deleteFile } from '../../utils'
 import { cClient } from '../../crp'
 import { Writable } from 'stream'
 import { generatePairs } from '../../utils/generatePairs'
@@ -66,7 +66,7 @@ function onStreamedToken (token: string): void {
       }
 
       if (currentRun === 1) {
-        fs.unlinkSync(updateFilePath)
+        deleteFile(updateFilePath)
         // update metric
         writeToCRP(stream, 'generateTraffic')
         writeToCRP(stream, String(environment['--testAmount']))
@@ -83,7 +83,7 @@ function onStreamedToken (token: string): void {
           })
         }
       } else if (currentRun === 2) {
-        fs.unlinkSync(updateFilePath)
+        deleteFile(updateFilePath)
         // Tmp :-)
         writeToCRP(stream, 'generateTraffic')
         writeToCRP(stream, String(environment['--testAmount']))

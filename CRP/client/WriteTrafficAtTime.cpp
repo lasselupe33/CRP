@@ -20,6 +20,7 @@
 #include <vector>
 #include <boost/iostreams/device/file.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
+#include <set>
 
 using namespace std;
 
@@ -29,14 +30,20 @@ struct PathData {
 };
 
 struct EdgeWithMeta {
+  CRP::index backwardEdgeIndex;
   CRP::index edgeIndex;
   CRP::ForwardEdge edge;
 };
 
 vector<PathData> carPaths;
 int carsToUpdate = 0;
-int edgeCapacity = 10;
+int carUsageInMeters = 10;
 float cutoff = 1.02;
+
+float capacity(CRP::weight length) {
+  float cap = (float)length / (float)carUsageInMeters;
+  return cap > 1.0 ? cap : 1.0;
+}
 
 int getSpeed(CRP::EdgeAttributes attributes) {
   CRP::Speed speed = attributes.getSpeed();
@@ -106,6 +113,7 @@ float getMultiplierForEdge(CRP::ForwardEdge edge, int volume) {
   // Determine the actual travel time for a given edge, based on how many cars
   // are currently driving on it, using the BPR link congestion function based
   // on the Frank-Wolfe algorithm
+  float edgeCapacity = capacity(edge.attributes.getLength());
   float freeFlow = getTimeToTraverseEdgeInMinutes(edge.attributes);
   float travelTime = freeFlow * (1 + 0.15 * pow(((float)volume / (float)edgeCapacity), 4));
   float multiplier = travelTime / freeFlow;
@@ -117,13 +125,14 @@ float getMultiplierForEdge(CRP::ForwardEdge edge, int volume) {
 
 EdgeWithMeta getEdgeAtCarPosition(const CRP::Graph &graph, CRP::QueryResult path, int time)
 {
+  CRP::index backwardEdgeIndex = -1;
   CRP::index edgeIndex = -1;
-  float timeTravelled = 0;
   boost::optional<CRP::ForwardEdge> edge;
+  float timeTravelled = 0;
 
   for (int i = 0; i < path.path.size() - 1; i++) {
     edge = graph.getEdge(path.path[i], path.path[i + 1]);
-    
+
     if (edge.has_value()) {
       timeTravelled += getTimeToTraverseEdgeInMinutes(edge->attributes);
 
@@ -131,6 +140,7 @@ EdgeWithMeta getEdgeAtCarPosition(const CRP::Graph &graph, CRP::QueryResult path
       // newest edge we've found (since that will be the edge our car is currently on)
       if (timeTravelled > time) {
         edgeIndex = graph.getEdgeIndex(path.path[i], path.path[i + 1]);
+        backwardEdgeIndex = graph.findBackwardEdge(path.path[i], path.path[i + 1]);
         // std::cout << i << " " << timeTravelled << " " << path.path.size() << std::endl;
         break;
       }
@@ -138,14 +148,15 @@ EdgeWithMeta getEdgeAtCarPosition(const CRP::Graph &graph, CRP::QueryResult path
     }
   }
 
-  return {edgeIndex, edge.get()};
+  return {backwardEdgeIndex, edgeIndex, edge.get()};
 }
 
 /**
  * Iterates through all of our cars and determines which edge they're currently
  * at based on the passed time.
  */
-void populateEdgeVolumes(const CRP::Graph &graph, unordered_map<CRP::index, int> &edgeVolume, int currentTime) {
+void populateEdgeVolumes(const CRP::Graph &graph, unordered_map<CRP::index, int> &edgeVolume, unordered_map<CRP::index, CRP::index> &edgeToBackwardEdge, int currentTime)
+{
   for (int i = 0; i < carPaths.size(); i++) {
     if (carPaths[i].res.pathWeight == 0) {
       continue;
@@ -163,12 +174,18 @@ void populateEdgeVolumes(const CRP::Graph &graph, unordered_map<CRP::index, int>
     } else {
       edgeVolume[edgeMeta.edgeIndex] = 1;
     }
+
+    if (!edgeToBackwardEdge[edgeMeta.edgeIndex]) {
+      std::cout << edgeMeta.backwardEdgeIndex << std::endl;
+      edgeToBackwardEdge[edgeMeta.edgeIndex] = edgeMeta.backwardEdgeIndex;
+    }
   }
 }
 
 void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, std::string outputFilePath, int cars, int currentTime, bool withFixed)
 {
   unordered_map<CRP::index, int> edgeVolume;
+  unordered_map<CRP::index, CRP::index> edgeToBackwardEdge;
 
   const CRP::Metric& costFunction = metrics[0];
   CRP::PathUnpacker pathUnpacker(graph, overlayGraph, metrics);
@@ -198,7 +215,6 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
                                  std::mt19937(get_micro_time()));
 
     std::cout << "Generating initial car routes ..." << std::endl;
-
     for (int i = 0; i < cars; i++) {
       CRP::QueryResult res;
       CRP::index source = withFixed ? queries[i].first : vertex_rand();
@@ -260,9 +276,8 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
   }
 
   std::cout << std::endl << "Populating edges with cars... ";
-  populateEdgeVolumes(graph, edgeVolume, currentTime);
+  populateEdgeVolumes(graph, edgeVolume, edgeToBackwardEdge, currentTime);
   std::cout << "altered " << edgeVolume.size() << " edges" << std::endl;
-
 
   // Write updated edge weights
   std::ofstream file;
@@ -281,6 +296,7 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
     float multiplier = getMultiplierForEdge(edge, it->second);
     float newWeight = costFunction.getWeight(edge.attributes, multiplier);
     file << it->first << " " << newWeight << std::endl;
+    file << edgeToBackwardEdge[it->first] << " " << newWeight << std::endl;    
 
     if (it->second > max) {
       max = it->second;
