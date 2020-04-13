@@ -7,6 +7,10 @@ export const environment = {
   '--skipParsingIfPossible': false,
   '--exitOnEnd': true,
   '--maxThreads': 4,
+  '--throttleClient': false,
+
+  '--partitioner': 'buffoon',
+  '--pconfig': 'fast',
 
   // traffic specific environment variables
   '--skipVisualise': false,

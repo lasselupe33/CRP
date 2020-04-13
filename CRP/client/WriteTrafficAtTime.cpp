@@ -133,7 +133,7 @@ EdgeWithMeta getEdgeAtCarPosition(const CRP::Graph &graph, CRP::QueryResult path
   for (int i = 0; i < path.path.size() - 1; i++) {
     edge = graph.getEdge(path.path[i], path.path[i + 1]);
 
-    if (edge.has_value()) {
+    if (edge.is_initialized()) {
       timeTravelled += getTimeToTraverseEdgeInMinutes(edge->attributes);
 
       // Once we've travelled longer than the current timestamp, then stop at the

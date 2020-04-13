@@ -84,6 +84,8 @@ int main(int argc, char *argv[]) {
 		if (line == "exit") {
 			std::cout << "Will exit on next input.";
 			return 0;
+		} else if (line == "[THROTTLED]") {
+			std::cout << "[PREPARED] Client ready" << std::endl;
 		} else if (line == "test") {
 			std::cout << "Should visualization data be outputted during test?" << std::endl;
 			string visualize;
@@ -106,16 +108,23 @@ int main(int argc, char *argv[]) {
 			bool withDijkstra = withDijkstraString == "yes" ? true : false;
 
 			QueryExperiment(graph, overlayGraph, metrics, numQueries, shouldVisualize, withFixed, withDijkstra);
-		} else if (line == "update") {
+		}
+		else if (line == "update")
+		{
+			CRP::GraphIO::readOverlayGraph(overlayGraph, overlayGraphFile);
 			parseMetric(metricPath, metricType, metrics[0]);
-		} else if (line == "extractEdges") {
+		}
+		else if (line == "extractEdges")
+		{
 			std::cout << "Please specify amount of vertex to extract for each edge." << std::endl;
 			std::string numVerticesString;
 			std::getline(std::cin, numVerticesString);
 			CRP::count numVertices = std::stoi(numVerticesString);
 
 			ExtractEdgeVertices(graph, numVertices);
-		} else if (line == "updateMap") {
+		}
+		else if (line == "updateMap")
+		{
 			std::cout << "Please provide new map path." << std::endl;
 			std::string mapPath;
 			std::getline(std::cin, mapPath);
@@ -126,7 +135,9 @@ int main(int argc, char *argv[]) {
 
 			CRP::GraphIO::readGraph(graph, mapPath);
 			CRP::GraphIO::readOverlayGraph(overlayGraph, overlayMapPath);
-		} else if (line == "generateTraffic") {
+		}
+		else if (line == "generateTraffic")
+		{
 			std::cout << "Please specify amount of cars to generate traffic with." << std::endl;
 			std::string numCarsString;
 			std::getline(std::cin, numCarsString);
