@@ -1,5 +1,4 @@
 
-#include "UpdateIO.h"
 #include "GraphIO.h"
 #include "algorithm"
 
@@ -44,7 +43,7 @@ namespace CRP{
 
 // the update file is expected to have no header/meta information in the top and consist only of the ID of the arc followed by the new weight
 // example of line in file: "234 97479"
-bool readUpdateFile(Update &update, const std::string &inputFilePath) {
+bool readUpdateFile(std::vector<std::pair<CRP::index ,CRP::weight>> update, const std::string &inputFilePath) {
     std::ifstream file(inputFilePath, std::ios_base::in | std::ios_base::binary);
     if (!file.is_open()) return false;
 
@@ -68,14 +67,13 @@ bool readUpdateFile(Update &update, const std::string &inputFilePath) {
         updates.push_back(singleUpdate);
     }
     
-    update = Update(updates);
+    update = updates;
 
     return true;
 }
 
-bool writeUpdatedWeights(const Update &updates, const Graph &graph, const OverlayGraph &overlayGraph, const OverlayWeights &curWeights, const std::string &outputFilePath, const CostFunction &costFunction) {
+bool updateWeights(std::vector<std::pair<CRP::index ,CRP::weight>> &update, const Graph &graph, const OverlayGraph &overlayGraph, const OverlayWeights &curWeights, const std::string &outputFilePath, const CostFunction &costFunction) {
     // TODO: this - unless?
-    std::vector<std::pair<index, weight>> update = updates.updates;
 
     // snup graph og overlay graph for info
     // gennemgå updates så vi har pv flags
