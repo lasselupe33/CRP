@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
     CRP::Graph graph;
     CRP::OverlayGraph overlayGraph;
     CRP::OverlayWeights overlayWeights;
-    CRP::Update update;
+    std::vector<std::pair<CRP::index ,CRP::weight>> updates;
 
     unordered_map<string, unique_ptr<CRP::CostFunction>> costFunctions;
 	costFunctions["hop"] = unique_ptr<CRP::CostFunction>(new CRP::HopFunction());
@@ -50,12 +50,11 @@ int main(int argc, char* argv[]){
     cout << "reading overlay weights" << endl;
     CRP::GraphIO::readWeights(overlayWeights, overlayWeightsFile);
     cout << "reading update file" << endl;
-    CRP::UpdateIO::readUpdateFile(update, updateFile);
-    std::vector<std::pair<CRP::index ,CRP::weight>> updateList = update.updates;
+    CRP::UpdateIO::readUpdateFile(updates, updateFile);
     
     if (metricType == "all") {
 		for (auto &pair : costFunctions) {
-			CRP::UpdateIO::writeUpdatedWeights(updateList, graph, overlayGraph, overlayWeights, outputPath, *std::move(pair.second));
+			CRP::UpdateIO::writeUpdatedWeights(updates, graph, overlayGraph, overlayWeights, outputPath, *std::move(pair.second));
 		}
 	} else {
 		auto it = costFunctions.find(metricType);
@@ -64,7 +63,7 @@ int main(int argc, char* argv[]){
 			return 0;
 		}
 
-		CRP::UpdateIO::writeUpdatedWeights(updateList, graph, overlayGraph, overlayWeights, outputPath, *std::move(it->second));
+		CRP::UpdateIO::updateWeights(updates, graph, overlayGraph, overlayWeights, outputPath, *std::move(it->second));
 	}
 
     return 0;

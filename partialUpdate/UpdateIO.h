@@ -3,16 +3,16 @@
 #define PARTIALUPDATE_UPDATEIO_H_
 
 #include "../datastructures/OverlayWeights.h"
+#include "constants.h"
 
-#include <Update.h>
 #include <string>
 
 namespace CRP {
 
 class UpdateIO {
 public:
-    static bool readUpdateFile(Update &update, const std::string &inputFilePath);
-    static bool writeUpdatedWeights(const Update &update, const Graph &graph, const OverlayGraph &overlayGraph, const OverlayWeights &curWeights, const std::string &outputFilePath, CostFunction &costFunction);
+    static bool readUpdateFile(const std::vector<std::pair<CRP::index ,CRP::weight>> &update, const std::string &inputFilePath);
+    static bool updateWeights(const std::vector<std::pair<CRP::index ,CRP::weight>> &update, const Graph &graph, const OverlayGraph &overlayGraph, const OverlayWeights &curWeights, const std::string &outputFilePath, CostFunction &costFunction);
 };
 
 } /* namespace CRP */
