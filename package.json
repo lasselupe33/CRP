@@ -37,6 +37,7 @@
     "fs-extra": "^8.1.0",
     "http-graceful-shutdown": "^2.3.2",
     "inquirer": "^7.0.4",
-    "open": "^7.0.2"
+    "open": "^7.0.2",
+    "sudo-js": "^1.0.2"
   }
 }

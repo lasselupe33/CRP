@@ -56,7 +56,6 @@ export async function initializeCRP (): Promise<void> {
   }
 
   if (!shouldSkipParse) {
-    console.log('hi')
     await parseOSM(folder, map)
   }
 
@@ -72,7 +71,7 @@ export async function initializeCRP (): Promise<void> {
   }
 
   if (!shouldSkipPartitioning) {
-    await partition(folder, map)
+    await partition(folder, map, { partitioner: environment['--partitioner'], configuration: environment['--pconfig'] })
   }
 
   let shouldskipPreparse = false

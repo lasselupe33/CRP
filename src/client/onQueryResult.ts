@@ -7,7 +7,7 @@ const END_STRING = '[END_CLIENT]'
 
 interface Context {
   onStart?: (print: boolean) => void | Promise<void>
-  onEnd?: () => void | Promise<void>
+  onEnd?: (data: string) => void | Promise<void>
   handleToken?: (token: string, delimiter?: string) => void
   onStreamedToken?: (token: string, delimiter?: string) => void
 }
@@ -34,13 +34,7 @@ function onToken (print: boolean, token: string, delimiter: string): void {
         return
       }
 
-      if (ctx.onEnd) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        ctx.onEnd()
-      }
-
       isRelevantData = false
-      queryResult = ''
       return
   }
 
@@ -81,7 +75,7 @@ export function setCtx (newCtx: Partial<Context>): void {
  * Will be executed every time a chunk of data has been received from the C++
  * client in order to properly handle the input
  */
-export function onQueryResult (chunk: Buffer): void {
+export function onQueryResult (chunk: Buffer | string): void {
   const line = chunk.toString()
   queryResult += line
 
@@ -108,10 +102,20 @@ export function onQueryResult (chunk: Buffer): void {
   // In case our stream has ended, then we must assume the rest of our input is
   // a token in itself, and hence we handle it here
   onToken(true, token, '\n')
+  if (ctx.onStreamedToken) {
+    ctx.onStreamedToken(token, '\n')
+  }
 
   // In case we've recieved the signal from C++ that we've gotten all relevant
   // data for an activity, then handle it now!
   if (chunk.includes(END_STRING)) {
     parseQueryResult()
+
+    if (ctx.onEnd) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      ctx.onEnd(queryResult)
+    }
+
+    queryResult = ''
   }
 }

@@ -178,8 +178,10 @@ if target == "CRP":
 
 elif target == "Client":
 	env.Append(CPPFLAGS = ["-DCLIENT"])
-	source.append(os.path.join(srcDir, "client/Client.cpp"))
-	env.Program("deploy/client", source)
+
+	targetSource = list(source)
+	targetSource.append(os.path.join(srcDir, "client/Client.cpp"))
+	env.Program("deploy/client", targetSource)
 
 elif target == "QueryTest":
 	env.Append(CPPFLAGS = ["-DQUERYTEST"])

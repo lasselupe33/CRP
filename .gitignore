@@ -5,12 +5,16 @@ openmpi-4.0.2/
 data/
 node_modules/
 lib/
+cputhrottle
 
 SConstruct
 run.sh
 
 experiments/visualiser/data.js
 experiments/traffic
+experiments/partition
+experiments/overlay
+experiments/scale
 
 yarn-error.log
 .DS_Store

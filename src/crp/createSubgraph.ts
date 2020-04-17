@@ -1,15 +1,22 @@
-import { resolvePath, environment } from '../utils'
-import { initializeCRP } from './initializeCRP'
+import { resolvePath, environment, asyncTimeout } from '../utils'
+import { onQueryResult } from '../client/onQueryResult'
 import execa = require('execa')
 import fs = require('fs-extra')
 
-export async function createSubGraph (vertices: number): Promise<void> {
+interface Options {
+  withOutputStream?: boolean
+}
+
+export async function createSubGraph (vertices: number, { withOutputStream = false }: Options = {}): Promise<{ folder: string, map: string }> {
   const outputPath = resolvePath(['data', 'scale', `${vertices.toString()}v-${environment['--avgDegree']}avg`])
   const mapName = 'generated.osm'
 
   // No need to attempt to recreate a subgraph that already exists..
   if (fs.existsSync(outputPath)) {
-    return
+    return {
+      folder: outputPath,
+      map: mapName
+    }
   }
 
   fs.ensureDirSync(outputPath)
@@ -18,18 +25,22 @@ export async function createSubGraph (vertices: number): Promise<void> {
   const create = execa.command(`sh run.sh parse ${outputPath} ${mapName} ${vertices} ${environment['--avgDegree']}`, { cwd: resolvePath('CRP') })
 
   if (create.stdout && create.stderr) {
-    create.stdout.pipe(process.stdout)
-    create.stderr.pipe(process.stderr)
+    if (withOutputStream) {
+      onQueryResult('[TO_CLIENT_BEGIN]\n')
+      create.stdout.on('data', onQueryResult)
+      create.stdout.on('close', () => { onQueryResult('[END_CLIENT]\n') })
+    } else {
+      create.stdout.pipe(process.stdout)
+      create.stderr.pipe(process.stderr)
+    }
   }
 
   await create
     .catch((err) => { console.log('parsing errored', err) })
+  await asyncTimeout()
 
-  // Now that we've extract our base subgraph, begin parsing the actual map
-  const prevEnv = { ...environment }
-  environment['--skipParsingIfPossible'] = true
-  environment['--folder'] = outputPath
-  await initializeCRP()
-  environment['--skipParsingIfPossible'] = prevEnv['--skipParsingIfPossible']
-  environment['--folder'] = prevEnv['--folder']
+  return {
+    folder: outputPath,
+    map: mapName
+  }
 }
