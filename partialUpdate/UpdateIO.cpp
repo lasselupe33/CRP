@@ -72,7 +72,7 @@ bool readUpdateFile(std::vector<std::pair<CRP::index ,CRP::weight>> update, cons
     return true;
 }
 
-bool updateWeights(std::vector<std::pair<CRP::index ,CRP::weight>> &update, const Graph &graph, const OverlayGraph &overlayGraph, const OverlayWeights &curWeights, const std::string &outputFilePath, const CostFunction &costFunction) {
+bool updateWeights(std::vector<std::pair<CRP::index ,CRP::weight>> &update, const Graph &graph, const OverlayGraph &overlayGraph, const OverlayWeights &curWeights, const CostFunction &costFunction) {
     // TODO: this - unless?
 
     // snup graph og overlay graph for info
