@@ -20,7 +20,7 @@
 
 void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, bool shouldVisualize, bool getVerticesFromIndex, bool withDijkstra)
 {
-  std::vector<std::pair<CRP::index, CRP::index>> queries(numQueries);
+  std::vector<std::pair<CRP::index, CRP::index>> queries;
 
   if (getVerticesFromIndex) {
     for (int i = 0; i < numQueries; i++)
@@ -42,7 +42,7 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
 
     for (CRP::index i = 0; i < numQueries; ++i)
     {
-      queries[i] = std::make_pair(vertex_rand(), vertex_rand());
+      queries.push_back(std::make_pair(vertex_rand(), vertex_rand()));
     }
   }
 
@@ -57,6 +57,9 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
   CRP::index biSum = 0;
   CRP::index parSum = 0;
   CRP::index dijkstraSum = 0;
+  std::vector<CRP::QueryResult> results;
+  int correct = 0;
+  int success = 0;
 
   // std::cout << "Running uni queries" << std::endl;
   // for (std::pair<CRP::index, CRP::index> &q : queries)
@@ -88,9 +91,19 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
     CRP::index target = q.second;
 
     start = get_micro_time();
-    biQuery.vertexQuery(source, target, 0);
+    CRP::QueryResult res = biQuery.vertexQuery(source, target, 0);
+
     end = get_micro_time();
-    biSum += end - start;
+
+    if (res.pathWeight != inf_weight) {
+      biSum += end - start;
+      success++;
+    }
+
+    if (withDijkstra)
+    {
+      results.push_back(res);
+    }
   }
 
   // std::cout << "Running parallel queries" << std::endl;
@@ -108,16 +121,26 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
 
   if (withDijkstra) {
     std::cout << "Running dijkstra queries" << std::endl;
+    int i = 0;
     for (std::pair<CRP::index, CRP::index> &q : queries)
     {
       CRP::index source = q.first;
       CRP::index target = q.second;
 
       start = get_micro_time();
-      dijkstra.vertexQuery(source, target, 0);
-
+      CRP::QueryResult res = dijkstra.vertexQuery(source, target, 0);
       end = get_micro_time();
-      dijkstraSum += end - start;
+
+      if (res.pathWeight != inf_weight) {
+        dijkstraSum += end - start;
+
+        if (results[i].pathWeight == res.pathWeight)
+        {
+          correct++;
+        }
+      }
+
+      i++;
     }
   }
 
@@ -130,12 +153,13 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
   parSum /= 1000;
   dijkstraSum /= 1000;
   std::cout << std::setprecision(3);
-  std::cout << "Uni Took " << sum << " ms. Avg = " << (double)sum / (double)numQueries << " ms." << std::endl;
-  std::cout << "Bi Took " << biSum << " ms. Avg = " << (double)biSum / (double)numQueries << " ms." << std::endl;
-  std::cout << "Par Took " << parSum << " ms. Avg = " << (double)parSum / (double)numQueries << " ms." << std::endl;
+  std::cout << "Uni Took " << sum << " ms. Avg = " << (double)sum / (double)success << " ms." << std::endl;
+  std::cout << "Bi Took " << biSum << " ms. Avg = " << (double)biSum / (double)success << " ms." << std::endl;
+  std::cout << "Par Took " << parSum << " ms. Avg = " << (double)parSum / (double)success << " ms." << std::endl;
 
   if (withDijkstra) {
-    std::cout << "Dijkstra Took " << parSum << " ms. Avg = " << (double)dijkstraSum / (double)numQueries << " ms." << std::endl;
+    std::cout << "Dijkstra Took " << dijkstraSum << " ms. Avg = " << (double)dijkstraSum / (double)success << " ms." << std::endl;
+    std::cout << "Correct: " << correct << "/" << success << std::endl;
   }
 
   std::cout << std::setprecision(16);

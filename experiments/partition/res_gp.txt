@@ -1,0 +1,71 @@
+--------------------------------
+Parsing results for metis(strong)
+--------------------------------
+Partitioning(1/1)
+Preparse(1/1)
+Customize(1/1)
+Query(1/1)
+--------------------------------
+Results for metis(strong)
+--------------------------------
+Partitioning
+
+Avg: 103879164.00ms
+[ '103879164.00ms' ]
+--------------------------------
+Customization
+
+AvgTime: 14539.20ms
+[ '14539.20ms' ]
+
+AvgWeights: 14945546 weights
+[ '14945546 weights' ]
+
+AvgSize: 356.25003 MB
+[ '356.25003 MB' ]
+--------------------------------
+Query
+
+Avg: 19.80ms
+[ '19.80ms' ]
+Trials pr iteration: 50000
+
+Load: 9509.00ms
+[ '9509.00ms' ]
+--------------------------------
+
+--------------------------------
+Parsing results for buffoon(strong)
+--------------------------------
+Partitioning(1/1)
+Preparse(1/1)
+Customize(1/1)
+Query(1/1)
+--------------------------------
+Results for buffoon(strong)
+--------------------------------
+Partitioning
+
+Avg: 53034900.00ms
+[ '53034900.00ms' ]
+--------------------------------
+Customization
+
+AvgTime: 17562.50ms
+[ '17562.50ms' ]
+
+AvgWeights: 17818421 weights
+[ '17818421 weights' ]
+
+AvgSize: 382.20 MB
+[ '382.20 MB' ]
+--------------------------------
+Query
+
+Avg: 22.50ms
+[ '22.50ms' ]
+Trials pr iteration: 50000
+
+Load: 10070.00ms
+[ '10070.00ms' ]
+--------------------------------

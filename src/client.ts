@@ -1,6 +1,6 @@
 import { compile, cClient } from './crp'
 import { getFolders, getMaps, environment } from './utils'
-import { visualiserTest, updateMetricTest, trafficTest, scalingTest, partitionersTest, overlayTest } from './client/experiments'
+import { visualiserTest, updateMetricTest, trafficTest, scalingTest, partitionersTest, overlayTest, dijkstraTest } from './client/experiments'
 
 import inquirer = require('inquirer')
 
@@ -44,6 +44,10 @@ async function client (): Promise<void> {
 
     case 'overlay':
       await overlayTest(folder, map)
+      break
+
+    case 'dijkstra':
+      await dijkstraTest()
       break
 
     default:

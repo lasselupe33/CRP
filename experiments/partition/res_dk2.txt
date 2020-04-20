@@ -1,0 +1,661 @@
+--------------------------------
+Parsing results for buffoon(fast)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for buffoon(fast)
+--------------------------------
+Partitioning
+
+Avg: 69051.24ms
+[
+  '68401.40ms',
+  '69375.20ms',
+  '68937.60ms',
+  '69520.00ms',
+  '69022.00ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 1008.07ms
+[ '926.00ms', '1010.98ms', '1029.70ms', '1039.98ms', '1033.70ms' ]
+
+AvgWeights: 1485257 weights
+[
+  '1485257 weights',
+  '1485257 weights',
+  '1485257 weights',
+  '1485257 weights',
+  '1485257 weights'
+]
+
+AvgSize: 32.62129 MB
+[
+  '32.62129 MB',
+  '32.62129 MB',
+  '32.62129 MB',
+  '32.62129 MB',
+  '32.62129 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.16ms
+[ '4.16ms', '4.21ms', '4.19ms', '4.05ms', '4.17ms' ]
+Trials pr iteration: 50000
+
+Load: 771.60ms
+[ '779.00ms', '788.00ms', '774.00ms', '751.00ms', '766.00ms' ]
+--------------------------------
+--------------------------------
+Parsing results for buffoon(eco)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+run.sh: line 29: 13937 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 13937 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+12703
+largest cell number is 12702
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 5, 13, 24, 38, 
+Updating metric
+Metric update took 782 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/partitioner.js:138:9)
+    at async Object.partitionersTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/partitioner.js:180:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:34:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '12703\n' +
+    'largest cell number is 12702\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 5, 13, 24, 38, \n' +
+    'Updating metric\n' +
+    'Metric update took 782 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 13937 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for buffoon(eco)
+--------------------------------
+Partitioning
+
+Avg: 228612.60ms
+[
+  '229560.00ms',
+  '225030.00ms',
+  '228757.00ms',
+  '231897.00ms',
+  '227819.00ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 895.50ms
+[ '915.53ms', '854.45ms', '911.86ms', '864.79ms', '930.88ms' ]
+
+AvgWeights: 1514249 weights
+[
+  '1514249 weights',
+  '1514249 weights',
+  '1514249 weights',
+  '1514249 weights',
+  '1514249 weights'
+]
+
+AvgSize: 33.19716 MB
+[
+  '33.19716 MB',
+  '33.19716 MB',
+  '33.19716 MB',
+  '33.19716 MB',
+  '33.19716 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.32ms
+[ '4.26ms', '4.33ms', '4.37ms', '4.32ms' ]
+Trials pr iteration: 50000
+
+Load: 768.00ms
+[ '755.00ms', '772.00ms', '781.00ms', '782.00ms', '750.00ms' ]
+--------------------------------
+--------------------------------
+Parsing results for buffoon(strong)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for buffoon(strong)
+--------------------------------
+Partitioning
+
+Avg: 606561.00ms
+[
+  '606560.00ms',
+  '602474.00ms',
+  '603903.00ms',
+  '608597.00ms',
+  '611271.00ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 962.83ms
+[ '952.38ms', '957.44ms', '964.34ms', '957.44ms', '982.56ms' ]
+
+AvgWeights: 1331515 weights
+[
+  '1331515 weights',
+  '1331515 weights',
+  '1331515 weights',
+  '1331515 weights',
+  '1331515 weights'
+]
+
+AvgSize: 31.509113000000003 MB
+[
+  '31.509113 MB',
+  '31.509113 MB',
+  '31.509113 MB',
+  '31.509113 MB',
+  '31.509113 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.09ms
+[ '4.11ms', '4.11ms', '4.03ms', '4.03ms', '4.15ms' ]
+Trials pr iteration: 50000
+
+Load: 726.40ms
+[ '725.00ms', '728.00ms', '721.00ms', '725.00ms', '733.00ms' ]
+--------------------------------
+--------------------------------
+Parsing results for kaffpa(fast)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for kaffpa(fast)
+--------------------------------
+Partitioning
+
+Avg: 21956.60ms
+[
+  '22189.40ms',
+  '22071.50ms',
+  '21305.10ms',
+  '22057.40ms',
+  '22159.60ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 923.60ms
+[ '940.79ms', '894.08ms', '998.19ms', '888.34ms', '896.62ms' ]
+
+AvgWeights: 1552173 weights
+[
+  '1552173 weights',
+  '1552173 weights',
+  '1552173 weights',
+  '1552173 weights',
+  '1552173 weights'
+]
+
+AvgSize: 33.410378 MB
+[
+  '33.410378 MB',
+  '33.410378 MB',
+  '33.410378 MB',
+  '33.410378 MB',
+  '33.410378 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.23ms
+[ '4.23ms', '4.25ms', '4.27ms', '4.21ms', '4.20ms' ]
+Trials pr iteration: 50000
+
+Load: 783.20ms
+[ '792.00ms', '780.00ms', '774.00ms', '786.00ms', '784.00ms' ]
+--------------------------------
+--------------------------------
+Parsing results for kaffpa(eco)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for kaffpa(eco)
+--------------------------------
+Partitioning
+
+Avg: 194737.00ms
+[
+  '193448.00ms',
+  '195303.00ms',
+  '193666.00ms',
+  '196009.00ms',
+  '195259.00ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 810.60ms
+[ '752.63ms', '831.65ms', '813.84ms', '837.70ms', '817.16ms' ]
+
+AvgWeights: 1516522 weights
+[
+  '1516522 weights',
+  '1516522 weights',
+  '1516522 weights',
+  '1516522 weights',
+  '1516522 weights'
+]
+
+AvgSize: 33.1969 MB
+[
+  '33.1969 MB',
+  '33.1969 MB',
+  '33.1969 MB',
+  '33.1969 MB',
+  '33.1969 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.35ms
+[ '4.36ms', '4.44ms', '4.28ms', '4.34ms', '4.31ms' ]
+Trials pr iteration: 50000
+
+Load: 752.20ms
+[ '757.00ms', '752.00ms', '752.00ms', '750.00ms', '750.00ms' ]
+--------------------------------
+--------------------------------
+Parsing results for kaffpa(strong)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for kaffpa(strong)
+--------------------------------
+Partitioning
+
+Avg: 640225.60ms
+[
+  '644281.00ms',
+  '640997.00ms',
+  '640877.00ms',
+  '632163.00ms',
+  '642810.00ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 849.72ms
+[ '858.94ms', '885.72ms', '826.09ms', '912.10ms', '765.73ms' ]
+
+AvgWeights: 1361142 weights
+[
+  '1361142 weights',
+  '1361142 weights',
+  '1361142 weights',
+  '1361142 weights',
+  '1361142 weights'
+]
+
+AvgSize: 31.94419 MB
+[
+  '31.94419 MB',
+  '31.94419 MB',
+  '31.94419 MB',
+  '31.94419 MB',
+  '31.94419 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.15ms
+[ '4.17ms', '4.10ms', '4.18ms', '4.15ms', '4.17ms' ]
+Trials pr iteration: 50000
+
+Load: 736.80ms
+[ '734.00ms', '733.00ms', '745.00ms', '739.00ms', '733.00ms' ]
+--------------------------------
+--------------------------------
+Parsing results for metis(fast)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+run.sh: line 29: 16320 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 16320 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+12703
+largest cell number is 12702
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 5, 13, 24, 38, 
+Updating metric
+Metric update took 733 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/partitioner.js:138:9)
+    at async Object.partitionersTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/partitioner.js:180:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:34:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '12703\n' +
+    'largest cell number is 12702\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 5, 13, 24, 38, \n' +
+    'Updating metric\n' +
+    'Metric update took 733 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 16320 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for metis(fast)
+--------------------------------
+Partitioning
+
+Avg: 11140.00ms
+[
+  '10736.00ms',
+  '11395.00ms',
+  '11407.00ms',
+  '11247.00ms',
+  '10915.00ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 875.46ms
+[ '838.44ms', '871.83ms', '856.52ms', '918.71ms', '891.80ms' ]
+
+AvgWeights: 1359418 weights
+[
+  '1359418 weights',
+  '1359418 weights',
+  '1359418 weights',
+  '1359418 weights',
+  '1359418 weights'
+]
+
+AvgSize: 31.596988 MB
+[
+  '31.596988 MB',
+  '31.596988 MB',
+  '31.596988 MB',
+  '31.596988 MB',
+  '31.596988 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.08ms
+[ '4.12ms', '4.07ms', '4.08ms', '4.03ms' ]
+Trials pr iteration: 50000
+
+Load: 732.20ms
+[ '731.00ms', '735.00ms', '733.00ms', '730.00ms', '732.00ms' ]
+--------------------------------
+--------------------------------
+Parsing results for metis(strong)
+--------------------------------
+Partitioning(1/5)
+Preparse(1/5)
+Customize(1/5)
+Query(1/5)
+Partitioning(2/5)
+Preparse(2/5)
+Customize(2/5)
+Query(2/5)
+Partitioning(3/5)
+Preparse(3/5)
+Customize(3/5)
+Query(3/5)
+Partitioning(4/5)
+Preparse(4/5)
+Customize(4/5)
+Query(4/5)
+Partitioning(5/5)
+Preparse(5/5)
+Customize(5/5)
+Query(5/5)
+--------------------------------
+Results for metis(strong)
+--------------------------------
+Partitioning
+
+Avg: 1570873.20ms
+[
+  '1559221.00ms',
+  '1588968.00ms',
+  '1572607.00ms',
+  '1568751.00ms',
+  '1564819.00ms'
+]
+--------------------------------
+Customization
+
+AvgTime: 811.10ms
+[ '765.55ms', '776.10ms', '803.55ms', '860.91ms', '849.38ms' ]
+
+AvgWeights: 1185559 weights
+[
+  '1185559 weights',
+  '1185559 weights',
+  '1185559 weights',
+  '1185559 weights',
+  '1185559 weights'
+]
+
+AvgSize: 30.185816999999997 MB
+[
+  '30.185817 MB',
+  '30.185817 MB',
+  '30.185817 MB',
+  '30.185817 MB',
+  '30.185817 MB'
+]
+--------------------------------
+Query
+
+Avg: 4.01ms
+[ '3.90ms', '3.87ms', '3.89ms', '3.83ms', '4.54ms' ]
+Trials pr iteration: 50000
+
+Load: 733.00ms
+[ '723.00ms', '700.00ms', '714.00ms', '731.00ms', '797.00ms' ]
+--------------------------------
+✨  Done in 31809.40s.

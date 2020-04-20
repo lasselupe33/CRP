@@ -13,8 +13,10 @@ let stream: Writable
 let map: string
 let folder: string
 let updateFilePath: string
+let verticesPath: string
 
-let currentRun = 0
+const intervalInMinutes = 2
+const currentTime = 0
 const data: {
   topLeft: string[]
   topRight: string[]
@@ -40,7 +42,7 @@ function runQueryTest (): void {
 
     writeToCRP(stream, 'test')
     writeToCRP(stream, environment['--skipVisualise'] ? 'no' : 'yes')
-    writeToCRP(stream, '1') // Only run query once
+    writeToCRP(stream, String(currentTime))
     writeToCRP(stream, 'no')
     writeToCRP(stream, 'no')
   }, 100)
@@ -52,52 +54,31 @@ function runQueryTest (): void {
 function onStreamedToken (token: string): void {
   switch (token) {
     case '[PREPARED]':
-      if (environment['--skipExtractingCorners']) {
-        runQueryTest()
-      } else {
-        writeToCRP(stream, 'extractEdges')
-        writeToCRP(stream, String(environment['--verticesToExtract'] || environment['--testAmount']))
-      }
+      deleteFile(verticesPath)
+      writeToCRP(stream, 'extractEdges')
+      writeToCRP(stream, String(environment['--verticesToExtract'] || environment['--testAmount']))
       break
 
     case '[FINISHED]':
-      if (environment['--skipExtractingCorners'] && currentRun === 0) {
-        currentRun++
+      if (!fs.existsSync(verticesPath)) {
+        fs.ensureDirSync(path.dirname(verticesPath))
+        fs.writeFileSync(verticesPath, JSON.stringify(data, null, 2))
       }
 
-      if (currentRun === 1) {
-        deleteFile(updateFilePath)
-        // update metric
-        writeToCRP(stream, 'generateTraffic')
-        writeToCRP(stream, String(environment['--testAmount']))
-        writeToCRP(stream, '1')
-        writeToCRP(stream, updateFilePath)
-        writeToCRP(stream, environment['--skipExtractingCorners'] ? 'no' : 'yes')
+      // update metric
+      writeToCRP(stream, 'generateTraffic')
+      writeToCRP(stream, String(environment['--testAmount']))
+      writeToCRP(stream, String(currentTime))
+      writeToCRP(stream, updateFilePath)
+      writeToCRP(stream, 'yes')
 
-        if (!environment['--skipExtractingCorners']) {
-          generatePairs(folder, environment['--testAmount']).then((pairs) => {
-            for (let i = 0; i < pairs.length; i++) {
-              writeToCRP(stream, pairs[i].src)
-              writeToCRP(stream, pairs[i].dest)
-            }
-          })
+      generatePairs(folder, environment['--testAmount']).then((pairs) => {
+        for (let i = 0; i < pairs.length; i++) {
+          writeToCRP(stream, pairs[i].src)
+          writeToCRP(stream, pairs[i].dest)
         }
-      } else if (currentRun === 2) {
-        deleteFile(updateFilePath)
-        // Tmp :-)
-        writeToCRP(stream, 'generateTraffic')
-        writeToCRP(stream, String(environment['--testAmount']))
-        writeToCRP(stream, '6')
-        writeToCRP(stream, updateFilePath)
-        writeToCRP(stream, 'no')
-      } else if (currentRun === 3) {
-        if (environment['--exitOnEnd']) {
-          writeToCRP(stream, 'exit')
-          writeToCRP(stream, '')
-        }
-      }
+      })
 
-      currentRun++
       break
   }
 }
@@ -161,6 +142,7 @@ export async function trafficTest (_folder: string, _map: string): Promise<void>
   setCtx({ onStreamedToken, handleToken, onEnd, onStart: VisualiserCallbacks.onStart })
   folder = _folder
   map = _map
+  verticesPath = resolvePath(['experiments', 'traffic', `vertices.${folder}.json`])
   updateFilePath = resolvePath(['data', folder, `trafficUpdate.${environment['--metric']}`])
   await cClient(folder, map, setStream)
 }

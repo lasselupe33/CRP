@@ -1,0 +1,1642 @@
+yarn run v1.22.4
+$ cd lib && node ./client.js --max_old_space_size=4096 --folder=denmark --experiment=overlay --partitioner=metis --pconfig=strong --testAmount=20000
+------------------------------------------------------------
+Parsing results for L-config 1024
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+run.sh: line 29: 25348 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 25348 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+3176
+largest cell number is 3175
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 12, 
+Updating metric
+Metric update took 581 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:181:9)
+    at async Object.overlayTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:232:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:37:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '3176\n' +
+    'largest cell number is 3175\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 12, \n' +
+    'Updating metric\n' +
+    'Metric update took 581 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 25348 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+------------------------------------------------------------
+Results for L-config 1024
+------------------------------------------------------------
+Partitioning
+
+Avg: 530240.00ms
+[ '544543.00ms', '515937.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73864.50ms
+[ '78870.00ms', '68859.00ms' ]
+
+Avg. overlay size: 0.77534 MB
+[ '0.77534 MB', '0.77534 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1201.26ms
+[ '1228.63ms', '1173.89ms' ]
+
+AvgWeights: 348454 weights
+[ '348454 weights', '348454 weights' ]
+
+Avg weights size dist: 24.075719 MB
+[ '24.075719 MB', '24.075719 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 6.89ms
+[ '6.89ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 618.00ms
+[ '655.00ms', '581.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 4096
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 4096
+------------------------------------------------------------
+Partitioning
+
+Avg: 261226.50ms
+[ '257413.00ms', '265040.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 68427.50ms
+[ '68247.00ms', '68608.00ms' ]
+
+Avg. overlay size: 0.324835 MB
+[ '0.324835 MB', '0.324835 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 2175.69ms
+[ '2103.09ms', '2248.29ms' ]
+
+AvgWeights: 232099 weights
+[ '232099 weights', '232099 weights' ]
+
+Avg weights size dist: 23.500954 MB
+[ '23.500954 MB', '23.500954 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 11.50ms
+[ '11.60ms', '11.40ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 571.50ms
+[ '567.00ms', '576.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 16384
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 16384
+------------------------------------------------------------
+Partitioning
+
+Avg: 247086.00ms
+[ '240661.00ms', '253511.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 68552.00ms
+[ '68194.00ms', '68910.00ms' ]
+
+Avg. overlay size: 0.11987 MB
+[ '0.11987 MB', '0.11987 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 3957.68ms
+[ '3917.59ms', '3997.77ms' ]
+
+AvgWeights: 139600 weights
+[ '139600 weights', '139600 weights' ]
+
+Avg weights size dist: 23.020958 MB
+[ '23.020958 MB', '23.020958 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 28.75ms
+[ '29.00ms', '28.50ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 558.00ms
+[ '557.00ms', '559.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 65536:1024
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+run.sh: line 29: 26076 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 26076 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+3176
+largest cell number is 3175
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 6, 18, 
+Updating metric
+Metric update took 635 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:181:9)
+    at async Object.overlayTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:232:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:37:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '3176\n' +
+    'largest cell number is 3175\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 6, 18, \n' +
+    'Updating metric\n' +
+    'Metric update took 635 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 26076 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 65536:1024
+------------------------------------------------------------
+Partitioning
+
+Avg: 515198.50ms
+[ '510102.00ms', '520295.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 68564.00ms
+[ '68622.00ms', '68506.00ms' ]
+
+Avg. overlay size: 0.813033 MB
+[ '0.813033 MB', '0.813033 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1268.48ms
+[ '1316.51ms', '1220.45ms' ]
+
+AvgWeights: 687568 weights
+[ '687568 weights', '687568 weights' ]
+
+Avg weights size dist: 26.7958 MB
+[ '26.7958 MB', '26.7958 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 5.19ms
+[ '5.19ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 634.50ms
+[ '635.00ms', '634.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 262144:1024
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 262144:1024
+------------------------------------------------------------
+Partitioning
+
+Avg: 511365.50ms
+[ '517046.00ms', '505685.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 68929.00ms
+[ '68901.00ms', '68957.00ms' ]
+
+Avg. overlay size: 0.843662 MB
+[ '0.843662 MB', '0.843662 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1299.60ms
+[ '1326.41ms', '1272.78ms' ]
+
+AvgWeights: 771260 weights
+[ '771260 weights', '771260 weights' ]
+
+Avg weights size dist: 27.290778 MB
+[ '27.290778 MB', '27.290778 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 5.28ms
+[ '5.36ms', '5.20ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 633.50ms
+[ '633.00ms', '634.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 262144:4096
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 262144:4096
+------------------------------------------------------------
+Partitioning
+
+Avg: 268943.00ms
+[ '259181.00ms', '278705.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 68189.00ms
+[ '68468.00ms', '67910.00ms' ]
+
+Avg. overlay size: 0.34273 MB
+[ '0.34273 MB', '0.34273 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 2268.53ms
+[ '2283.32ms', '2253.73ms' ]
+
+AvgWeights: 501046 weights
+[ '501046 weights', '501046 weights' ]
+
+Avg weights size dist: 25.554552 MB
+[ '25.554552 MB', '25.554552 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 10.90ms
+[ '10.80ms', '11.00ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 612.00ms
+[ '614.00ms', '610.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 1048576:4096
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 1048576:4096
+------------------------------------------------------------
+Partitioning
+
+Avg: 273016.00ms
+[ '272463.00ms', '273569.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 68407.00ms
+[ '68303.00ms', '68511.00ms' ]
+
+Avg. overlay size: 0.361239 MB
+[ '0.361239 MB', '0.361239 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 2253.28ms
+[ '2300.30ms', '2206.26ms' ]
+
+AvgWeights: 540976 weights
+[ '540976 weights', '540976 weights' ]
+
+Avg weights size dist: 25.746789 MB
+[ '25.746789 MB', '25.746789 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 11.35ms
+[ '11.40ms', '11.30ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 616.50ms
+[ '615.00ms', '618.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 2097152:16384:128
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+run.sh: line 29: 27487 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 27487 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+25407
+largest cell number is 25406
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 1, 9, 24, 
+Updating metric
+Metric update took 909 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:181:9)
+    at async Object.overlayTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:232:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:37:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '25407\n' +
+    'largest cell number is 25406\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 1, 9, 24, \n' +
+    'Updating metric\n' +
+    'Metric update took 909 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 27487 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 2097152:16384:128
+------------------------------------------------------------
+Partitioning
+
+Avg: 3499263.50ms
+[ '3450947.00ms', '3547580.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 74248.00ms
+[ '74561.00ms', '73935.00ms' ]
+
+Avg. overlay size: 4.219112 MB
+[ '4.219112 MB', '4.219112 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 785.33ms
+[ '795.06ms', '775.60ms' ]
+
+AvgWeights: 2219663 weights
+[ '2219663 weights', '2219663 weights' ]
+
+Avg weights size dist: 36.923516 MB
+[ '36.923516 MB', '36.923516 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.79ms
+[ '4.79ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 906.00ms
+[ '909.00ms', '903.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 1048576:16384:256
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 1048576:16384:256
+------------------------------------------------------------
+Partitioning
+
+Avg: 1731341.50ms
+[ '1737857.00ms', '1724826.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 74082.00ms
+[ '73516.00ms', '74648.00ms' ]
+
+Avg. overlay size: 2.373078 MB
+[ '2.373078 MB', '2.373078 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 935.40ms
+[ '904.75ms', '966.05ms' ]
+
+AvgWeights: 1522763 weights
+[ '1522763 weights', '1522763 weights' ]
+
+Avg weights size dist: 32.464362 MB
+[ '32.464362 MB', '32.464362 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.76ms
+[ '4.74ms', '4.78ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 802.00ms
+[ '806.00ms', '798.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 524288:16384:512
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 524288:16384:512
+------------------------------------------------------------
+Partitioning
+
+Avg: 903109.00ms
+[ '904287.00ms', '901931.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73337.50ms
+[ '73415.00ms', '73260.00ms' ]
+
+Avg. overlay size: 1.397952 MB
+[ '1.397952 MB', '1.397952 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1136.46ms
+[ '1194.19ms', '1078.73ms' ]
+
+AvgWeights: 1107242 weights
+[ '1107242 weights', '1107242 weights' ]
+
+Avg weights size dist: 29.708764 MB
+[ '29.708764 MB', '29.708764 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 5.13ms
+[ '5.15ms', '5.11ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 720.50ms
+[ '722.00ms', '719.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 1048576:32768:1024
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+run.sh: line 29: 29133 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 29133 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+3176
+largest cell number is 3175
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 2, 9, 21, 
+Updating metric
+Metric update took 697 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:181:9)
+    at async Object.overlayTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:232:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:37:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '3176\n' +
+    'largest cell number is 3175\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 2, 9, 21, \n' +
+    'Updating metric\n' +
+    'Metric update took 697 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 29133 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+run.sh: line 29: 29364 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 29364 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+3176
+largest cell number is 3175
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 2, 9, 21, 
+Updating metric
+Metric update took 698 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:181:9)
+    at async Object.overlayTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:232:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:37:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '3176\n' +
+    'largest cell number is 3175\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 2, 9, 21, \n' +
+    'Updating metric\n' +
+    'Metric update took 698 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 29364 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+------------------------------------------------------------
+Results for L-config 1048576:32768:1024
+------------------------------------------------------------
+Partitioning
+
+Avg: 572193.50ms
+[ '572747.00ms', '571640.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 72995.00ms
+[ '73592.00ms', '72398.00ms' ]
+
+Avg. overlay size: 0.900853 MB
+[ '0.900853 MB', '0.900853 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1410.55ms
+[ '1219.25ms', '1601.86ms' ]
+
+AvgWeights: 954632 weights
+[ '954632 weights', '954632 weights' ]
+
+Avg weights size dist: 28.656092 MB
+[ '28.656092 MB', '28.656092 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 0.00ms
+[]
+Trials pr iteration: 20000
+
+Metric load time: 697.50ms
+[ '697.00ms', '698.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 524288:32768:2048:128
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 524288:32768:2048:128
+------------------------------------------------------------
+Partitioning
+
+Avg: 3596969.00ms
+[ '3583275.00ms', '3610663.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 76157.00ms
+[ '78173.00ms', '74141.00ms' ]
+
+Avg. overlay size: 3.915763 MB
+[ '3.915763 MB', '3.915763 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 800.70ms
+[ '771.92ms', '829.48ms' ]
+
+AvgWeights: 2183917 weights
+[ '2183917 weights', '2183917 weights' ]
+
+Avg weights size dist: 37.587246 MB
+[ '37.587246 MB', '37.587246 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.33ms
+[ '4.49ms', '4.16ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 907.00ms
+[ '933.00ms', '881.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 1048576:65536:4096:256
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 1048576:65536:4096:256
+------------------------------------------------------------
+Partitioning
+
+Avg: 1730748.00ms
+[ '1744331.00ms', '1717165.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73466.50ms
+[ '73459.00ms', '73474.00ms' ]
+
+Avg. overlay size: 2.400285 MB
+[ '2.400285 MB', '2.400285 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 786.11ms
+[ '824.45ms', '747.77ms' ]
+
+AvgWeights: 1669630 weights
+[ '1669630 weights', '1669630 weights' ]
+
+Avg weights size dist: 33.561631 MB
+[ '33.561631 MB', '33.561631 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 3.96ms
+[ '3.99ms', '3.93ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 821.00ms
+[ '822.00ms', '820.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 2097152:131072:8192:512
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 2097152:131072:8192:512
+------------------------------------------------------------
+Partitioning
+
+Avg: 880890.00ms
+[ '883461.00ms', '878319.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 75441.50ms
+[ '73513.00ms', '77370.00ms' ]
+
+Avg. overlay size: 1.560477 MB
+[ '1.560477 MB', '1.560477 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 979.95ms
+[ '945.89ms', '1014.01ms' ]
+
+AvgWeights: 1431391 weights
+[ '1431391 weights', '1431391 weights' ]
+
+Avg weights size dist: 31.843959 MB
+[ '31.843959 MB', '31.843959 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.44ms
+[ '4.48ms', '4.39ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 805.00ms
+[ '794.00ms', '816.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 4194304:262144:16384:1024
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+run.sh: line 29: 31549 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 31549 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+3176
+largest cell number is 3175
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 0, 4, 12, 24, 
+Updating metric
+Metric update took 749 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:181:9)
+    at async Object.overlayTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:232:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:37:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '3176\n' +
+    'largest cell number is 3175\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 0, 4, 12, 24, \n' +
+    'Updating metric\n' +
+    'Metric update took 749 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 31549 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+------------------------------------------------------------
+Results for L-config 4194304:262144:16384:1024
+------------------------------------------------------------
+Partitioning
+
+Avg: 540037.00ms
+[ '537969.00ms', '542105.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 76503.50ms
+[ '76778.00ms', '76229.00ms' ]
+
+Avg. overlay size: 0.960036 MB
+[ '0.960036 MB', '0.960036 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1376.14ms
+[ '1362.00ms', '1390.28ms' ]
+
+AvgWeights: 1119714 weights
+[ '1119714 weights', '1119714 weights' ]
+
+Avg weights size dist: 29.148602 MB
+[ '29.148602 MB', '29.148602 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 5.75ms
+[ '5.75ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 752.50ms
+[ '756.00ms', '749.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 524288:65536:8192:1024:128
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 524288:65536:8192:1024:128
+------------------------------------------------------------
+Partitioning
+
+Avg: 3513297.50ms
+[ '3392641.00ms', '3633954.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 75052.00ms
+[ '75373.00ms', '74731.00ms' ]
+
+Avg. overlay size: 3.928251 MB
+[ '3.928251 MB', '3.928251 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 755.31ms
+[ '732.79ms', '777.82ms' ]
+
+AvgWeights: 2282687 weights
+[ '2282687 weights', '2282687 weights' ]
+
+Avg weights size dist: 38.445128 MB
+[ '38.445128 MB', '38.445128 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.06ms
+[ '4.09ms', '4.04ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 917.00ms
+[ '910.00ms', '924.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 1048576:131072:16384:2048:256
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 1048576:131072:16384:2048:256
+------------------------------------------------------------
+Partitioning
+
+Avg: 1718286.00ms
+[ '1711106.00ms', '1725466.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73611.00ms
+[ '74342.00ms', '72880.00ms' ]
+
+Avg. overlay size: 2.417701 MB
+[ '2.417701 MB', '2.417701 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 800.31ms
+[ '819.11ms', '781.51ms' ]
+
+AvgWeights: 1745180 weights
+[ '1745180 weights', '1745180 weights' ]
+
+Avg weights size dist: 34.217219 MB
+[ '34.217219 MB', '34.217219 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 3.88ms
+[ '3.88ms', '3.89ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 837.00ms
+[ '831.00ms', '843.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 2097152:262144:32768:4096:512
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 2097152:262144:32768:4096:512
+------------------------------------------------------------
+Partitioning
+
+Avg: 892494.00ms
+[ '880144.00ms', '904844.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73733.00ms
+[ '73362.00ms', '74104.00ms' ]
+
+Avg. overlay size: 1.585441 MB
+[ '1.585441 MB', '1.585441 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1007.04ms
+[ '1019.17ms', '994.92ms' ]
+
+AvgWeights: 1489562 weights
+[ '1489562 weights', '1489562 weights' ]
+
+Avg weights size dist: 32.324634 MB
+[ '32.324634 MB', '32.324634 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.58ms
+[ '4.59ms', '4.58ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 818.00ms
+[ '827.00ms', '809.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 4194304:524288:65536:8192:1024
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+run.sh: line 29: 33662 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+test errored Error: Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist
+run.sh: line 29: 33662 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+3176
+largest cell number is 3175
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 0, 3, 9, 18, 30, 
+Updating metric
+Metric update took 743 ms.
+[PREPARED] Client ready
+
+Should visualization data be outputted during test?
+Please specify amount of times to run each algorithm.
+Will fixed vertices be provided by JavaScript client?
+Should Dijkstra queiries by run for comparison?
+Running parallel queries
+    at makeError (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/lib/error.js:58:11)
+    at handlePromise (/Users/lasse.felskov/Code/SWU/Bachelor/node_modules/execa/index.js:114:26)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Object.cClient (/Users/lasse.felskov/Code/SWU/Bachelor/lib/crp/cClient.js:26:5)
+    at async designPoint (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:181:9)
+    at async Object.overlayTest (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client/experiments/overlay.js:232:9)
+    at async client (/Users/lasse.felskov/Code/SWU/Bachelor/lib/client.js:37:13) {
+  shortMessage: 'Command failed with exit code 137: sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  command: 'sh run.sh client /Users/lasse.felskov/Code/SWU/Bachelor/data/denmark denmark-latest.osm.bz2 dist',
+  exitCode: 137,
+  signal: undefined,
+  signalDescription: undefined,
+  stdout: 'Reading graph\n' +
+    'Reading graph with 3157315 vertices and 6423635 edges\n' +
+    '3176\n' +
+    'largest cell number is 3175\n' +
+    'Read graph with 3157315 vertices and 6423635 edges\n' +
+    'Reading overlay graph\n' +
+    'offsets 0, 0, 3, 9, 18, 30, \n' +
+    'Updating metric\n' +
+    'Metric update took 743 ms.\n' +
+    '[PREPARED] Client ready\n' +
+    '\n' +
+    'Should visualization data be outputted during test?\n' +
+    'Please specify amount of times to run each algorithm.\n' +
+    'Will fixed vertices be provided by JavaScript client?\n' +
+    'Should Dijkstra queiries by run for comparison?\n' +
+    'Running parallel queries',
+  stderr: 'run.sh: line 29: 33662 Killed: 9               ./deploy/client $2/$3.graph.preparsed $2/$3.overlay $2/metrics/$4 $4',
+  failed: true,
+  timedOut: false,
+  isCanceled: false,
+  killed: false
+}
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 4194304:524288:65536:8192:1024
+------------------------------------------------------------
+Partitioning
+
+Avg: 581480.50ms
+[ '595906.00ms', '567055.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73365.00ms
+[ '73532.00ms', '73198.00ms' ]
+
+Avg. overlay size: 1.00236 MB
+[ '1.00236 MB', '1.00236 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1276.37ms
+[ '1215.16ms', '1337.57ms' ]
+
+AvgWeights: 1291463 weights
+[ '1291463 weights', '1291463 weights' ]
+
+Avg weights size dist: 30.513299 MB
+[ '30.513299 MB', '30.513299 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 5.61ms
+[ '5.61ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 743.50ms
+[ '743.00ms', '744.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 262144:65536:16384:4096:1024:256
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 262144:65536:16384:4096:1024:256
+------------------------------------------------------------
+Partitioning
+
+Avg: 1702212.50ms
+[ '1672385.00ms', '1732040.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73840.00ms
+[ '73906.00ms', '73774.00ms' ]
+
+Avg. overlay size: 2.248377 MB
+[ '2.248377 MB', '2.248377 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 801.74ms
+[ '855.55ms', '747.94ms' ]
+
+AvgWeights: 1477287 weights
+[ '1477287 weights', '1477287 weights' ]
+
+Avg weights size dist: 32.49541 MB
+[ '32.49541 MB', '32.49541 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 3.94ms
+[ '3.94ms', '3.94ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 809.00ms
+[ '808.00ms', '810.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 524288:131072:32768:8192:2048:512
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 524288:131072:32768:8192:2048:512
+------------------------------------------------------------
+Partitioning
+
+Avg: 895721.00ms
+[ '903510.00ms', '887932.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73358.00ms
+[ '73377.00ms', '73339.00ms' ]
+
+Avg. overlay size: 1.417262 MB
+[ '1.417262 MB', '1.417262 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1053.22ms
+[ '1036.73ms', '1069.72ms' ]
+
+AvgWeights: 1328309 weights
+[ '1328309 weights', '1328309 weights' ]
+
+Avg weights size dist: 31.496193 MB
+[ '31.496193 MB', '31.496193 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.33ms
+[ '4.31ms', '4.35ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 791.50ms
+[ '788.00ms', '795.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 1048576:262144:65536:16384:4096:1024
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 1048576:262144:65536:16384:4096:1024
+------------------------------------------------------------
+Partitioning
+
+Avg: 585926.50ms
+[ '588087.00ms', '583766.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73896.50ms
+[ '74723.00ms', '73070.00ms' ]
+
+Avg. overlay size: 0.920256 MB
+[ '0.920256 MB', '0.920256 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 1214.37ms
+[ '1284.32ms', '1144.42ms' ]
+
+AvgWeights: 1161083 weights
+[ '1161083 weights', '1161083 weights' ]
+
+Avg weights size dist: 30.232699 MB
+[ '30.232699 MB', '30.232699 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 5.44ms
+[ '5.45ms', '5.42ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 739.00ms
+[ '742.00ms', '736.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 1048576:262144:65536:16384:4096:1024:256
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 1048576:262144:65536:16384:4096:1024:256
+------------------------------------------------------------
+Partitioning
+
+Avg: 1714805.50ms
+[ '1691438.00ms', '1738173.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 73546.50ms
+[ '72945.00ms', '74148.00ms' ]
+
+Avg. overlay size: 2.451328 MB
+[ '2.451328 MB', '2.451328 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 923.39ms
+[ '957.17ms', '889.62ms' ]
+
+AvgWeights: 1902173 weights
+[ '1902173 weights', '1902173 weights' ]
+
+Avg weights size dist: 35.485494 MB
+[ '35.485494 MB', '35.485494 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 3.73ms
+[ '3.73ms', '3.73ms' ]
+------------------------------------------------------------
+Parsing results for L-config 2097152:524288:131072:16384:2048:256:32
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 2097152:524288:131072:16384:2048:256:32
+------------------------------------------------------------
+Partitioning
+
+Avg: 16625609.50ms
+[ '16567297.00ms', '16683922.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 79732.00ms
+[ '79932.00ms', '79532.00ms' ]
+
+Avg. overlay size: 13.710614 MB
+[ '13.710614 MB', '13.710614 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 698.51ms
+[ '690.57ms', '706.45ms' ]
+
+AvgWeights: 6507694 weights
+[ '6507694 weights', '6507694 weights' ]
+
+Avg weights size dist: 66.631008 MB
+[ '66.631008 MB', '66.631008 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 5.10ms
+[ '5.04ms', '5.15ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 1616.00ms
+[ '1620.00ms', '1612.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 4194304:1048576:262144:32768:4096:512:64
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 4194304:1048576:262144:32768:4096:512:64
+------------------------------------------------------------
+Partitioning
+
+Avg: 7604260.50ms
+[ '7581207.00ms', '7627314.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 78208.50ms
+[ '79427.00ms', '76990.00ms' ]
+
+Avg. overlay size: 8.901063 MB
+[ '8.901063 MB', '8.901063 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 782.17ms
+[ '776.91ms', '787.42ms' ]
+
+AvgWeights: 5166358 weights
+[ '5166358 weights', '5166358 weights' ]
+
+Avg weights size dist: 57.601547 MB
+[ '57.601547 MB', '57.601547 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 4.85ms
+[ '4.82ms', '4.87ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 1431.00ms
+[ '1428.00ms', '1434.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 4194304:1048576:262144:65536:8192:1024:128
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 4194304:1048576:262144:65536:8192:1024:128
+------------------------------------------------------------
+Partitioning
+
+Avg: 3464925.50ms
+[ '3515396.00ms', '3414455.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 77471.00ms
+[ '79687.00ms', '75255.00ms' ]
+
+Avg. overlay size: 5.08564 MB
+[ '5.08564 MB', '5.08564 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 839.76ms
+[ '874.35ms', '805.16ms' ]
+
+AvgWeights: 3588699 weights
+[ '3588699 weights', '3588699 weights' ]
+
+Avg weights size dist: 46.530343 MB
+[ '46.530343 MB', '46.530343 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 3.96ms
+[ '3.84ms', '4.09ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 1163.50ms
+[ '1191.00ms', '1136.00ms' ]
+------------------------------------------------------------
+------------------------------------------------------------
+Parsing results for L-config 4194304:1048576:262144:65536:16384:2048:256
+------------------------------------------------------------
+Partitioning(1/2) - metis(strong)
+Preparse(1/2)
+Customize(1/2)
+Query(1/2)
+Partitioning(2/2) - metis(strong)
+Preparse(2/2)
+Customize(2/2)
+Query(2/2)
+------------------------------------------------------------
+Results for L-config 4194304:1048576:262144:65536:16384:2048:256
+------------------------------------------------------------
+Partitioning
+
+Avg: 1729228.00ms
+[ '1711232.00ms', '1747224.00ms' ]
+------------------------------------------------------------
+Preprocessing
+
+Avg. time: 74390.00ms
+[ '74602.00ms', '74178.00ms' ]
+
+Avg. overlay size: 2.956118 MB
+[ '2.956118 MB', '2.956118 MB' ]
+------------------------------------------------------------
+Customization
+
+AvgTime: 894.35ms
+[ '921.06ms', '867.64ms' ]
+
+AvgWeights: 2455291 weights
+[ '2455291 weights', '2455291 weights' ]
+
+Avg weights size dist: 38.384546 MB
+[ '38.384546 MB', '38.384546 MB' ]
+------------------------------------------------------------
+Query
+
+Avg: 3.77ms
+[ '4.01ms', '3.54ms' ]
+Trials pr iteration: 20000
+
+Metric load time: 967.50ms
+[ '976.00ms', '959.00ms' ]
+------------------------------------------------------------

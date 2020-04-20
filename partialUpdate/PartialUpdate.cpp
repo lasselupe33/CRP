@@ -54,8 +54,8 @@ int main(int argc, char* argv[]){
     
     if (metricType == "all") {
 		for (auto &pair : costFunctions) {
-			CRP::UpdateIO::writeUpdatedWeights(updates, graph, overlayGraph, overlayWeights, outputPath, *std::move(pair.second));
-		}
+            CRP::UpdateIO::updateWeights(updates, graph, overlayGraph, overlayWeights, outputPath, *std::move(pair.second));
+        }
 	} else {
 		auto it = costFunctions.find(metricType);
 		if (it == costFunctions.end()) {

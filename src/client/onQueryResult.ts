@@ -4,12 +4,14 @@ let queryResult: string = ''
 const START_STRING = '[TO_CLIENT_BEGIN]'
 const PAUSE_STRING = '[TO_CLIENT_END]'
 const END_STRING = '[END_CLIENT]'
+const FINISH_STRING = '[FINISHED]'
 
 interface Context {
   onStart?: (print: boolean) => void | Promise<void>
   onEnd?: (data: string) => void | Promise<void>
   handleToken?: (token: string, delimiter?: string) => void
   onStreamedToken?: (token: string, delimiter?: string) => void
+  disableLogging?: boolean
 }
 
 let ctx: Context = {}
@@ -30,6 +32,7 @@ function onToken (print: boolean, token: string, delimiter: string): void {
       return
 
     case END_STRING:
+    case FINISH_STRING:
       if (print) {
         return
       }
@@ -42,7 +45,7 @@ function onToken (print: boolean, token: string, delimiter: string): void {
     if (ctx.handleToken && !print && token !== '') {
       ctx.handleToken(token, delimiter)
     }
-  } else if (print) {
+  } else if (print && !ctx.disableLogging) {
     process.stdout.write(`${token}${delimiter}`)
   }
 }
@@ -108,7 +111,7 @@ export function onQueryResult (chunk: Buffer | string): void {
 
   // In case we've recieved the signal from C++ that we've gotten all relevant
   // data for an activity, then handle it now!
-  if (chunk.includes(END_STRING)) {
+  if (chunk.includes(END_STRING) || chunk.includes(FINISH_STRING)) {
     parseQueryResult()
 
     if (ctx.onEnd) {

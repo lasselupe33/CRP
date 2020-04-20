@@ -5,12 +5,12 @@ import { Writable } from 'stream'
 import fs = require('fs-extra')
 
 const delimiter = '------------------------------------------------------------'
-const scales = [2 ** 16, 2 ** 17, 2 ** 18, 2 ** 19, 2 ** 20, 2 ** 21, 2 ** 22, 2 ** 23, 2 ** 24, 2 ** 25]
+const scales = [2 ** 12, 2 ** 13, 2 ** 14, 2 ** 15, 2 ** 16, 2 ** 17, 2 ** 18, 2 ** 19, 2 ** 20, 2 ** 21, 2 ** 22, 2 ** 23, 2 ** 24, 2 ** 25]
 
 const TRIALS_PER_DESIGNPOINT = (vertices: number): number => {
   const max = Math.log2(scales[scales.length - 1])
   const min = Math.log2(scales[0])
-  return Math.round((max - Math.log2(vertices)) / (max - min) * 7) + 3
+  return Math.round((max - Math.log2(vertices)) / (max - min) * 4) + 1
 }
 
 let currScaleIndex = 0
@@ -29,6 +29,8 @@ const schema = {
   preparse: {
     times: [] as number[],
     avgTime: 0,
+    edges: 0,
+    vertices: 0,
     overlaySizesInMB: [] as number[],
     avgOverlaySizeInMB: 0
   },
@@ -121,8 +123,14 @@ function onEnd (data: string): void {
     }
 
     case 'customize': {
+      const mapString = /^Reading graph with (.*) vertices and (.*) edges$/gm.exec(data)
       const timeString = /^Took (.*) ms$/gm.exec(data)
       const weightString = /^Amount of weights = (.*)$/gm.exec(data)
+
+      if (mapString && mapString[1] && mapString[2]) {
+        meta[currScaleIndex].preparse.vertices = Number(mapString[1])
+        meta[currScaleIndex].preparse.edges = Number(mapString[2])
+      }
 
       if (timeString && timeString[1]) {
         meta[currScaleIndex].customization.times.push(Number(timeString[1]))
@@ -207,6 +215,8 @@ async function designPoint (): Promise<void> {
   console.log(delimiter)
 
   console.log('Preprocessing')
+  console.log(`Vertices=${meta[currScaleIndex].preparse.vertices}`)
+  console.log(`Edges=${meta[currScaleIndex].preparse.edges}`)
   console.log()
   console.log(`Avg. time: ${meta[currScaleIndex].preparse.avgTime.toFixed(2)}ms`)
   console.log(meta[currScaleIndex].preparse.times.map((it) => `${it.toFixed(2)}ms`))

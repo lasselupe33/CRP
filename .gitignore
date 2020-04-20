@@ -11,10 +11,7 @@ SConstruct
 run.sh
 
 experiments/visualiser/data.js
-experiments/traffic
-experiments/partition
-experiments/overlay
-experiments/scale
+experiments/**/*.json
 
 yarn-error.log
 .DS_Store

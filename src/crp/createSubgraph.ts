@@ -8,7 +8,7 @@ interface Options {
 }
 
 export async function createSubGraph (vertices: number, { withOutputStream = false }: Options = {}): Promise<{ folder: string, map: string }> {
-  const outputPath = resolvePath(['data', 'scale', `${vertices.toString()}v-${environment['--avgDegree']}avg`])
+  const outputPath = resolvePath(['data', 'scale', `${vertices.toString()}v-rand`])
   const mapName = 'generated.osm'
 
   // No need to attempt to recreate a subgraph that already exists..

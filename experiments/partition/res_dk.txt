@@ -1,0 +1,200 @@
+--------------------------------
+Results for buffoon(fast)
+--------------------------------
+Partitioning
+
+Avg: 67971.40ms
+Total: 203914.20ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 1026.78ms
+Total: 5133.90ms
+Weights: 1485257
+Size: 32.62129 MB
+--------------------------------
+Query
+
+Avg: 4.26ms
+Trials: 10000
+Total: 42597.00ms
+Load: 769.00ms
+--------------------------------
+--------------------------------
+Results for buffoon(eco)
+--------------------------------
+Partitioning
+
+Avg: 232953.67ms
+Total: 698861.00ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 811.86ms
+Total: 4059.28ms
+Weights: 1514249
+Size: 33.19716 MB
+--------------------------------
+Query
+
+Avg: 4.35ms
+Trials: 10000
+Total: 43532.00ms
+Load: 770.00ms
+--------------------------------
+--------------------------------
+Results for buffoon(strong)
+--------------------------------
+Partitioning
+
+Avg: 617772.00ms
+Total: 1853316.00ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 964.56ms
+Total: 4822.81ms
+Weights: 1331515
+Size: 31.509113 MB
+--------------------------------
+Query
+
+Avg: 4.21ms
+Trials: 10000
+Total: 42104.00ms
+Load: 755.00ms
+--------------------------------
+--------------------------------
+Results for kaffpa(fast)
+--------------------------------
+Partitioning
+
+Avg: 22645.13ms
+Total: 67935.40ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 860.26ms
+Total: 4301.30ms
+Weights: 1552173
+Size: 33.410378 MB
+--------------------------------
+Query
+
+Avg: 4.29ms
+Trials: 10000
+Total: 42880.00ms
+Load: 809.00ms
+--------------------------------
+--------------------------------
+Results for kaffpa(eco)
+--------------------------------
+Partitioning
+
+Avg: 201451.67ms
+Total: 604355.00ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 831.50ms
+Total: 4157.50ms
+Weights: 1516522
+Size: 33.1969 MB
+--------------------------------
+Query
+
+Avg: 4.45ms
+Trials: 10000
+Total: 44535.00ms
+Load: 761.00ms
+--------------------------------
+--------------------------------
+Results for kaffpa(strong)
+--------------------------------
+Partitioning
+
+Avg: 657582.67ms
+Total: 1972748.00ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 881.29ms
+Total: 4406.46ms
+Weights: 1361142
+Size: 31.94419 MB
+--------------------------------
+Query
+
+Avg: 4.02ms
+Trials: 10000
+Total: 40190.00ms
+Load: 773.00ms
+--------------------------------
+--------------------------------
+Results for metis(fast)
+--------------------------------
+Partitioning
+
+Avg: 10769.00ms
+Total: 32307.00ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 848.97ms
+Total: 4244.83ms
+Weights: 1359418
+Size: 31.596988 MB
+--------------------------------
+Query
+
+Avg: 4.03ms
+Trials: 10000
+Total: 40314.00ms
+Load: 754.00ms
+--------------------------------
+--------------------------------
+Results for metis(strong)
+--------------------------------
+Partitioning
+
+Avg: 1568085.33ms
+Total: 4704256.00ms
+--------------------------------
+Running metric independent phase 
+(Applying partition)
+--------------------------------
+Customization
+
+Avg: 856.91ms
+Total: 4284.57ms
+Weights: 1185559
+Size: 30.185817 MB
+--------------------------------
+Query
+
+Avg: 3.79ms
+Trials: 10000
+Total: 37876.00ms
+Load: 736.00ms
+--------------------------------
