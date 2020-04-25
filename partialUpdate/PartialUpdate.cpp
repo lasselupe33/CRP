@@ -20,8 +20,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-    if(argc != 6){
-        std::cout << "Usage: " << argv[0] << " path_to_graph path_to_overlay_graph path_to_weights path_to_update_file metric_type" << std::endl;
+    if(argc != 7){
+        std::cout << "Usage: " << argv[0] << " path_to_graph path_to_overlay_graph path_to_weights path_to_update_file metric_type id" << std::endl;
         return 1;
     }
 
@@ -30,6 +30,7 @@ int main(int argc, char* argv[]){
     string overlayWeightsFile(argv[3]);
     string updateFile(argv[4]);
     string metricType(argv[5]);
+    string id(argv[6]);
 
     CRP::Graph graph;
     CRP::OverlayGraph overlayGraph;
@@ -64,6 +65,7 @@ int main(int argc, char* argv[]){
 		CRP::UpdateIO::updateWeights(updates, graph, overlayGraph, overlayWeights, *std::move(it->second));
 	}
 
+    cout << "DONE_" + id << endl;
     return 0;
 }
 
