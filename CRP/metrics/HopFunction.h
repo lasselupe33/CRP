@@ -37,8 +37,8 @@ namespace CRP {
 /** Metric that counts the number of edges traversed. */
 class HopFunction : public CostFunction {
 public:
-	virtual weight getWeight(const EdgeAttributes& attributes, float multiplier = 1) const {
-		return 1 * multiplier;
+	virtual weight getWeight(const EdgeAttributes& attributes) const {
+		return 1;
 	}
 
 	virtual weight getTurnCosts(const Graph::TURN_TYPE turnType) const {

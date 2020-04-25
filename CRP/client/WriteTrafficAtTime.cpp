@@ -9,6 +9,7 @@
 
 #include "../timer.h"
 #include "../constants.h"
+#include "Experiments.h"
 
 #include <iostream>
 #include <memory>
@@ -26,6 +27,7 @@ using namespace std;
 
 struct PathData {
   int timeOffset;
+  double randOffset;
   CRP::QueryResult res;
 };
 
@@ -35,8 +37,13 @@ struct EdgeWithMeta {
   CRP::ForwardEdge edge;
 };
 
+set<CRP::index> alteredEdges;
 vector<PathData> carPaths;
+vector<CRP::index> emptyRes(0);
+PathData clientPath = {0, 0, {emptyRes, 0}};
+int iteration = 0;
 int carsToUpdate = 0;
+int amountOfCars;
 int carUsageInMeters = 10;
 float cutoff = 1.02;
 
@@ -155,8 +162,10 @@ EdgeWithMeta getEdgeAtCarPosition(const CRP::Graph &graph, CRP::QueryResult path
  * Iterates through all of our cars and determines which edge they're currently
  * at based on the passed time.
  */
-void populateEdgeVolumes(const CRP::Graph &graph, unordered_map<CRP::index, int> &edgeVolume, unordered_map<CRP::index, CRP::index> &edgeToBackwardEdge, int currentTime)
+void populateEdgeVolumes(const CRP::Graph &graph, unordered_map<CRP::index, double> &edgeVolume, unordered_map<CRP::index, CRP::index> &edgeToBackwardEdge, int currentTime)
 {
+  unordered_map<CRP::index, int> carsAtEdge;
+
   for (int i = 0; i < carPaths.size(); i++) {
     if (carPaths[i].res.pathWeight == 0) {
       continue;
@@ -169,22 +178,100 @@ void populateEdgeVolumes(const CRP::Graph &graph, unordered_map<CRP::index, int>
       continue;
     }
     
-    if (edgeVolume[edgeMeta.edgeIndex]) {
-      edgeVolume[edgeMeta.edgeIndex] += 1;
+    if (carsAtEdge[edgeMeta.edgeIndex]) {
+      carsAtEdge[edgeMeta.edgeIndex] += 1;
     } else {
-      edgeVolume[edgeMeta.edgeIndex] = 1;
+      carsAtEdge[edgeMeta.edgeIndex] = 1;
     }
 
     if (!edgeToBackwardEdge[edgeMeta.edgeIndex]) {
-      std::cout << edgeMeta.backwardEdgeIndex << std::endl;
       edgeToBackwardEdge[edgeMeta.edgeIndex] = edgeMeta.backwardEdgeIndex;
+    }
+  }
+
+  for (auto it = carsAtEdge.begin(); it != carsAtEdge.end(); ++it)
+  {
+    CRP::ForwardEdge edge = graph.getForwardEdge(it->first);
+    double multiplier = getMultiplierForEdge(edge, it->second);
+    if (multiplier > 1)
+    {
+      edgeVolume[it->first] = multiplier;
     }
   }
 }
 
+void ClientTest(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, int currentTime, int testAmount, bool randomRoute) {
+  CRP::PathUnpacker pathUnpacker(graph, overlayGraph, metrics);
+  CRP::CRPQuery query(graph, overlayGraph, metrics, pathUnpacker);
+
+  if (clientPath.res.path.size() == 0) {
+    std::vector<std::pair<CRP::index, CRP::index>> routeVertices;
+
+    if (randomRoute) {
+      std::mt19937 rand;
+      auto vertex_rand = std::bind(std::uniform_int_distribution<CRP::index>(0, graph.numberOfVertices() - 1),
+                                  std::mt19937(get_micro_time()));
+
+      routeVertices.push_back(std::make_pair(vertex_rand(), vertex_rand()));
+    } else {
+      GetEdgeRoutes(query, routeVertices, 1);
+    }
+
+    CRP::QueryResult baseRes = query.vertexQuery(routeVertices[0].first, routeVertices[0].second, 0);
+    clientPath = {currentTime, 0, baseRes};
+  }
+
+  EdgeWithMeta currentEdge = getEdgeAtCarPosition(graph, clientPath.res, currentTime - clientPath.timeOffset);
+  CRP::index currSrcIndex = currentEdge.edge.head;
+  CRP::index destIndex = clientPath.res.path[clientPath.res.path.size() - 1];
+
+  // In case we get here, this means that our journey has ended :-)
+  if (currSrcIndex == destIndex) {
+    std::cout << "[FINSINHED_JOURNEY]" << std::endl;
+    return;
+  }
+
+  CRP::index sum = 0;
+  CRP::QueryResult res;
+
+  for (int i = 0; i < testAmount; i++) {
+    long long start = get_micro_time();
+    res = query.vertexQuery(currSrcIndex, destIndex, 0);
+    long long end = get_micro_time();
+    sum += end - start;
+  }
+
+  // if (res.path.size() > 0)
+  // {
+  //   std::cout << "[CAR_PATH_START]" << std::endl;
+  //   for (CRP::index i = 0; i < res.path.size(); ++i)
+  //   {
+  //     CRP::Vertex v = graph.getVertex(res.path[i]);
+  //     std::cout << v.coord.lat << "," << v.coord.lon << " ";
+  //   }
+  //   std::cout << std::endl << "[CAR_PATH_END]" << std::endl;
+  // }
+
+  std::cout << "Remaining path " << res.path.size() << std::endl;
+
+  clientPath.timeOffset = currentTime;
+  clientPath.res = res;
+
+  if (res.path.size() == 0) {
+    std::cout << "[FINSINHED_JOURNEY]" << std::endl;
+    return;
+  }
+
+  sum /= 1000;
+  std::cout << std::setprecision(3);
+  std::cout << "Took " << sum << " ms. Avg = " << (double)sum / (double)testAmount << " ms." << std::endl;
+  std::cout << std::setprecision(16);
+}
+
 void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, std::string outputFilePath, int cars, int currentTime, bool withFixed)
 {
-  unordered_map<CRP::index, int> edgeVolume;
+  amountOfCars = cars;
+  unordered_map<CRP::index, double> edgeVolume;
   unordered_map<CRP::index, CRP::index> edgeToBackwardEdge;
 
   const CRP::Metric& costFunction = metrics[0];
@@ -193,22 +280,11 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
 
   // In case we haven't initialized our cars yet, do so now!
   if (carPaths.size() < cars) {
-    std::vector<std::pair<CRP::index, CRP::index>> queries(cars);
+    std::vector<std::pair<CRP::index, CRP::index>> queries;
 
     std::vector<CRP::index> indices;
     if (withFixed) {
-      for (int i = 0; i < cars; i++)
-      {
-        std::string srcIndexString;
-        std::getline(std::cin, srcIndexString);
-        CRP::index srcIndex = std::stoi(srcIndexString);
-
-        std::string destIndexString;
-        std::getline(std::cin, destIndexString);
-        CRP::index destIndex = std::stoi(destIndexString);
-
-        queries[i] = std::make_pair(srcIndex, destIndex);
-      }
+      GetEdgeRoutes(query, queries, cars);
     }
     std::mt19937 rand;
     auto vertex_rand = std::bind(std::uniform_int_distribution<CRP::index>(0, graph.numberOfVertices() - 1),
@@ -239,14 +315,15 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
         }
       }
 
-      carPaths.push_back({0, res});
+      double offset = (double)rand() / RAND_MAX * 15;
+      carPaths.push_back({0, offset, res});
 
-      if (i % (cars / (cars > 50000 ? 100 : 10)) == 0) {
+      if (i % (cars / (cars > 5000 ? 100 : 10)) == 0) {
         std::cout << " " << (i * 100) / cars << "%" << std::endl;
       }
     }
 
-    carsToUpdate = carPaths.size() * 0.9;
+    carsToUpdate = carPaths.size() * 0.1;
   } else {
     // ... else, if we're changing the current time, then let a subset of our
     // cars update their paths based on the current congestion (they're using
@@ -254,16 +331,19 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
     std::cout << "Updating " << carsToUpdate << " cars based on new traffic" << std::endl;
 
     for (int i = 0; i < carsToUpdate; i++) {
-      int toTravel = currentTime - carPaths[i].timeOffset;
+      if (carPaths[i].res.path.size() == 0) {
+        continue;
+      }
+
+      int toTravel = currentTime - carPaths[i].timeOffset + carPaths[i].randOffset;
       EdgeWithMeta atEdge = getEdgeAtCarPosition(graph, carPaths[i].res, toTravel);
       CRP::index source = atEdge.edge.head;
       CRP::index dest = carPaths[i].res.path.back();
 
       if (source == dest) {
-        vector<CRP::index> empty(0);
-        carPaths[i] = {currentTime, {empty,0}};
+        carPaths[i] = {currentTime, 0, {emptyRes,0}};
       } else {
-        carPaths[i] = {currentTime, query.vertexQuery(source, dest, 0)};
+        carPaths[i] = {currentTime, carPaths[i].randOffset, query.vertexQuery(source, dest, 0)};
       }
 
       if (i % (carsToUpdate / (carsToUpdate > 50000 ? 100 : 10)) == 0)
@@ -271,12 +351,11 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
         std::cout << (i * 100) / carsToUpdate << "%" << std::endl;
       }
     }
-
-    carsToUpdate *= 0.9;
   }
 
   std::cout << std::endl << "Populating edges with cars... ";
   populateEdgeVolumes(graph, edgeVolume, edgeToBackwardEdge, currentTime);
+
   std::cout << "altered " << edgeVolume.size() << " edges" << std::endl;
 
   // Write updated edge weights
@@ -286,25 +365,33 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
     return;
   }
   file << std::setprecision(16);
+  file << edgeVolume.size() << std::endl;
 
-  int max = 0;
   CRP::index maxId = 0;
   float maxCongestion = 0;
   for (auto it = edgeVolume.begin(); it != edgeVolume.end(); ++it)
   {
-    CRP::ForwardEdge edge = graph.getForwardEdge(it->first);
-    float multiplier = getMultiplierForEdge(edge, it->second);
-    float newWeight = costFunction.getWeight(edge.attributes, multiplier);
-    file << it->first << " " << newWeight << std::endl;
-    file << edgeToBackwardEdge[it->first] << " " << newWeight << std::endl;    
+    alteredEdges.insert(it->first);
+    file << it->first << " " << it->second << std::endl;
+    file << edgeToBackwardEdge[it->first] << " " << it->second << std::endl;    
 
-    if (it->second > max) {
-      max = it->second;
+    if (it->second > maxCongestion) {
       maxId = it->first;
-      maxCongestion = getMultiplierForEdge(edge, it->second);
+      maxCongestion = it->second;
     }
   }
 
+  if (iteration % 10 == 0) {
+    for (auto it = alteredEdges.begin(); it != alteredEdges.end(); ++it)
+    {
+      file << *it << " " << 1 << std::endl;
+      file << edgeToBackwardEdge[*it] << " " << 1 << std::endl;
+    }
+    alteredEdges.clear();
+  }
+
+
   file.close();
-  std::cout << "Max Volume at edge " << maxId << "=" << max << ". Congestion=" << maxCongestion << std::endl;
+  std::cout << "Max Volume at edge " << maxId << " at " << currentTime << " minutes. Congestion=" << maxCongestion << std::endl;
+  iteration++;
 }

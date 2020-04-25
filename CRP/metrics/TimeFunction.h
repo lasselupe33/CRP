@@ -35,7 +35,7 @@ namespace CRP {
 /** Metric that computes the approximate time needed to travel from s to t. Adapt average speeds if necessary. */
 class TimeFunction : public CostFunction {
 public:
-	virtual weight getWeight(const EdgeAttributes& attributes, float multiplier = 1) const {
+	virtual weight getWeight(const EdgeAttributes& attributes) const {
 		Speed speed = attributes.getSpeed();
 		if (speed == 0) {
 			switch (attributes.getStreetType()) {
@@ -94,7 +94,7 @@ public:
 		assert(length >= 0);
 		weight w = static_cast<weight>(3.6f * length / speed);
 
-		return (w > inf_weight) ? inf_weight : w * multiplier;
+		return (w > inf_weight) ? inf_weight : w;
 	}
 
 	virtual weight getTurnCosts(const Graph::TURN_TYPE turnType) const {

@@ -176,8 +176,7 @@ function onEnd (data: string): void {
   switch (phase) {
     case 'query-fixed':
     case 'query': {
-      console.log(data)
-      const timeString = /Bi Took (.*) ms. Avg = (.*) ms./gm.exec(data)
+      const timeString = /Par Took (.*) ms. Avg = (.*) ms./gm.exec(data)
       const dijkTimeString = /Dijkstra Took (.*) ms. Avg = (.*) ms./gm.exec(data)
       const correctnessString = /Correct: (.*)\/(.*)/gm.exec(data)
 

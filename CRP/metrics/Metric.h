@@ -143,8 +143,8 @@ public:
 	 * Returns the weight of the edge with given @a attributes.
 	 * @param attributes
 	 */
-	inline weight getWeight(const EdgeAttributes& attributes, float multiplier = 1) const {
-		return costFunction->getWeight(attributes, multiplier);
+	inline weight getWeight(const EdgeAttributes& attributes) const {
+		return costFunction->getWeight(attributes);
 	}
 
 	/**
@@ -185,6 +185,11 @@ public:
 
 	inline const std::vector<weight> getWeights() const {
 		return weights.getWeights();
+	}
+
+	static void setWeights(Metric &metric, std::vector<weight> &newWeights)
+	{
+		metric.weights.setWeights(metric.weights, newWeights);
 	}
 
 	/**

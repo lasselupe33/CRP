@@ -59,6 +59,11 @@ public:
 		return weights;
 	}
 
+	static void setWeights(OverlayWeights &ov, std::vector<weight> &newWeights)
+	{
+		ov.weights = newWeights;
+	}
+
 private:
 	std::vector<weight> weights;
 

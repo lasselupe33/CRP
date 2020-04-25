@@ -143,6 +143,11 @@ int main(int argc, char *argv[]) {
 			std::getline(std::cin, numCarsString);
 			CRP::count cars = std::stoi(numCarsString);
 
+			std::cout << "Please specify amount of times to reapply new metrics." << std::endl;
+			std::string updateString;
+			std::getline(std::cin, updateString);
+			int updateCount = std::stoi(updateString);
+
 			std::cout << "Please specify current time" << std::endl;
 			std::string timeString;
 			std::getline(std::cin, timeString);
@@ -158,6 +163,24 @@ int main(int argc, char *argv[]) {
 			bool withFixed = withFixedString == "yes" ? true : false;
 
 			WriteTrafficAtTime(graph, overlayGraph, metrics, outputFilePath, cars, time, withFixed);
+			UpdateWeights(graph, overlayGraph, metrics[0], metricType, outputFilePath, updateCount);
+		} else if (line == "trafficQuery") {
+			std::cout << "Please specify amount of times to run the client in this iteration" << std::endl;
+			std::string testAmountString;
+			std::getline(std::cin, testAmountString);
+			CRP::count testAmount = std::stoi(testAmountString);
+
+			std::cout << "Please specify current time" << std::endl;
+			std::string timeString;
+			std::getline(std::cin, timeString);
+			int time = std::stoi(timeString);
+
+			std::cout << "Will fixed vertices be provided by JavaScript client?" << std::endl;
+			std::string withFixedString;
+			std::getline(std::cin, withFixedString);
+			bool withFixed = withFixedString == "yes" ? true : false;
+
+			ClientTest(graph, overlayGraph, metrics, time, testAmount, !withFixed);
 		}
 
 		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;

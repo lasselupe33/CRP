@@ -261,6 +261,14 @@ public:
 		return backwardEdges[e];
 	}
 
+	inline const void changeEdgeAttr(index edge, edgeAttr attr, bool forwardEdge) {
+		if (forwardEdge) {
+			forwardEdges[edge].attributes.stdAttributes = attr;
+		} else {
+			backwardEdges[edge].attributes.stdAttributes = attr;
+		}
+	}
+
 	void sortVerticesByCellNumber();
 
 	/**

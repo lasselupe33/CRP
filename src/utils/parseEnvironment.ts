@@ -16,6 +16,7 @@ export const environment = {
   '--skipVisualise': false,
   '--skipExtractingCorners': false,
   '--verticesToExtract': 0,
+  '--cars': 1000,
 
   // Scale specific tests
   '--scales': [2 ** 12, 2 ** 15, 2 ** 18, 2 ** 21, 2 ** 22, 2 ** 23, 2 ** 24, 2 ** 25],

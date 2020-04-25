@@ -19,6 +19,9 @@
 #include <queue>
 #include <vector>
 
+std::vector<CRP::index> topRight;
+std::vector<CRP::index> bottomLeft;
+
 double EuclidianDistanceBetween(CRP::Coordinate a, CRP::Coordinate b) {
   return abs(sqrt(pow(a.lat - b.lat, 2) + pow(a.lon - b.lon, 2)));
 }
@@ -52,7 +55,17 @@ void ExtractEdgeVerticesForEdge(const CRP::Graph &graph, CRP::Coordinate edgeCoo
 
   for (int i = 0; i < amount; i++)
   {
-    std::cout << pq.top().second << std::endl;
+    CRP::index vertex = pq.top().second;
+
+    if (label == "Top-right"){
+      topRight.push_back(vertex);
+    }
+
+    if (label == "Bottom-left") {
+      bottomLeft.push_back(vertex);
+    }
+
+    std::cout << vertex << std::endl;
     pq.pop();
   }
 
@@ -91,4 +104,24 @@ void ExtractEdgeVertices(const CRP::Graph &graph, int amount)
   ExtractEdgeVerticesForEdge(graph, bottomRightCoord, "Bottom-right", amount);
 
   std::cout << "[END_CLIENT]" << std::endl;
+}
+
+void GetEdgeRoutes(CRP::CRPQuery &query, std::vector<std::pair<CRP::index, CRP::index>> &target, int amount)
+{
+  auto vertex_rand = std::bind(std::uniform_int_distribution<CRP::index>(0, topRight.size() - 1),
+                               std::mt19937(get_micro_time()));
+
+  int i = 0;
+  while (i < amount) {
+    CRP::index src = topRight[vertex_rand()];
+    CRP::index dest = bottomLeft[vertex_rand()];
+
+    CRP::QueryResult res = query.vertexQuery(src, dest, 0);
+
+    if (res.pathWeight != inf_weight) {
+      std::cout << i << std::endl;
+      target.push_back(std::make_pair(src, dest));
+      i++;
+    }
+  }
 }

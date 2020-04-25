@@ -21,9 +21,10 @@ export async function cClient (folder: string, map: string, setStream?: (stream:
   if (test.stdout && test.stderr && test.stdin) {
     if (setStream) {
       setStream(test.stdin)
+    } else {
+      process.stdin.pipe(test.stdin)
     }
 
-    process.stdin.pipe(test.stdin)
     test.stdout.on('data', onQueryResult)
     test.stderr.pipe(process.stderr)
   }

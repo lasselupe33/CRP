@@ -32,8 +32,14 @@ function drawPath (path) {
   }
 
   let prevCoord
-  const color = `rgba(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, 0.5)`
+  const color = `rgb(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)})`
   ctx.strokeStyle = color
+  ctx.fillStyle = color
+
+  ctx.beginPath()
+  ctx.arc(normalizeCoordinate(path[0]).x, normalizeCoordinate(path[0]).y, 4, 2 * Math.PI, 0, false)
+  ctx.closePath()
+  ctx.fill()
 
   for (const coord of path) {
     if (!prevCoord) {

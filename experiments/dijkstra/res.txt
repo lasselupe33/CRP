@@ -1,0 +1,23 @@
+------------------------------------------------------------
+Parsing results for germanyplus
+------------------------------------------------------------
+Generated vertices
+Finished query without fixed
+Finished query with fixed
+------------------------------------------------------------
+Results for germanyplus
+------------------------------------------------------------
+Random Query
+
+CRP, Avg: 34.10ms
+Dijkstra, Avg: 7740.00ms
+
+Correctness: 1500/1500 (100%)
+------------------------------------------------------------
+Worst case queries
+
+CRP, Avg: 53.50ms
+Dijkstra, Avg: 15500.00ms
+
+Correctness: 1500/1500 (100%)
+------------------------------------------------------------

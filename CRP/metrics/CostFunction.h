@@ -38,7 +38,7 @@ public:
 	CostFunction() = default;
 	virtual ~CostFunction() = default;
 
-	virtual weight getWeight(const EdgeAttributes& attributes, float multiplier = 1) const = 0;
+	virtual weight getWeight(const EdgeAttributes& attributes) const = 0;
 	virtual weight getTurnCosts(const Graph::TURN_TYPE turnType) const = 0;
 };
 

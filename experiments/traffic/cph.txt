@@ -1,0 +1,21 @@
+------------------------------------------------------------
+------------------------------------------------------------
+Results
+Using time interval: 5 minutes.
+On each interval the query update is rerun 2000 times.
+Traffic simulation was based on 10000 cars, driving from and to the same edges of the map, 50% of the cars rerouted at each time interval
+------------------------------------------------------------
+Generator
+
+Amount of updated edges at each time interval: 4399,558,340,221,178,152,98,93,81,76,57,48,55,33,40,38,27,34,28,28
+Max congestion factor at each time interval: 3.40,2197.15,420.64,2659.78,9831.40,1501.00,160.93,69.06,13.15,29.23,1.29,2.45,69.06,4.16,3.40,2.45,24.28,11.00,1.29,1.15
+------------------------------------------------------------
+Metric update
+
+Avg metric update time: 10.80ms
+Metric update at each time interval: 72.00ms,23.00ms,15.00ms,11.00ms,11.00ms,10.00ms,7.00ms,6.00ms,8.00ms,5.00ms,5.00ms,5.00ms,4.00ms,5.00ms,5.00ms,4.00ms,5.00ms,6.00ms,5.00ms,4.00ms
+------------------------------------------------------------
+Query
+
+Avg query time 0.41ms.
+Avg query time at each time interval: 0.60ms.,0.60ms.,0.70ms.,0.60ms.,0.60ms.,0.70ms.,0.70ms.,0.70ms.,0.50ms.,0.40ms.,0.30ms.,0.30ms.,0.30ms.,0.20ms.,0.20ms.,0.20ms.,0.10ms.,0.00ms.,0.00ms.
