@@ -92,7 +92,7 @@ bool updateWeights(std::vector<std::pair<CRP::index, CRP::weight>> &update, Grap
 		CRP::ForwardEdge fEdge = graph.getForwardEdge((*it).first);
 		CRP::pv cellNumber = graph.getCellNumber(fEdge.head);
 
-		edgeAttr newAttr = ((weight)fEdge.attributes.getLength() * 400 << 12);
+		edgeAttr newAttr = ((weight)fEdge.attributes.getLength() * it->second << 12);
 		newAttr |= ((edgeAttr)fEdge.attributes.getSpeed()) << 4;
 		newAttr |= ((edgeAttr)fEdge.attributes.getStreetType());
 

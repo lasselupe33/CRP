@@ -12,4 +12,7 @@ namespace CRP {
     bool updateWeights(std::vector<std::pair<CRP::index, CRP::weight>> &update, Graph &graph, const OverlayGraph &overlayGraph, std::vector<CRP::weight> &curWeights, const CostFunction &costFunction);
 } /* namespace CRP */
 
+void getAllArcsInCell(const CRP::OverlayGraph &overlayGraph, int cellNumber, std::string outputPath);
+void getDiffArcsOnLevel(const CRP::OverlayGraph &overlayGraph, int level, std::string outputPath);
+
 #endif /* PARTIALUPDATE_UPDATEIO_H_*/

@@ -1,54 +1,40 @@
-// #include <algorithm>
-// #include <iostream>
-// #include <memory>
-// #include <string>
-// #include <unordered_map>
-// #include <vector>
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
-// #include "../constants.h"
-// #include "../datastructures/Graph.h"
-// #include "../datastructures/OverlayGraph.h"
-// #include "../datastructures/OverlayWeights.h"
-// #include "../io/GraphIO.h"
-// #include "../metrics/DistanceFunction.h"
-// #include "../metrics/HopFunction.h"
-// #include "../metrics/Metric.h"
-// #include "../metrics/TimeFunction.h"
+#include "../constants.h"
+#include "../datastructures/Graph.h"
+#include "../datastructures/OverlayGraph.h"
+#include "../datastructures/OverlayWeights.h"
+#include "../io/GraphIO.h"
+#include "../metrics/DistanceFunction.h"
+#include "../metrics/HopFunction.h"
+#include "../metrics/Metric.h"
+#include "../metrics/TimeFunction.h"
 
-// #include "UpdateIO.h"
+#include "UpdateIO.h"
 
-// std::vector<CRP::index> arcs; 
-// int numArcs;
-// CRP::OverlayGraph overlay;
+using namespace std;
 
-// using namespace std;
+void getDiffArcsOnLevel(const CRP::OverlayGraph &overlayGraph, int level, std::string outputPath) {
+  std::vector<CRP::index> arcs;
+  std::cout << overlayGraph.numberOfVertices();
 
-// int main(int argc, char* argv[]){
-//     if(argc != 4){
-//         std::cout << "Usage: " << argv[0] << " path_to_overlay_graph level num_arcs outputPath" << std::endl;
-//         return 1;
-//     }
+  overlayGraph.forCells(level, [&](const CRP::Cell &cell, const CRP::pv truncatedCellNumber) {
+    for (int i = cell.numEntryPoints; i > 0; i--)
+    {
+      CRP::index vId = overlayGraph.getEntryPoint(cell, i);
+      arcs.push_back(overlayGraph.getVertex(vId).originalEdge);
+    }
+  });
 
-//     string overlayPath(argv[1]);
-//     string levelString(argv[2]);
-//     int level = stoi(levelString); 
-//     string numArcsString(argv[3]);
-//     numArcs = stoi(numArcsString);
-//     string outputPath(argv[4]);
-    
-//     CRP::GraphIO::readOverlayGraph(overlay, overlayPath);
+  std::ofstream outFile(outputPath);
+  outFile << arcs.size() << std::endl;
 
-//     overlay.parallelForCells(level, [&](const CRP::Cell& cell, const CRP::pv truncatedCellNumber) {
-//         for (int i = numArcs; i > 0; i--) {
-//             arcs.push_back(overlay.getVertex(cell.cellOffset + i).originalEdge);
-//         }
-//     });
-   
-//     std::ofstream outFile(outputPath);
-//     // the important part
-//     for (const auto &e : arcs) outFile << e << "\n";
-
-//     std::cout << "WROTE_" + outputPath << std::endl;
-
-//     return 0;
-// }
+  // the important part
+  for (const auto &e : arcs)
+    outFile << e << " " << 42 << "\n";
+}

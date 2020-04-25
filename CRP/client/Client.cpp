@@ -44,6 +44,7 @@
 #include "../constants.h"
 
 #include "./Experiments.h"
+#include "../partialUpdate/UpdateIO.h"
 
 #include <iostream>
 #include <memory>
@@ -163,7 +164,7 @@ int main(int argc, char *argv[]) {
 			bool withFixed = withFixedString == "yes" ? true : false;
 
 			WriteTrafficAtTime(graph, overlayGraph, metrics, outputFilePath, cars, time, withFixed);
-			UpdateWeights(graph, overlayGraph, metrics[0], metricType, outputFilePath, updateCount);
+			UpdateWeights(graph, overlayGraph, metrics[0], metricType, outputFilePath, 1);
 		} else if (line == "trafficQuery") {
 			std::cout << "Please specify amount of times to run the client in this iteration" << std::endl;
 			std::string testAmountString;
@@ -181,6 +182,39 @@ int main(int argc, char *argv[]) {
 			bool withFixed = withFixedString == "yes" ? true : false;
 
 			ClientTest(graph, overlayGraph, metrics, time, testAmount, !withFixed);
+		} else if (line == "getAllArcsInCell") {
+			std::cout << "Please specify output path of the cell arcs" << std::endl;
+			std::string outputPath;
+			std::getline(std::cin, outputPath);
+
+			std::cout << "Please specify the id of the cell to extract vertices from" << std::endl;
+			std::string cellNumberString;
+			std::getline(std::cin, cellNumberString);
+			int cellNumber = std::stoi(cellNumberString);
+
+			getAllArcsInCell(overlayGraph, cellNumber, outputPath);
+		} else if (line == "getDiffArcsOnLevel") {
+			std::cout << "Please specify output path of the cell arcs" << std::endl;
+			std::string outputPath;
+			std::getline(std::cin, outputPath);
+
+			std::cout << "Please specify the level on which to extract vertices from" << std::endl;
+			std::string levelString;
+			std::getline(std::cin, levelString);
+			int level = std::stoi(levelString);
+
+			getDiffArcsOnLevel(overlayGraph, level, outputPath);
+		} else if (line == "partialUpdateWeights") {
+			std::cout << "Please specify amount of times to reapply new metrics." << std::endl;
+			std::string updateString;
+			std::getline(std::cin, updateString);
+			int updateCount = std::stoi(updateString);
+
+			std::cout << "Please specify input file path to store traffic update at" << std::endl;
+			std::string inputFilePath;
+			std::getline(std::cin, inputFilePath);
+
+			UpdateWeights(graph, overlayGraph, metrics[0], metricType, inputFilePath, updateCount);
 		}
 
 		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;

@@ -29,7 +29,7 @@ using namespace std;
 void UpdateWeights(CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, CRP::Metric &metric, std::string metricType, std::string updateFilePath, int updateCount)
 {
   std::vector<std::pair<CRP::index, CRP::weight>> updates;
-  std::vector<CRP::weight> weights = metric.getWeights();
+  std::vector<CRP::weight> weights;
   CRP::readUpdateFile(updates, updateFilePath);
 
   unordered_map<string, unique_ptr<CRP::CostFunction>> costFunctions;
@@ -37,29 +37,37 @@ void UpdateWeights(CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, CRP
   costFunctions["dist"] = unique_ptr<CRP::CostFunction>(new CRP::DistanceFunction());
   costFunctions["time"] = unique_ptr<CRP::CostFunction>(new CRP::TimeFunction());
 
-  long long start = get_micro_time();
-  if (metricType == "all")
-  {
-    for (auto &pair : costFunctions)
-    {
-      CRP::updateWeights(updates, graph, overlayGraph, weights, *std::move(pair.second));
-    }
-  }
-  else
-  {
-    auto it = costFunctions.find(metricType);
-    if (it == costFunctions.end())
-    {
-      cout << "unknown metric" << std::endl;
-      exit(1);
-      return;
-    }
+  double sum = 0;
 
-    CRP::updateWeights(updates, graph, overlayGraph, weights, *std::move(it->second));
+  for (int i = 0; i < updateCount; i++) {
+    long long start = get_micro_time();
+    weights =  metric.getWeights();
+
+    if (metricType == "all")
+    {
+      for (auto &pair : costFunctions)
+      {
+        CRP::updateWeights(updates, graph, overlayGraph, weights, *std::move(pair.second));
+      }
+    }
+    else
+    {
+      auto it = costFunctions.find(metricType);
+      if (it == costFunctions.end())
+      {
+        cout << "unknown metric" << std::endl;
+        exit(1);
+        return;
+      }
+
+      CRP::updateWeights(updates, graph, overlayGraph, weights, *std::move(it->second));
+    }
+    long long end = get_micro_time();
+    sum += end - start;
   }
 
   metric.setWeights(metric, weights);
-  long long end = get_micro_time();
 
-  std::cout << "Updated weights in " << (end - start) / 1000 << "ms." << std::endl;
+  sum /= 1000;
+  std::cout << "Updated weights in " << sum / updateCount << "ms." << std::endl;
 }

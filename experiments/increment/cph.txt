@@ -1,0 +1,149 @@
+yarn client --experiment=increment --testAmount=500 --sameCellsToCheck=10
+yarn run v1.22.4
+$ rm -rf lib && npx tsc --build
+✨  Done in 6.04s.
+yarn run v1.22.4
+$ cd lib && node ./client.js --max_old_space_size=4096 --experiment=increment --testAmount=500 --sameCellsToCheck=10
+Compiling Client
+Reading graph
+Reading graph with 216006 vertices and 429254 edges
+869
+largest cell number is 868
+Read graph with 216006 vertices and 429254 edges
+Reading overlay graph
+offsets 0, 2, 6, 12, 20, 30, 
+Updating metric
+Metric update took 140 ms.
+[PREPARED] [FINISHED
+{ percent: 1, avgTime: 6.882752, arcs: 4292 }
+{ percent: 2, avgTime: 9.631590000000001, arcs: 8585 }
+{ percent: 5, avgTime: 27.483732, arcs: 21462 }
+{ percent: 10, avgTime: 42.763756, arcs: 42925 }
+{ percent: 20, avgTime: 62.04713, arcs: 85850 }
+{ percent: 30, avgTime: 75.177718, arcs: 128776 }
+{ percent: 40, avgTime: 87.005628, arcs: 171701 }
+{ percent: 50, avgTime: 97.366726, arcs: 214627 }
+{ percent: 60, avgTime: 89.666118, arcs: 257552 }
+{ percent: 70, avgTime: 91.125296, arcs: 300477 }
+{ percent: 80, avgTime: 88.608096, arcs: 343403 }
+{ percent: 90, avgTime: 87.161602, arcs: 386328 }
+{ percent: 100, avgTime: 84.65545, arcs: 429254 }
+{ cellIndex: 0, avgTime: 6.826288, arcs: 10 }
+{ cellIndex: 1, avgTime: 7.173636, arcs: 10 }
+{ cellIndex: 2, avgTime: 6.987942, arcs: 10 }
+{ cellIndex: 3, avgTime: 6.988082, arcs: 10 }
+{ cellIndex: 4, avgTime: 7.065438, arcs: 10 }
+{ cellIndex: 5, avgTime: 6.653899999999999, arcs: 10 }
+{ cellIndex: 6, avgTime: 6.847274000000001, arcs: 10 }
+{ cellIndex: 7, avgTime: 6.527826, arcs: 10 }
+{ cellIndex: 8, avgTime: 6.703318, arcs: 10 }
+{ cellIndex: 9, avgTime: 6.388078, arcs: 10 }
+{ level: 1, avgTime: 81.850308, boundaryArcs: 6014 }
+{ level: 2, avgTime: 98.505554, boundaryArcs: 3471 }
+{ level: 3, avgTime: 31.350954, boundaryArcs: 699 }
+------------------------------------------------------------
+Results for cph
+Updated metrics 500 times in each design point
+------------------------------------------------------------
+Baseline metric update
+
+140.00ms
+------------------------------------------------------------
+Fixed percentage of edges
+
+Arcs altered: 4292 (1%)
+Avg time to update metric: 6.88ms
+
+Arcs altered: 8585 (2%)
+Avg time to update metric: 9.63ms
+
+Arcs altered: 21462 (5%)
+Avg time to update metric: 27.48ms
+
+Arcs altered: 42925 (10%)
+Avg time to update metric: 42.76ms
+
+Arcs altered: 85850 (20%)
+Avg time to update metric: 62.05ms
+
+Arcs altered: 128776 (30%)
+Avg time to update metric: 75.18ms
+
+Arcs altered: 171701 (40%)
+Avg time to update metric: 87.01ms
+
+Arcs altered: 214627 (50%)
+Avg time to update metric: 97.37ms
+
+Arcs altered: 257552 (60%)
+Avg time to update metric: 89.67ms
+
+Arcs altered: 300477 (70%)
+Avg time to update metric: 91.13ms
+
+Arcs altered: 343403 (80%)
+Avg time to update metric: 88.61ms
+
+Arcs altered: 386328 (90%)
+Avg time to update metric: 87.16ms
+
+Arcs altered: 429254 (100%)
+Avg time to update metric: 84.66ms
+------------------------------------------------------------
+Same cell updates
+
+Affected cellIndex: 0
+Arcs altered: 10
+Avg time to update metric: 6.83ms
+
+Affected cellIndex: 1
+Arcs altered: 10
+Avg time to update metric: 7.17ms
+
+Affected cellIndex: 2
+Arcs altered: 10
+Avg time to update metric: 6.99ms
+
+Affected cellIndex: 3
+Arcs altered: 10
+Avg time to update metric: 6.99ms
+
+Affected cellIndex: 4
+Arcs altered: 10
+Avg time to update metric: 7.07ms
+
+Affected cellIndex: 5
+Arcs altered: 10
+Avg time to update metric: 6.65ms
+
+Affected cellIndex: 6
+Arcs altered: 10
+Avg time to update metric: 6.85ms
+
+Affected cellIndex: 7
+Arcs altered: 10
+Avg time to update metric: 6.53ms
+
+Affected cellIndex: 8
+Arcs altered: 10
+Avg time to update metric: 6.70ms
+
+Affected cellIndex: 9
+Arcs altered: 10
+Avg time to update metric: 6.39ms
+------------------------------------------------------------
+Whole level updates
+
+Affected level: 1
+Boundary arcs altered: 6014
+Avg time to update metric: 81.85ms
+
+Affected level: 2
+Boundary arcs altered: 3471
+Avg time to update metric: 98.51ms
+
+Affected level: 3
+Boundary arcs altered: 699
+Avg time to update metric: 31.35ms
+------------------------------------------------------------
+✨  Done in 585.42s.

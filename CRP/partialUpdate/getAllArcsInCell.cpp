@@ -1,56 +1,44 @@
-// #include <algorithm>
-// #include <iostream>
-// #include <memory>
-// #include <string>
-// #include <unordered_map>
-// #include <vector>
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
-// #include "../constants.h"
-// #include "../datastructures/Graph.h"
-// #include "../datastructures/OverlayGraph.h"
-// #include "../datastructures/OverlayWeights.h"
-// #include "../io/GraphIO.h"
-// #include "../metrics/DistanceFunction.h"
-// #include "../metrics/HopFunction.h"
-// #include "../metrics/Metric.h"
-// #include "../metrics/TimeFunction.h"
+#include "../constants.h"
+#include "../datastructures/Graph.h"
+#include "../datastructures/OverlayGraph.h"
+#include "../datastructures/OverlayWeights.h"
+#include "../io/GraphIO.h"
+#include "../metrics/DistanceFunction.h"
+#include "../metrics/HopFunction.h"
+#include "../metrics/Metric.h"
+#include "../metrics/TimeFunction.h"
 
-// #include "UpdateIO.h"
+#include "UpdateIO.h"
 
-// std::vector<CRP::index> arcs; 
-// int cellNumber;
+std::vector<CRP::index> arcs; 
+int cellNumber;
 
-// using namespace std;
+using namespace std;
 
-// void f(CRP::OverlayVertex ov)
-// {
-//     if (ov.cellNumber == cellNumber)
-//     {
-//         arcs.push_back(ov.originalEdge);
-//     }
-// }
+void f(CRP::OverlayVertex ov)
+{
+    if (ov.cellNumber == cellNumber)
+    {
+        arcs.push_back(ov.originalEdge);
+    }
+}
 
-// int main(int argc, char* argv[]){
-//     if(argc != 4){
-//         std::cout << "Usage: " << argv[0] << " path_to_overlay_graph cell_number outputPath" << std::endl;
-//         return 1;
-//     }
+void getAllArcsInCell(const CRP::OverlayGraph &overlayGraph, int cellNumber, std::string outputPath)
+{
+  arcs.clear();
+  overlayGraph.forVertices(f);
 
-//     string overlayPath(argv[1]);
-//     string cellString(argv[2]);
-//     cellNumber = stoi(cellString);
-//     string outputPath(argv[3]);
-    
-//     CRP::OverlayGraph overlay;
-//     CRP::GraphIO::readOverlayGraph(overlay, overlayPath);
+  std::ofstream outFile(outputPath);
+  outFile << arcs.size() << std::endl;
 
-//     overlay.forVertices(f);
-
-//     std::ofstream outFile(outputPath);
-//     // the important part
-//     for (const auto &e : arcs) outFile << e << "\n";
-
-//     std::cout << "WROTE_" + outputPath << std::endl;
-
-//     return 0;
-// }
+  // the important part
+  for (const auto &e : arcs)
+    outFile << e << " " << 42 << "\n";
+}

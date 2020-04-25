@@ -1,0 +1,154 @@
+yarn client --folder=denmark --experiment=increment --testAmount=100 --sameCellsToCheck=10
+yarn run v1.22.4
+$ rm -rf lib && npx tsc --build
+✨  Done in 2.65s.
+yarn run v1.22.4
+$ cd lib && node ./client.js --max_old_space_size=4096 --folder=denmark --experiment=increment --testAmount=100 --sameCellsToCheck=10 --recompile
+Compiling Client
+Reading graph
+Reading graph with 3157315 vertices and 6423635 edges
+12703
+largest cell number is 12702
+Read graph with 3157315 vertices and 6423635 edges
+Reading overlay graph
+offsets 0, 2, 6, 12, 20, 30, 42, 56, 
+Updating metric
+Metric update took 1044 ms.
+[PREPARED] [FINISHED
+{ percent: 1, avgTime: 54.65132, arcs: 64236 }
+{ percent: 2, avgTime: 87.06493, arcs: 128472 }
+{ percent: 5, avgTime: 178.68079, arcs: 321181 }
+{ percent: 10, avgTime: 323.30078, arcs: 642363 }
+{ percent: 20, avgTime: 546.2528, arcs: 1284727 }
+{ percent: 30, avgTime: 659.50397, arcs: 1927090 }
+{ percent: 40, avgTime: 781.31799, arcs: 2569454 }
+{ percent: 50, avgTime: 893.57384, arcs: 3211817 }
+{ percent: 60, avgTime: 946.89803, arcs: 3854181 }
+{ percent: 70, avgTime: 971.7096300000001, arcs: 4496544 }
+{ percent: 80, avgTime: 986.887, arcs: 5138908 }
+{ percent: 90, avgTime: 991.23861, arcs: 5781271 }
+{ percent: 100, avgTime: 971.69709, arcs: 6423635 }
+{ cellIndex: 0, avgTime: 98.34591, arcs: 10 }
+{ cellIndex: 1, avgTime: 105.17039, arcs: 10 }
+{ cellIndex: 2, avgTime: 104.74781, arcs: 10 }
+{ cellIndex: 3, avgTime: 102.26323, arcs: 10 }
+{ cellIndex: 4, avgTime: 100.77587, arcs: 10 }
+{ cellIndex: 5, avgTime: 107.04564, arcs: 10 }
+{ cellIndex: 6, avgTime: 102.26743, arcs: 10 }
+{ cellIndex: 7, avgTime: 96.16003, arcs: 10 }
+{ cellIndex: 8, avgTime: 100.40816, arcs: 10 }
+{ cellIndex: 9, avgTime: 100.02162, arcs: 10 }
+{ level: 1, avgTime: 817.9372199999999, boundaryArcs: 78613 }
+{ level: 2, avgTime: 773.46113, boundaryArcs: 46331 }
+{ level: 3, avgTime: 325.90731, boundaryArcs: 10009 }
+{ level: 4, avgTime: 45.29168, boundaryArcs: 454 }
+------------------------------------------------------------
+Results for denmark
+Updated metrics 100 times in each design point
+------------------------------------------------------------
+Baseline metric update
+
+1044.00ms
+------------------------------------------------------------
+Fixed percentage of edges
+
+Arcs altered: 64236 (1%)
+Avg time to update metric: 54.65ms
+
+Arcs altered: 128472 (2%)
+Avg time to update metric: 87.06ms
+
+Arcs altered: 321181 (5%)
+Avg time to update metric: 178.68ms
+
+Arcs altered: 642363 (10%)
+Avg time to update metric: 323.30ms
+
+Arcs altered: 1284727 (20%)
+Avg time to update metric: 546.25ms
+
+Arcs altered: 1927090 (30%)
+Avg time to update metric: 659.50ms
+
+Arcs altered: 2569454 (40%)
+Avg time to update metric: 781.32ms
+
+Arcs altered: 3211817 (50%)
+Avg time to update metric: 893.57ms
+
+Arcs altered: 3854181 (60%)
+Avg time to update metric: 946.90ms
+
+Arcs altered: 4496544 (70%)
+Avg time to update metric: 971.71ms
+
+Arcs altered: 5138908 (80%)
+Avg time to update metric: 986.89ms
+
+Arcs altered: 5781271 (90%)
+Avg time to update metric: 991.24ms
+
+Arcs altered: 6423635 (100%)
+Avg time to update metric: 971.70ms
+------------------------------------------------------------
+Same cell updates
+
+Affected cellIndex: 0
+Arcs altered: 10
+Avg time to update metric: 98.35ms
+
+Affected cellIndex: 1
+Arcs altered: 10
+Avg time to update metric: 105.17ms
+
+Affected cellIndex: 2
+Arcs altered: 10
+Avg time to update metric: 104.75ms
+
+Affected cellIndex: 3
+Arcs altered: 10
+Avg time to update metric: 102.26ms
+
+Affected cellIndex: 4
+Arcs altered: 10
+Avg time to update metric: 100.78ms
+
+Affected cellIndex: 5
+Arcs altered: 10
+Avg time to update metric: 107.05ms
+
+Affected cellIndex: 6
+Arcs altered: 10
+Avg time to update metric: 102.27ms
+
+Affected cellIndex: 7
+Arcs altered: 10
+Avg time to update metric: 96.16ms
+
+Affected cellIndex: 8
+Arcs altered: 10
+Avg time to update metric: 100.41ms
+
+Affected cellIndex: 9
+Arcs altered: 10
+Avg time to update metric: 100.02ms
+------------------------------------------------------------
+Whole level updates
+
+Affected level: 1
+Boundary arcs altered: 78613
+Avg time to update metric: 817.94ms
+
+Affected level: 2
+Boundary arcs altered: 46331
+Avg time to update metric: 773.46ms
+
+Affected level: 3
+Boundary arcs altered: 10009
+Avg time to update metric: 325.91ms
+
+Affected level: 4
+Boundary arcs altered: 454
+Avg time to update metric: 45.29ms
+------------------------------------------------------------
+✨  Done in 1240.24s.

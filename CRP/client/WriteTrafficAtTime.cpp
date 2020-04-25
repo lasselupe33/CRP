@@ -365,13 +365,15 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
     return;
   }
   file << std::setprecision(16);
-  file << edgeVolume.size() << std::endl;
+  file << edgeVolume.size() * 2 << std::endl;
 
   CRP::index maxId = 0;
   float maxCongestion = 0;
   for (auto it = edgeVolume.begin(); it != edgeVolume.end(); ++it)
   {
-    alteredEdges.insert(it->first);
+    if (iteration % 10 != 0) {
+      alteredEdges.insert(it->first);
+    }
     file << it->first << " " << it->second << std::endl;
     file << edgeToBackwardEdge[it->first] << " " << it->second << std::endl;    
 
@@ -388,6 +390,11 @@ void WriteTrafficAtTime(const CRP::Graph &graph, const CRP::OverlayGraph &overla
       file << edgeToBackwardEdge[*it] << " " << 1 << std::endl;
     }
     alteredEdges.clear();
+
+    for (auto it = edgeVolume.begin(); it != edgeVolume.end(); ++it)
+    {
+      alteredEdges.insert(it->first);
+    }
   }
 
 

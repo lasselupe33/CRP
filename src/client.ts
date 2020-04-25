@@ -1,6 +1,6 @@
 import { compile, cClient } from './crp'
 import { getFolders, getMaps, environment } from './utils'
-import { visualiserTest, updateMetricTest, trafficTest, scalingTest, partitionersTest, overlayTest, dijkstraTest } from './client/experiments'
+import { visualiserTest, updateMetricTest, trafficTest, scalingTest, partitionersTest, overlayTest, dijkstraTest, incrementTest } from './client/experiments'
 
 import inquirer = require('inquirer')
 
@@ -48,6 +48,10 @@ async function client (): Promise<void> {
 
     case 'dijkstra':
       await dijkstraTest()
+      break
+
+    case 'increment':
+      await incrementTest(folder, map)
       break
 
     default:
