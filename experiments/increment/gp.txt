@@ -1,0 +1,28 @@
+yarn client --folder=germanyplus --experiment=increment --testAmount=10 --sameCellsToCheck=10 --recompile
+yarn run v1.22.4
+$ rm -rf lib && npx tsc --build
+✨  Done in 3.70s.
+yarn run v1.22.4
+$ cd lib && node ./client.js --max_old_space_size=32768 --folder=germanyplus --experiment=increment --testAmount=10 --sameCellsToCheck=10 --recompile
+Compiling Client
+Reading graph
+Reading graph with 39538352 vertices and 79594557 edges
+159080
+largest cell number is 159079
+Read graph with 39538352 vertices and 79594557 edges
+Reading overlay graph
+offsets 0, 6, 15, 27, 42, 60, 
+Updating metric
+Metric update took 11422 ms.
+[PREPARED] [FINISHED
+{ percent: 1, avgTime: 769.6213, arcs: 795946 }
+{ percent: 2, avgTime: 1231.761, arcs: 1591892 }
+{ percent: 5, avgTime: 2381.3792, arcs: 3979728 }
+
+<--- Last few GCs --->
+
+[32079:0x1042b6000]   736182 ms: Mark-sweep 1779.1 (2087.6) -> 1778.8 (2087.4) MB, 1757.0 / 0.0 ms  (average mu = 0.104, current mu = 0.001) allocation failure GC in old space requested
+[32079:0x1042b6000]   737940 ms: Mark-sweep 1778.8 (2087.4) -> 1778.6 (2086.4) MB, 1756.8 / 0.0 ms  (average mu = 0.059, current mu = 0.000) allocation failure GC in old space requested
+
+
+<--- JS stacktrace --->

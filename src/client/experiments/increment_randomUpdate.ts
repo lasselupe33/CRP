@@ -1,5 +1,5 @@
 import { setCtx } from '../onQueryResult'
-import { environment, writeToCRP, resolvePath } from '../../utils'
+import { environment, writeToCRP, resolvePath, deleteFile } from '../../utils'
 import { Writable } from 'stream'
 import { meta } from './increment'
 import fs = require('fs-extra')
@@ -46,22 +46,13 @@ function onEnd (data: string): void {
 }
 
 function designPoint (percentage: number): void {
-  const updatelist: Array<{ edgeId: number, weight: number}> = []
-
   // GET THE TOTAL NUMBER OF ARCS
   const updateFilePath = resolvePath(['data', folder, 'partials', `random_update_${percentages[currentPercentageIndex]}`])
   fs.ensureDirSync(path.dirname(updateFilePath))
 
   const eArcs: number = (maxEdges * percentage / 100)
 
-  for (let j: number = eArcs - 1; j >= 0; j--) {
-    updatelist.push({
-      edgeId: j,
-      weight: 42
-    })
-  }
-
-  writeUpdateFile(updatelist, updateFilePath)
+  writeUpdateFile(eArcs, updateFilePath)
 
   setTimeout(() => {
     writeToCRP(stream, 'partialUpdateWeights')
@@ -96,17 +87,18 @@ const usedInts: Set<number> = new Set()
 //   return int
 // }
 
-function writeUpdateFile (updates: Array<{ edgeId: number, weight: number }>, path: string): void {
-  let text: string = `${updates.length}\n`
-  updates.forEach(elem => {
-    text += `${elem.edgeId} ${elem.weight}\n`
-  })
+function writeUpdateFile (eArcs: number, path: string): void {
+  deleteFile(path)
 
-  // open stream
-  fs.writeFile(path, text, function (err: any): void {
-    if (err) {
-      return console.error(err)
-    }
-  })
-  // close stream
+  const stream = fs.createWriteStream(path)
+
+  stream.write(`${Math.ceil(eArcs)}\n`)
+
+  for (let j: number = Math.ceil(eArcs) - 1; j >= 0; j--) {
+    stream.cork()
+    stream.write(`${j} 42\n`)
+    stream.uncork()
+  }
+
+  stream.close()
 }

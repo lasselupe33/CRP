@@ -97,3 +97,15 @@ In order to conduct the partitioner experiment, then you must have all partition
 ### Scaling test
 
 `yarn client --experiment=scale --partitioner=<string> --pconfig=<string> --testAmount=<int>`
+
+### Dijkstra comparison
+
+`yarn client --folder=<string> --experiment=dijkstra --testAmount=<int>`
+
+### Partial update
+
+`yarn client --folder=<string> --experiment=increment --testAmount=<int> --sameCellsToCheck=<int>`
+
+### Traffic simulation
+
+`yarn client --folder=<string> --experiment=traffic --testAmount=<int> --cars=<int>`
