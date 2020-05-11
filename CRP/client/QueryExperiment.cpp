@@ -60,41 +60,41 @@ void QueryExperiment(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGr
   std::vector<CRP::QueryResult> results;
   int correct = 0;
 
-  // std::cout << "Running uni queries" << std::endl;
-  // for (std::pair<CRP::index, CRP::index> &q : queries)
-  // {
-  //   CRP::index source = q.first;
-  //   CRP::index target = q.second;
+  std::cout << "Running uni queries" << std::endl;
+  for (std::pair<CRP::index, CRP::index> &q : queries)
+  {
+    CRP::index source = q.first;
+    CRP::index target = q.second;
 
-  //   start = get_micro_time();
-  //   CRP::QueryResult res = query.vertexQuery(source, target, 0);
-  //   end = get_micro_time();
-  //   sum += end - start;
+    start = get_micro_time();
+    CRP::QueryResult res = query.vertexQuery(source, target, 0);
+    end = get_micro_time();
+    sum += end - start;
 
-  //   if (res.path.size() > 0 && shouldVisualize && source != target)
-  //   {
-  //     std::cout << "[TO_CLIENT_BEGIN]" << std::endl;
-  //     for (CRP::index i = 0; i < res.path.size(); ++i)
-  //     {
-  //       CRP::Vertex v = graph.getVertex(res.path[i]);
-  //       std::cout << v.coord.lat << " " << v.coord.lon << " ";
-  //     }
-  //     std::cout << std::endl << "[TO_CLIENT_END]" << std::endl;
-  //   }
-  // }
+    if (res.path.size() > 0 && shouldVisualize && source != target)
+    {
+      std::cout << "[TO_CLIENT_BEGIN]" << std::endl;
+      for (CRP::index i = 0; i < res.path.size(); ++i)
+      {
+        CRP::Vertex v = graph.getVertex(res.path[i]);
+        std::cout << v.coord.lat << " " << v.coord.lon << " ";
+      }
+      std::cout << std::endl << "[TO_CLIENT_END]" << std::endl;
+    }
+  }
 
-  // std::cout << "Running bi queries" << std::endl;
-  // for (std::pair<CRP::index, CRP::index> &q : queries)
-  // {
-  //   CRP::index source = q.first;
-  //   CRP::index target = q.second;
+  std::cout << "Running bi queries" << std::endl;
+  for (std::pair<CRP::index, CRP::index> &q : queries)
+  {
+    CRP::index source = q.first;
+    CRP::index target = q.second;
 
-  //   start = get_micro_time();
-  //   CRP::QueryResult res = biQuery.vertexQuery(source, target, 0);
+    start = get_micro_time();
+    CRP::QueryResult res = biQuery.vertexQuery(source, target, 0);
 
-  //   end = get_micro_time();
-  //   biSum += end - start;
-  // }
+    end = get_micro_time();
+    biSum += end - start;
+  }
 
   std::cout << "Running parallel queries" << std::endl;
   for (std::pair<CRP::index, CRP::index> &q : queries)

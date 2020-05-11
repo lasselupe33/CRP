@@ -1,0 +1,299 @@
+_____________________________________
+Bucket 0-249 (1614)
+
+BiQuery explored 1173 vertices on average in this bucket.
+Avg time: 1.38ms.
+On average 54.5 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 453 vertices.
+Level 1: 36 vertices.
+Level 2: 257 vertices.
+Level 3: 393 vertices.
+Level 4: 31 vertices.
+_____________________________________
+Bucket 250-499 (514)
+
+BiQuery explored 1316 vertices on average in this bucket.
+Avg time: 1.61ms.
+On average 3.39 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 491 vertices.
+Level 1: 41 vertices.
+Level 2: 321 vertices.
+Level 3: 427 vertices.
+Level 4: 33 vertices.
+_____________________________________
+Bucket 500-749 (834)
+
+BiQuery explored 1804 vertices on average in this bucket.
+Avg time: 2.71ms.
+On average 2.85 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 493 vertices.
+Level 1: 41 vertices.
+Level 2: 382 vertices.
+Level 3: 819 vertices.
+Level 4: 66 vertices.
+_____________________________________
+Bucket 750-999 (1006)
+
+BiQuery explored 2309 vertices on average in this bucket.
+Avg time: 4.13ms.
+On average 2.63 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 42 vertices.
+Level 2: 402 vertices.
+Level 3: 1276 vertices.
+Level 4: 91 vertices.
+_____________________________________
+Bucket 1000-1249 (1197)
+
+BiQuery explored 2821 vertices on average in this bucket.
+Avg time: 5.77ms.
+On average 2.5 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 42 vertices.
+Level 2: 419 vertices.
+Level 3: 1736 vertices.
+Level 4: 127 vertices.
+_____________________________________
+Bucket 1250-1499 (1323)
+
+BiQuery explored 3286 vertices on average in this bucket.
+Avg time: 7.38ms.
+On average 2.38 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 42 vertices.
+Level 2: 425 vertices.
+Level 3: 2176 vertices.
+Level 4: 145 vertices.
+_____________________________________
+Bucket 1500-1749 (1406)
+
+BiQuery explored 3751 vertices on average in this bucket.
+Avg time: 9.1ms.
+On average 2.3 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 41 vertices.
+Level 2: 428 vertices.
+Level 3: 2615 vertices.
+Level 4: 168 vertices.
+_____________________________________
+Bucket 1750-1999 (1338)
+
+BiQuery explored 4144 vertices on average in this bucket.
+Avg time: 10.6ms.
+On average 2.21 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 42 vertices.
+Level 2: 428 vertices.
+Level 3: 2978 vertices.
+Level 4: 198 vertices.
+_____________________________________
+Bucket 2000-2249 (1306)
+
+BiQuery explored 4587 vertices on average in this bucket.
+Avg time: 12.3ms.
+On average 2.16 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 41 vertices.
+Level 2: 430 vertices.
+Level 3: 3405 vertices.
+Level 4: 213 vertices.
+_____________________________________
+Bucket 2250-2499 (1254)
+
+BiQuery explored 5019 vertices on average in this bucket.
+Avg time: 14.1ms.
+On average 2.12 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 41 vertices.
+Level 2: 433 vertices.
+Level 3: 3817 vertices.
+Level 4: 229 vertices.
+_____________________________________
+Bucket 2500-2749 (1180)
+
+BiQuery explored 5337 vertices on average in this bucket.
+Avg time: 15.5ms.
+On average 2.04 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 42 vertices.
+Level 2: 434 vertices.
+Level 3: 4115 vertices.
+Level 4: 247 vertices.
+_____________________________________
+Bucket 2750-2999 (1103)
+
+BiQuery explored 5569 vertices on average in this bucket.
+Avg time: 16.6ms.
+On average 1.94 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 41 vertices.
+Level 2: 435 vertices.
+Level 3: 4321 vertices.
+Level 4: 274 vertices.
+_____________________________________
+Bucket 3000-3249 (1048)
+
+BiQuery explored 5850 vertices on average in this bucket.
+Avg time: 17.9ms.
+On average 1.87 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 41 vertices.
+Level 2: 436 vertices.
+Level 3: 4598 vertices.
+Level 4: 277 vertices.
+_____________________________________
+Bucket 3250-3499 (865)
+
+BiQuery explored 6053 vertices on average in this bucket.
+Avg time: 19ms.
+On average 1.79 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 42 vertices.
+Level 2: 438 vertices.
+Level 3: 4791 vertices.
+Level 4: 284 vertices.
+_____________________________________
+Bucket 3500-3749 (807)
+
+BiQuery explored 6132 vertices on average in this bucket.
+Avg time: 19.9ms.
+On average 1.69 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 42 vertices.
+Level 2: 439 vertices.
+Level 3: 4865 vertices.
+Level 4: 290 vertices.
+_____________________________________
+Bucket 3750-3999 (722)
+
+BiQuery explored 6071 vertices on average in this bucket.
+Avg time: 19.8ms.
+On average 1.57 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 41 vertices.
+Level 2: 436 vertices.
+Level 3: 4796 vertices.
+Level 4: 300 vertices.
+_____________________________________
+Bucket 4000-4249 (571)
+
+BiQuery explored 6014 vertices on average in this bucket.
+Avg time: 20.2ms.
+On average 1.46 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 42 vertices.
+Level 2: 442 vertices.
+Level 3: 4723 vertices.
+Level 4: 310 vertices.
+_____________________________________
+Bucket 4250-4499 (451)
+
+BiQuery explored 5846 vertices on average in this bucket.
+Avg time: 19.9ms.
+On average 1.34 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 41 vertices.
+Level 2: 436 vertices.
+Level 3: 4542 vertices.
+Level 4: 329 vertices.
+_____________________________________
+Bucket 4500-4749 (339)
+
+BiQuery explored 5644 vertices on average in this bucket.
+Avg time: 19.6ms.
+On average 1.22 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 496 vertices.
+Level 1: 41 vertices.
+Level 2: 435 vertices.
+Level 3: 4315 vertices.
+Level 4: 355 vertices.
+_____________________________________
+Bucket 4750-4999 (257)
+
+BiQuery explored 5631 vertices on average in this bucket.
+Avg time: 19.6ms.
+On average 1.16 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 494 vertices.
+Level 1: 41 vertices.
+Level 2: 424 vertices.
+Level 3: 4294 vertices.
+Level 4: 376 vertices.
+_____________________________________
+Bucket 5000-5249 (174)
+
+BiQuery explored 5360 vertices on average in this bucket.
+Avg time: 19.3ms.
+On average 1.05 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 492 vertices.
+Level 1: 41 vertices.
+Level 2: 424 vertices.
+Level 3: 3995 vertices.
+Level 4: 405 vertices.
+_____________________________________
+Bucket 5250-5499 (140)
+
+BiQuery explored 5099 vertices on average in this bucket.
+Avg time: 18.4ms.
+On average 0.947 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 495 vertices.
+Level 1: 41 vertices.
+Level 2: 427 vertices.
+Level 3: 3667 vertices.
+Level 4: 466 vertices.
+_____________________________________
+Bucket 5500-5749 (138)
+
+BiQuery explored 5568 vertices on average in this bucket.
+Avg time: 19.9ms.
+On average 0.991 vertices were explored for each segment in the path.
+
+Amount of vertices visited in each level on average:
+Level 0: 493 vertices.
+Level 1: 41 vertices.
+Level 2: 432 vertices.
+Level 3: 4157 vertices.
+Level 4: 443 vertices.

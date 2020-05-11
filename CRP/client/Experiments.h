@@ -1,3 +1,6 @@
+#ifndef EXPERIMENTS_H_
+#define EXPERIMENTS_H_
+
 #include "../datastructures/Graph.h"
 #include "../datastructures/OverlayGraph.h"
 #include "../metrics/Metric.h"
@@ -13,3 +16,7 @@ void ExtractEdgeVertices(const CRP::Graph &graph, int amount = 1000);
 void GetEdgeRoutes(CRP::CRPQuery &query, std::vector<std::pair<CRP::index, CRP::index>> &target, int amount);
 
 void UpdateWeights(CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, CRP::Metric &metric, std::string metricType, std::string updateFilePath, int updateCount);
+
+void SearchSpace(const CRP::Graph &graph, const CRP::OverlayGraph &overlayGraph, const std::vector<CRP::Metric> &metrics, CRP::count numQueries, std::string output, bool withFixed, bool visualize);
+
+#endif /* EXPERIMENTS_H_ */

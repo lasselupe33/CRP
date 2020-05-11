@@ -12,6 +12,9 @@ run.sh
 
 experiments/visualiser/data.js
 experiments/**/*.json
+experiments/searchspace/cph/**/*.js
+experiments/searchspace/denmark/**/*.js
+experiments/searchspace/gp/**/*.js
 
 yarn-error.log
 .DS_Store

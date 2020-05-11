@@ -215,6 +215,27 @@ int main(int argc, char *argv[]) {
 			std::getline(std::cin, inputFilePath);
 
 			UpdateWeights(graph, overlayGraph, metrics[0], metricType, inputFilePath, updateCount);
+		} else if (line == "searchspace") {
+			std::cout << "Please specify amount of times to run each algorithm." << std::endl;
+			std::string numQueryString;
+			std::getline(std::cin, numQueryString);
+			CRP::count numQueries = std::stoi(numQueryString);
+
+			std::cout << "Please specify output file path" << std::endl;
+			std::string output;
+			std::getline(std::cin, output);
+
+			std::cout << "Will fixed vertices be provided by JavaScript client?" << std::endl;
+			std::string withFixedString;
+			std::getline(std::cin, withFixedString);
+			bool withFixed = withFixedString == "yes" ? true : false;
+
+			std::cout << "Should visualization data be outputted during test?" << std::endl;
+			string visualize;
+			std::getline(std::cin, visualize);
+			bool shouldVisualize = visualize == "yes" ? true : false;
+
+			SearchSpace(graph, overlayGraph, metrics, numQueries, output, withFixed, shouldVisualize);
 		}
 
 		std::cout << std::endl << "[FINISHED] Awaiting new input..." << std::endl << std::endl;
